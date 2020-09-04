@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `ship` /*!40100 DEFAULT CHARACTER SET latin1 */;
+CREATE DATABASE  IF NOT EXISTS `ship` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ship`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
@@ -30,31 +30,31 @@ CREATE TABLE `create` (
   `managerid` int(11) NOT NULL,
   `time` time NOT NULL,
   `DATE` date NOT NULL,
-  `createcol` varchar(45) DEFAULT NULL,
+  `createcol` varchar(45) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`idcreate`),
   KEY `managerid_idx` (`managerid`),
   KEY `eventid_idx` (`eventid`),
-  CONSTRAINT `eventid` FOREIGN KEY (`eventid`) REFERENCES `events_table` (`idevents`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `managerid` FOREIGN KEY (`managerid`) REFERENCES `user_table` (`id_used`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `eventid` FOREIGN KEY (`eventid`) REFERENCES `events` (`idevents`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `managerid` FOREIGN KEY (`managerid`) REFERENCES `user` (`id_used`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `events_table`
+-- Table structure for table `events`
 --
 
-DROP TABLE IF EXISTS `events_table`;
+DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `events_table` (
+CREATE TABLE `events` (
   `idevents` int(11) NOT NULL AUTO_INCREMENT,
-  `eventName` varchar(45) NOT NULL,
-  `location` varchar(45) NOT NULL,
+  `eventName` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `location` varchar(45) CHARACTER SET latin1 NOT NULL,
   `capacity` int(11) NOT NULL,
   `duration` int(11) NOT NULL,
   `Type` int(11) NOT NULL,
   PRIMARY KEY (`idevents`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=ujis;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,31 +72,31 @@ CREATE TABLE `reserve` (
   KEY `createid_idx` (`eventcreateid`),
   KEY `userid_idx` (`userid`),
   CONSTRAINT `createid` FOREIGN KEY (`eventcreateid`) REFERENCES `create` (`idcreate`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `user_table` (`id_used`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `user` (`id_used`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `user_table`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user_table`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_table` (
+CREATE TABLE `user` (
   `id_used` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `role` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `first_name` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `last_name` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `role` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `password` varchar(45) CHARACTER SET latin1 NOT NULL,
   `room_number` int(11) NOT NULL,
-  `phone` varchar(45) NOT NULL,
-  `decknumber` varchar(45) NOT NULL,
-  `memtype` varchar(45) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `phone` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `decknumber` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `memtype` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id_used`),
   UNIQUE KEY `id_used_UNIQUE` (`id_used`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -108,4 +108,4 @@ CREATE TABLE `user_table` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-01 15:33:16
+-- Dump completed on 2020-09-04 12:36:22
