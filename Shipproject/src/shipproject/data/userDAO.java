@@ -36,11 +36,27 @@ public class userDAO {
 		} catch (SQLException e) {}
 		return userListInDB;
 	}
-	public static ArrayList<user> checkusername(String username){
-		return returnMatcingusers("SELECT * from user WHERE username='"+username+"'");
+	private static boolean emptycheck(String queryString){
+		boolean ans=false;
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			stmt = conn.createStatement();
+			ResultSet userList=stmt.executeQuery(queryString);
+			if(userList.next()) {
+				ans=false;
+			}
+			else {
+				ans=true;
+			}
+		} catch (SQLException e) {}
+		return ans;
 	}
-	public static ArrayList<user> checkemail(String email){
-		return returnMatcingusers("SELECT * from user WHERE email='"+email+"'");
+	public static boolean checkusername(String username){
+		return emptycheck("SELECT * from user WHERE username='"+username+"'");
+	}
+	public static boolean checkemail(String email){
+		return emptycheck("SELECT * from user WHERE email='"+email+"'");
 	}
 	public static void insertuser(user user) {
 		Statement stmt = null;

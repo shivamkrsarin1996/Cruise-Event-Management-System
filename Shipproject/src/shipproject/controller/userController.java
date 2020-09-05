@@ -42,11 +42,9 @@ public class userController extends HttpServlet {
 		if(action.equalsIgnoreCase("registerUser")) {
 			getUserParam(request,user);
 			session.setAttribute("user", user);
-			ArrayList<user> usernameinDB=new ArrayList<user>();
-			//ArrayList<user> emailinDB=new ArrayList<user>();
-			usernameinDB=userDAO.checkusername(user.getUsername());
-			//emailinDB=userDAO.checkemail(user.getEmail());
-			if(usernameinDB.isEmpty()) {
+			boolean usernameinDB=userDAO.checkusername(user.getUsername());
+			boolean emailinDB=userDAO.checkemail(user.getEmail());
+			if(usernameinDB&&emailinDB) {
 				userDAO.insertuser(user);
 				url="/index.jsp";
 			}
