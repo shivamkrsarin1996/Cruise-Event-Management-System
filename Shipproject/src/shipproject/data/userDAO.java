@@ -21,16 +21,16 @@ public class userDAO {
 			while(userList.next()) {
 				user user=new user();
 				user.setId_user(userList.getInt("id_user"));
-				user.setFirst_name(userList.getString("first_name"));
 				user.setUsername(userList.getString("username"));
+				user.setFirst_name(userList.getString("first_name"));
 				user.setLast_name(userList.getString("last_name"));
-				user.setEmail(userList.getString("email"));
-				user.setPassword(userList.getString("password"));
 				user.setRole(userList.getString("role"));
-				user.setMemtype(userList.getString("memtype"));
-				user.setPhone(userList.getString("phone"));
-				user.setDeck_number(userList.getInt("deck_number"));
+				user.setPassword(userList.getString("password"));
 				user.setRoom_number(userList.getInt("room_number"));
+				user.setPhone(userList.getString("phone"));
+				user.setDeck_number(userList.getInt("decknumber"));
+				user.setMemtype(userList.getString("memtype"));
+				user.setEmail(userList.getString("email"));
 				userListInDB.add(user);
 			}
 		} catch (SQLException e) {}
