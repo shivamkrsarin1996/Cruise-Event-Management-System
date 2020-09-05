@@ -51,7 +51,7 @@ public class userController extends HttpServlet {
 				url="/index.jsp";
 			}
 			else {
-				url="/register.jsp";
+				url="/fail.jsp";
 			}
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
