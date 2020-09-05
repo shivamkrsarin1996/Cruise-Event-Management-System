@@ -71,8 +71,8 @@ CREATE TABLE `reserve` (
   PRIMARY KEY (`idreserve`),
   KEY `createid_idx` (`eventcreateid`),
   KEY `userid_idx` (`userid`),
-  CONSTRAINT `createid` FOREIGN KEY (`eventcreateid`) REFERENCES `create` (`idcreate`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `user` (`id_used`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `createid` FOREIGN KEY (`eventcreateid`) REFERENCES `create` (`idcreate`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `userid` FOREIGN KEY (`userid`) REFERENCES `user` (`id_used`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -85,17 +85,20 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id_used` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(45) NOT NULL,
   `first_name` varchar(45) CHARACTER SET latin1 NOT NULL,
   `last_name` varchar(45) CHARACTER SET latin1 NOT NULL,
   `role` varchar(45) CHARACTER SET latin1 NOT NULL,
   `password` varchar(45) CHARACTER SET latin1 NOT NULL,
   `room_number` int(11) NOT NULL,
   `phone` varchar(45) CHARACTER SET latin1 NOT NULL,
-  `decknumber` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `decknumber` int(11) NOT NULL,
   `memtype` varchar(45) CHARACTER SET latin1 NOT NULL,
   `email` varchar(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id_used`),
-  UNIQUE KEY `id_used_UNIQUE` (`id_used`)
+  UNIQUE KEY `id_used_UNIQUE` (`id_used`),
+  UNIQUE KEY `email_UNIQUE` (`email`),
+  UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -108,4 +111,4 @@ CREATE TABLE `user` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-04 12:36:22
+-- Dump completed on 2020-09-04 19:43:40
