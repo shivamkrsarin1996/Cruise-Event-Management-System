@@ -13,9 +13,9 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/manir/Documents/SEM 6(fall 20)/CSE 6321(AT)/Lecture/M03 - Installing and Using MySQL and Tomcat/JUnitParams-1.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/manir/Documents/SEM 6(fall 20)/CSE 6321(AT)/Lecture/M03 - Installing and Using MySQL and Tomcat/selenium-server-standalone-3.12.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/manir/eclipse-workspace4/Shipproject/WebContent/WEB-INF/lib/taglibs-standard-spec-1.2.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/manir/eclipse-workspace4/Shipproject/WebContent/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/Librryfiles/JUnitParams-1.0.4.jar"/>
+	<classpathentry kind="lib" path="src/Librryfiles/selenium-server-standalone-3.12.0.jar"/>
+	<classpathentry kind="lib" path="src/Librryfiles/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="src/Librryfiles/taglibs-standard-spec-1.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

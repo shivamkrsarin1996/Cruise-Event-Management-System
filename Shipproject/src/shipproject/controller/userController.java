@@ -43,10 +43,10 @@ public class userController extends HttpServlet {
 			getUserParam(request,user);
 			session.setAttribute("user", user);
 			ArrayList<user> usernameinDB=new ArrayList<user>();
-			ArrayList<user> emailinDB=new ArrayList<user>();
+			//ArrayList<user> emailinDB=new ArrayList<user>();
 			usernameinDB=userDAO.checkusername(user.getUsername());
-			emailinDB=userDAO.checkemail(user.getEmail());
-			if(usernameinDB.isEmpty()&&emailinDB.isEmpty()) {
+			//emailinDB=userDAO.checkemail(user.getEmail());
+			if(usernameinDB.isEmpty()) {
 				userDAO.insertuser(user);
 				url="/index.jsp";
 			}
