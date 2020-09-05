@@ -38,7 +38,7 @@
  </tr>
  <tr>
  <td>Confirm Password</td>
- <td><input name="cpassword" type="password" value="<c:out value='${user.cpassword}'/>"></td>
+ <td><input name="cpassword" type="password" value="<c:out value='${user.password}'/>"></td>
  </tr>
  <tr>
  <td>Email</td>
@@ -54,7 +54,7 @@
  </tr>
  <tr>
  <td>Deck Number</td>
- <td><input name="deckNumber" value="<c:out value='${user.decknumber}'/>"></td>
+ <td><input name="deckNumber" value="<c:out value='${user.deck_number}'/>"></td>
  </tr>
  <tr>
  <td>Membership Type </td>
