@@ -14,6 +14,7 @@
 </header>
 <div class="bodyreg">
 <h4>Enter your Information</h4>
+<input name="errMsg"  value="<c:out value='${errorMsgs.errorMsg}'/>" class="errorPane">
 <form name="userForm" action="<c:url value='/userController?registerUser'/>" method="post">
 <table>
 <tr>
@@ -21,45 +22,59 @@
  <td>
  <input name="firstname" value="<c:out value='${user.first_name}'/>">
  </td>
+ <td><input name="first_nameError"  value="<c:out value='${errorMsgs.first_nameError}'/>" class="errorMsg"> </td>
+ 
  </tr>
  <tr>
  <td>Last Name</td>
  <td><input name="lastname" value="<c:out value='${user.last_name}'/>"></td>
+ <td><input name="last_nameError"  value="<c:out value='${errorMsgs.last_nameError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td> User Name: </td>
  <td>
- <input name="username" value="<c:out value='${user.username}'/>">
- </td>
+ <input name="username" value="<c:out value='${user.username}'/>"></td>
+ <td><input name="usernameError"  value="<c:out value='${errorMsgs.usernameError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td>Password</td>
- <td><input name="password" type="password" value="<c:out value='${user.password}'/>"></td>
+ <td><input name="password" value="<c:out value='${user.password}'/>"></td>
+ <td><input name="passwordError"  value="<c:out value='${errorMsgs.passwordError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td>Confirm Password</td>
- <td><input name="cpassword" type="password" value="<c:out value='${user.password}'/>"></td>
+ <td><input name="cpassword" value="<c:out value='${user.cpassword}'/>"></td>
+ <td><input name="cpasswordError"  value="<c:out value='${errorMsgs.cpasswordError}'/>" class="errorMsg"> </td>
+ 
  </tr>
  <tr>
  <td>Email</td>
  <td><input name="email" value="<c:out value='${user.email}'/>"></td>
+ <td><input name="emailError"  value="<c:out value='${errorMsgs.emailError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td>Phone</td>
  <td><input name="phone" value="<c:out value='${user.phone}'/>"></td>
+ <td><input name="phoneError"  value="<c:out value='${errorMsgs.phoneError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td>Room Number</td>
  <td><input name="roomNumber" value="<c:out value='${user.room_number}'/>"></td>
+ <td><input name="room_numberError"  value="<c:out value='${errorMsgs.room_numberError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
  <td>Deck Number</td>
  <td><input name="deckNumber" value="<c:out value='${user.deck_number}'/>"></td>
+ <td><input name="deck_numberError"  value="<c:out value='${errorMsgs.deck_numberError}'/>" class="errorMsg"> </td>
  </tr>
  <tr>
- <td>Membership Type </td>
- <td><input name="memtype" type="radio" value="none">None<input name="memtype" type="radio" value="standard">Standard<input name="memtype" type="radio" value="superior">Superior<input name="memtype" type="radio" value="premium">Premium
- </td>
+ <td>Membership Type</td>
+ <td><select name="memtype">
+  <option value="none">None</option>
+  <option value="standard">Standard</option>
+  <option value="superior">Superior</option>
+  <option value="premium">Premium</option>
+</select></td>
  </tr>
 </table>
 <input name="action" value="registerUser" type="hidden">

@@ -26,9 +26,9 @@ public class userDAO {
 				user.setLast_name(userList.getString("last_name"));
 				user.setRole(userList.getString("role"));
 				user.setPassword(userList.getString("password"));
-				user.setRoom_number(userList.getInt("room_number"));
+				user.setRoom_number(String.valueOf(userList.getInt("room_number")));
 				user.setPhone(userList.getString("phone"));
-				user.setDeck_number(userList.getInt("decknumber"));
+				user.setDeck_number(String.valueOf(userList.getInt("decknumber")));
 				user.setMemtype(userList.getString("memtype"));
 				user.setEmail(userList.getString("email"));
 				userListInDB.add(user);
@@ -70,10 +70,10 @@ public class userDAO {
 					+user.getRole()+"','"
 					+user.getPassword()+"','"
 					+user.getPhone()+"','"
-					+user.getDeck_number()+"','"
+					+Integer.parseInt(user.getDeck_number())+"','"
 					+user.getMemtype()+"','"
 					+user.getEmail()+"','"
-					+user.getRoom_number()+"')";
+					+Integer.parseInt(user.getRoom_number())+"')";
 			stmt.executeUpdate(insert);
 			conn.commit();
 		}catch(SQLException e) {}

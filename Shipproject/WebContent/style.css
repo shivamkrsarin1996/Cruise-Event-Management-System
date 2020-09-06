@@ -7,3 +7,5 @@
 .bodyreg{
 	margin-top: 50px;
 }
+.errorPane {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text}
+.errorMsg {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text; maxlength:60}
