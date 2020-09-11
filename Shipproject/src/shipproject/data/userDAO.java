@@ -59,7 +59,7 @@ public class userDAO {
 		return emptycheck("SELECT * from user WHERE email='"+email+"'");
 	}
 	
-	public static ArrayList<user> username(String id) {
+	public static ArrayList<user> searchUserbyID(String id) {
 		int ids=Integer.parseInt(id);
 		String query="Select * from user WHERE id_used="+ids;
 		return returnMatcingusers(query);
