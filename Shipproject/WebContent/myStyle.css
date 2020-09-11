@@ -1,0 +1,9 @@
+.errorPane {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text}
+.errorMsg {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text; maxlength:60}
+.text5     { type:text; maxlength:5}
+.text16 { type:text; maxlength:16}
+.text45 { type:text; maxlength:45}
+.myTable20 { padding-right: 20px; text-align: left; }
+.myTable30 { padding-right: 30px; text-align: left; }
+.myTable35 { padding-right: 35px; text-align: left; }
+.myTableRadio { width:20; text-align: center; }

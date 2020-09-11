@@ -14,56 +14,60 @@ public class eventsDAO {
 	static SQLConnection DBMgr = SQLConnection.getInstance();
 	
 	private static ArrayList<Events> ReturnMatchingCompaniesList (String queryString) {
-		ArrayList<Events> companyListInDB = new ArrayList<Events>();
+		ArrayList<Events> eventListInDB = new ArrayList<Events>();
 		
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
-			ResultSet companyList = stmt.executeQuery(queryString);
-			while (companyList.next()) {
-				Events company = new Events(); 
-				company.setIdcompany(companyList.getString("idcompany"));
-				company.setCompany_name(companyList.getString("company_name"));
-				company.setPhone(companyList.getString("phone"));
-				company.setEmail(companyList.getString("email"));  
-				companyListInDB.add(company);	
+			ResultSet eventList = stmt.executeQuery(queryString);
+			while (eventList.next()) {
+				Events events = new Events(); 
+			    events.setId_event(eventList.getInt("idevents"));
+			    events.setEventname(eventList.getString("eventName"));
+			    events.setLocation(eventList.getString("location"));
+			    events.setCapacity(eventList.getString("capacity"));
+			    events.setDuration(eventList.getString("duration"));
+			    events.setType(eventList.getString("Type"));
+			    events.setManagerid(eventList.getString("managerid"));
+			    events.setDate(eventList.getString("DATE"));
+			    events.setTime(eventList.getString("time"));
+			    events.setIdcreate(eventList.getInt("idcreate"));
+			    eventListInDB.add(events);
 			}
 		} catch (SQLException e) {}
-		return companyListInDB;
+		return eventListInDB;
 	}
 	
-	public static void insertCompany (Events company) {
+	public static void insertevent (Events events) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
-			String insertCompany = "INSERT INTO COMPANY (idcompany,company_name,phone,email,date_ins) " + " VALUES ('"  
-					+ company.getIdcompany()  + "','"
-					+ company.getCompany_name() + "','"		
-					+ company.getPhone() + "','"
-					+ company.getEmail() + "',"
-					+ " SYSDATE())";
-			stmt.executeUpdate(insertCompany);	
+			
+			String insertevent ="INSERT INTO events (idevents,eventName,location,capacity,duration,Type) VALUES('"
+					+events.getId_event()+"','"
+					+events.getEventname()+"','"
+					+events.getLocation()+"','"
+					+Integer.parseInt(events.getCapacity())+"','"
+					+Integer.parseInt(events.getDuration())+"','"
+					+events.getType()+"','"				
+				    +"')";
+			
+			stmt.executeUpdate(insertevent);	
 			conn.commit(); 
 		} catch (SQLException e) {}
 	}
 
-	public static ArrayList<Events>  listCompanies() {  
-			return ReturnMatchingCompaniesList(" SELECT * from COMPANY ORDER BY company_name");
+	public static ArrayList<Events>  listevents() {  
+			return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid");
 	}
+	public static ArrayList<Events> searchevent(int ids){
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idcreate="+ids);
+	}
+	//searchevent(ids)
 	
-	//search companies
-	public static ArrayList<Events>  searchCompanies(String companyname)  {  
-			return ReturnMatchingCompaniesList(" SELECT * from COMPANY WHERE company_name LIKE '%"+companyname+"%' ORDER BY idcompany");
-	}
+
 	
-	//determine if companyID is unique
-	public static Boolean CompanyIDunique(String idComp)  {  
-			return (ReturnMatchingCompaniesList(" SELECT * from COMPANY WHERE IDCOMPANY = '"+idComp+"' ORDER BY company_name").isEmpty());
-	}
-	//search company with company ID
-	public static ArrayList<Events>   searchCompany (String idComp)  {  
-			return ReturnMatchingCompaniesList(" SELECT * from COMPANY WHERE IDCOMPANY = '"+idComp+"' ORDER BY company_name");
-	}
+
 }

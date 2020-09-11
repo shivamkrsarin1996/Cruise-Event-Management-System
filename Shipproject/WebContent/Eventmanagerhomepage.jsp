@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +8,12 @@
 <body>
 <h1>Welcome manager</h1>
 
+
 <ul>
-<li>View Events</li>
-<li>Create</li>
-</ul>
+<li><a href="<c:url value='/Evenmanagercreateevent.jsp' />"><span>Create Events</span></a> </li>
+
+<li><a href="<c:url value='/eventController?action=eventmanagereventlist' />"><span>View Events</span></a> </li>
+</ul>  
+
 </body>
 </html>

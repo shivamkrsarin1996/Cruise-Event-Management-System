@@ -181,7 +181,7 @@ public class user implements Serializable {
 		else{
 			//String[] list= {"/","!", "@", "#","$","%","%","^","&","*","(",")","_","+","=","-","`","~",";","<",">",".","?","[","]","{","}",","};
 			if(!last_name.matches("[a-zA-Z]*")){
-				result="Last Name cannot have numbers of special charectors";
+				result="Last Name cannot have numbers or special charectors";
 			}
 		}
 		return result;

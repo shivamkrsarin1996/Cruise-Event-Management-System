@@ -2,50 +2,110 @@ package shipproject.model;
 
 
 import java.io.Serializable;
-import shipproject.data.eventsDAO;
 
 public class Events implements Serializable{
 
 	private static final long serialVersionUID = 3L;
-	private String idcompany;
-	private String company_name;
-	private String phone;
-	private String email;
+	private int id_event;
+	private String eventname;
+	private String location;
+	private String capacity;
+	private String duration;
+	private String type;
+	private String date;
+	private String managerid;
+	private int idcreate;
+	private String time;
 	
-	public void setCompany (String idcompany, String company_name,String phone, String email) {
-		setIdcompany(idcompany);
-		setCompany_name(company_name);
-		setPhone(phone);
-		setEmail(email);
-	}
-	
-	public String getIdcompany() {
-		return idcompany;
-	}
-	public void setIdcompany(String idcompany) {
-		this.idcompany = idcompany;
-	}
-	
-	public String getCompany_name() {
-		return company_name;
-	}
-	public void setCompany_name(String company_name) {
-		this.company_name = company_name;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-        this.phone = phone;
+	public void setEvent(String eventname, String location, String capacity, String duration,String type, String date, String managerid, String time, int id_event,int idcreate) 
+	{
+	   
+		
+	     setEventname(eventname);
+	     setLocation(location);
+	     setCapacity(capacity);
+	     setDuration(duration);
+	     setType(type);
+	     setId_event(id_event);
+	     setDate(date);
+	     setManagerid(managerid);
+	     setTime(time);
+	     setIdcreate(idcreate);
+	     
 	}
 	
-	public String getEmail() {
-		return email;
+	public int getId_event() {
+		return id_event;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setId_event(int id_event) {
+		this.id_event = id_event;
+	}
+	public String getEventname() {
+		return eventname;
+	}
+	public void setEventname(String eventname) {
+		this.eventname = eventname;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(String capacity) {
+		this.capacity = capacity;
+	}
+	public String getDuration() {
+		return duration;
+	}
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 
+	public String getManagerid() {
+		return managerid;
+	}
+
+	public void setManagerid(String managerid) {
+		this.managerid = managerid;
+	}
+
+	public int getIdcreate() {
+		return idcreate;
+	}
+
+	public void setIdcreate(int idcreate) {
+		this.idcreate = idcreate;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
+	
+	
+	
+	
+  
 //
 //  NOTE: 	The following code is not representative of how this would be coded in an industrial application.
 //			We are using this code to maximize the ability of Pit to mutate the code to determine how
