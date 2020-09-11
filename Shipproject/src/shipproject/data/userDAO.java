@@ -20,7 +20,7 @@ public class userDAO {
 			ResultSet userList=stmt.executeQuery(queryString);
 			while(userList.next()) {
 				user user=new user();
-				user.setId_user(userList.getInt("id_user"));
+				user.setId_user(userList.getInt("id_used"));
 				user.setUsername(userList.getString("username"));
 				user.setFirst_name(userList.getString("first_name"));
 				user.setLast_name(userList.getString("last_name"));
@@ -58,6 +58,13 @@ public class userDAO {
 	public static boolean checkemail(String email){
 		return emptycheck("SELECT * from user WHERE email='"+email+"'");
 	}
+	
+	public static ArrayList<user> username(String id) {
+		int ids=Integer.parseInt(id);
+		String query="Select * from user WHERE id_used="+ids;
+		return returnMatcingusers(query);
+	}
+	
 	public static void insertuser(user user) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
