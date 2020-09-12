@@ -1,10 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `ship` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `ship` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `ship`;
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: ship
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	5.7.27-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,9 +25,9 @@ DROP TABLE IF EXISTS `create`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `create` (
-  `idcreate` int NOT NULL AUTO_INCREMENT,
-  `eventid` int NOT NULL,
-  `managerid` int NOT NULL,
+  `idcreate` int(11) NOT NULL AUTO_INCREMENT,
+  `eventid` int(11) NOT NULL,
+  `managerid` int(11) NOT NULL,
   `time` time NOT NULL,
   `DATE` date NOT NULL,
   PRIMARY KEY (`idcreate`),
@@ -35,7 +35,7 @@ CREATE TABLE `create` (
   KEY `eventid_idx` (`eventid`),
   CONSTRAINT `eventid` FOREIGN KEY (`eventid`) REFERENCES `events` (`idevents`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `managerid` FOREIGN KEY (`managerid`) REFERENCES `user` (`id_used`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,7 @@ CREATE TABLE `create` (
 
 LOCK TABLES `create` WRITE;
 /*!40000 ALTER TABLE `create` DISABLE KEYS */;
+INSERT INTO `create` VALUES (1,1,1,'12:00:00','2020-09-11');
 /*!40000 ALTER TABLE `create` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -55,11 +56,11 @@ DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `events` (
-  `idevents` int NOT NULL AUTO_INCREMENT,
-  `eventName` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `location` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `capacity` int NOT NULL,
-  `duration` int NOT NULL,
+  `idevents` int(11) NOT NULL AUTO_INCREMENT,
+  `eventName` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `location` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `capacity` int(11) NOT NULL,
+  `duration` int(11) NOT NULL,
   `Type` varchar(45) NOT NULL,
   PRIMARY KEY (`idevents`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=ujis;
@@ -83,9 +84,9 @@ DROP TABLE IF EXISTS `reserve`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `reserve` (
-  `idreserve` int NOT NULL AUTO_INCREMENT,
-  `eventcreateid` int NOT NULL,
-  `userid` int NOT NULL,
+  `idreserve` int(11) NOT NULL AUTO_INCREMENT,
+  `eventcreateid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
   PRIMARY KEY (`idreserve`),
   KEY `createid_idx` (`eventcreateid`),
   KEY `userid_idx` (`userid`),
@@ -111,22 +112,21 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id_used` int NOT NULL AUTO_INCREMENT,
+  `id_used` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
-  `first_name` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `last_name` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `role` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `password` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `room_number` int NOT NULL,
-  `phone` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `decknumber` int NOT NULL,
-  `memtype` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `email` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `first_name` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `last_name` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `role` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `password` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `room_number` int(11) NOT NULL,
+  `phone` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `decknumber` int(11) NOT NULL,
+  `memtype` varchar(45) CHARACTER SET latin1 NOT NULL,
+  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id_used`),
   UNIQUE KEY `id_used_UNIQUE` (`id_used`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
   UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,6 +135,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'manirudh95','Anirudh','Reddy','manager','mrushi95',120,'4693895980',12,'None','abc@gmail.com'),(4,'manirudhsd','Anirudh','Reddu','passenger','Mrushi!@#95',123,'4989879876',12,'none','anirudh@gmail.com'),(9,'Manir','ani','mas','passenger','Mrushi95@',123,'4694895980',12,'none','Mrushi95@gmail.com'),(10,'Manir5','qwq','qws','passenger','Mrushi96@',134,'3983839831',12,'none','Mrushi96@ghms.com'),(12,'mrushi95','asxa','asda','coordinator','mrushi95',123,'3983839831',12,'none','Mrushi96@ghms.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -147,4 +148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-10 19:05:57
+-- Dump completed on 2020-09-12 12:46:11
