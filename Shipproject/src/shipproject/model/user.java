@@ -210,7 +210,7 @@ public class user implements Serializable {
 		if(!stringSize(password,8,29))
 			result="Password must be between 7(not inclusive) and 30 characters long";
 		else {
-			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{8,30}$";
+			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
 			Pattern p = Pattern.compile(regex);
 			Matcher m = p.matcher(password);
 			if(!m.matches()) {
