@@ -66,7 +66,51 @@ public class eventController extends HttpServlet {
 			url="/index.jsp";	
 		
 			}
-		else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
+//     	else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
+//			ArrayList<Events> eventInDBs = new ArrayList<Events>();
+//		    Events selectedevent = new Events();
+//		    int ids=Integer.parseInt(request.getParameter("id"));
+//		    eventInDBs=eventsDAO.searchevent(ids);
+//		//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
+//		    selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate());
+//	        session.setAttribute("EVENTS", selectedevent);
+//		    url="/listspecificevent.jsp";	
+//       	}
+		
+//	else {
+//		    ArrayList<Events> eventInDB = new ArrayList<Events>();
+//		    Events event = new Events();
+//		    if (request.getParameter("radioCompany")!=null) {
+//			    selectedeventIndex = Integer.parseInt(request.getParameter("radioCompany")) - 1;
+//			    eventInDB=eventsDAO.listevents(); 
+//			    event.setEvent(eventInDB.get(selectedeventIndex).getEventname(),  eventInDB.get(selectedeventIndex).getLocation(), 
+//					 eventInDB.get(selectedeventIndex).getCapacity(),eventInDB.get(selectedeventIndex).getDuration(),eventInDB.get(selectedeventIndex).getType(),eventInDB.get(selectedeventIndex).getDate(), eventInDB.get(selectedeventIndex).getManagerid(),eventInDB.get(selectedeventIndex).getTime(),eventInDB.get(selectedeventIndex).getId_event(),eventInDB.get(selectedeventIndex).getIdcreate());
+//				session.setAttribute("EVENTS", event);
+////				ArrayList<user> userListInDBs=new ArrayList<user>();
+////				userListInDBs=userDAO.username(event.getManagerid());
+////				String first_name=userListInDBs.get()
+//				url="/listspecificevent.jsp";	
+//		
+//	          }
+//			
+		
+		else {
+		ArrayList<Events> eventInDB = new ArrayList<Events>();
+		Events event = new Events();
+		if (request.getParameter("radioCompany")!=null) {
+			selectedeventIndex = Integer.parseInt(request.getParameter("radioCompany")) - 1;
+			 eventInDB=eventsDAO.listevents(); 
+			 event.setEvent(eventInDB.get(selectedeventIndex).getEventname(),  eventInDB.get(selectedeventIndex).getLocation(), 
+					 eventInDB.get(selectedeventIndex).getCapacity(),eventInDB.get(selectedeventIndex).getDuration(),eventInDB.get(selectedeventIndex).getType(),eventInDB.get(selectedeventIndex).getDate(), eventInDB.get(selectedeventIndex).getManagerid(),eventInDB.get(selectedeventIndex).getTime(),eventInDB.get(selectedeventIndex).getId_event(),eventInDB.get(selectedeventIndex).getIdcreate());
+			session.setAttribute("EVENTS", event);
+//			ArrayList<user> userListInDBs=new ArrayList<user>();
+//			userListInDBs=userDAO.username(event.getManagerid());
+//			String first_name=userListInDBs.get()
+			url="/listspecificevent.jsp";	
+		
+	      }
+		else if (request.getParameter("ListSelectedCompanyButton")==null) {
+			
 			ArrayList<Events> eventInDBs = new ArrayList<Events>();
 			Events selectedevent = new Events();
 			int ids=Integer.parseInt(request.getParameter("id"));
@@ -74,24 +118,14 @@ public class eventController extends HttpServlet {
 			//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
 			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate());
 			session.setAttribute("EVENTS", selectedevent);
-			url="/listspecificevent.jsp";	
+			url="/listspecificevent.jsp";
+			
+			}
+		
 		}
-//		else {
-//			ArrayList<Events> eventInDB = new ArrayList<Events>();
-//			Events event = new Events();
-//			if (request.getParameter("radioCompany")!=null) {
-//				selectedeventIndex = Integer.parseInt(request.getParameter("radioCompany")) - 1;
-//				 eventInDB=eventsDAO.listevents(); 
-//				 event.setEvent(eventInDB.get(selectedeventIndex).getEventname(),  eventInDB.get(selectedeventIndex).getLocation(), 
-//						 eventInDB.get(selectedeventIndex).getCapacity(),eventInDB.get(selectedeventIndex).getDuration(),eventInDB.get(selectedeventIndex).getType(),eventInDB.get(selectedeventIndex).getDate(), eventInDB.get(selectedeventIndex).getManagerid(),eventInDB.get(selectedeventIndex).getTime(),eventInDB.get(selectedeventIndex).getId_event(),eventInDB.get(selectedeventIndex).getIdcreate());
-//				session.setAttribute("EVENTS", events);
-////				ArrayList<user> userListInDBs=new ArrayList<user>();
-////				userListInDBs=userDAO.username(event.getManagerid());
-////				String first_name=userListInDBs.get()
-//				url="/listspecificevent.jsp";	
-//			
-//		}
-//		}
+		
+		
+		
 
 		
 		getServletContext().getRequestDispatcher(url).forward(request, response);

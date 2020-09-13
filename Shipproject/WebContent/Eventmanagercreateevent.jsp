@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Event Creation</title>
 </head>
 <body>
+
+<div><h1><a href="<c:url value='/Eventmanagerhomepage.jsp' />">Event Manager</a></h1></div>
+<h2>Create Event</h2>
 
 <form name="EventForm" action="<c:url value='/eventController?Eventmanagercreateevent'/>" method="post">
 

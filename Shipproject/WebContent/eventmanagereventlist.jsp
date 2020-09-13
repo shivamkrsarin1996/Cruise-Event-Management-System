@@ -3,13 +3,14 @@
  <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>insert title</title>
+<title>Events</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="style.css" rel="stylesheet" type="text/css" />
 <link href="mystyle.css" rel="stylesheet" type="text/css" />
 
 <body>
-   
+      <div><h1><a href="<c:url value='/Eventmanagerhomepage.jsp' />">Event Manager</a></h1></div>
+      <h2>Events Page</h2>
 
       <div class="mainbar"><div class="submb"></div></div>
     
@@ -21,6 +22,7 @@
 				<th class="myTable20">Location</th>
 				<th class="myTable35">Date</th> 
 				<th class="myTable20">Time</th>
+				<th class="myTable20">Type</th>
 				<th class="myTable30">Action</th> 
 			</tr>
 
@@ -31,6 +33,7 @@
 			<td class="myTable20 "><c:out value="${item.location}" /></td>
 			<td class="myTable35 "><c:out value="${item.date}" /></td>
 			<td class="myTable20 "><c:out value="${item.time}" /></td>
+			<td class="myTable20 "><c:out value="${item.type}" /></td>
             <td> <a href="<c:url value='/eventController?action=listSpecificevent&id=${item.idcreate}' />">View</a></td>
 			</tr>
 		   </c:forEach>

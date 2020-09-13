@@ -3,11 +3,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title</title>
+<title>Specific Event</title>
 </head>
    
     
 <body>
+    <div><h1><a href="<c:url value='/Eventmanagerhomepage.jsp' />">Event Manager</a></h1></div>
+    <h2> Selected Event</h2>
+    
 
          <table border="1" class="myTable"> 
     <tr>
@@ -33,6 +36,16 @@
    <tr>
     <td> Type: </td>
     <td> <c:out value="${EVENTS.type}" /> </td>
+    </tr>
+    
+     <tr>
+    <td> Date: </td>
+    <td> <c:out value="${EVENTS.date}" /> </td>
+    </tr>
+    
+     <tr>
+    <td> Time: </td>
+    <td> <c:out value="${EVENTS.time}" /> </td>
     </tr>
     
     <tr>
