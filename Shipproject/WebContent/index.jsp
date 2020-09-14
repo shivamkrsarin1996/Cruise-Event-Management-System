@@ -21,7 +21,7 @@
  </tr>
  <tr>
  <td>Password</td>
- <td><input name="password" value="<c:out value='${user.password}'/>"></td>
+ <td><input name="password" type="password" value="<c:out value='${user.password}'/>"></td>
 </tr>
  </table>
 <input name="action" value="login" type="hidden">
