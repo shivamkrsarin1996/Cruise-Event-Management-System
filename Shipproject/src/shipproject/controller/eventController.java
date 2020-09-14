@@ -85,7 +85,7 @@ public class eventController extends HttpServlet {
 			url="/psg_view_specific_event.jsp";	
 			ArrayList<Events> eventsInDB = new ArrayList<Events>();
 			Events selectedEvent = new Events();
-			eventsInDB=eventsDAO.searchevent(Integer.parseInt(request.getParameter("id")));
+			eventsInDB=eventsDAO.psg_searchevent(Integer.parseInt(request.getParameter("id")));
 			System.out.println("View button clicked");
 			System.out.println("eventsInDb= "+eventsInDB);
 			System.out.println("eventsInDb= "+	eventsInDB.get(0).getId_event());
