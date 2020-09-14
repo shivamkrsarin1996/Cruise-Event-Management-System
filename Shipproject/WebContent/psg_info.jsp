@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>Passenger Info</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <div class="regHeader">
+    <div class="logo"><h1><a href="<c:url value='/' />">Passenger Information</a></h1></div>
+    <div class="menu_nav">
+    </div>
+  </div>					
+  <body>
+    <div class="bodyreg">
+    <table>
+      <tr>
+       <td>
+             <table border="1" class="myTable"> 
+        <tr>
+        <td> Passenger ID: </td>
+        <td> <c:out value="${loginU.id_user}" /> </td>
+        </tr>
+
+        <tr>
+        <td> Passenger's First Name: </td>
+        <td> <c:out value="${loginU.first_name}"/> </td>
+        </tr>
+
+		 <tr>
+        <td> Passenger's Last Name: </td>
+        <td> <c:out value="${loginU.last_name}"/> </td>
+        </tr>
+        <tr>
+        <td> Phone Number: </td>
+        <td> <c:out value="${loginU.phone}" /> </td>
+        </tr>
+
+        <tr>
+        <td> Email: </td>
+        <td> <c:out value="${loginU.email}" /> </td>
+        </tr>
+		 <tr>
+        <td> Room Number: </td>
+        <td> <c:out value="${loginU.room_number}" /> </td>
+        </tr>
+        <tr>
+        </tr>
+        </table>
+    </td>
+    </tr>
+    </table>
+    </div>
+  </body>
+</html>
