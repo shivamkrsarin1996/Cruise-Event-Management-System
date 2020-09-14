@@ -37,12 +37,24 @@ public class eventController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
-
+		
+//Event Manger - View List of events
 		if (action.equalsIgnoreCase("eventmanagereventlist")) {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB= eventsDAO.listevents();
 			session.setAttribute("EVENTS", eventInDB);			
 			getServletContext().getRequestDispatcher("/eventmanagereventlist.jsp").forward(request, response);
+		}
+		
+//Passenger - List all events
+		else if(action.equalsIgnoreCase("psg_view_all_events")) {
+			System.out.println("found func to view all events");
+			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+		//	System.out.println("events in DB="+eventsInDB);
+			eventsInDB=eventsDAO.listevents();
+		//	System.out.println("events in DB after query="+eventsInDB);
+			session.setAttribute("EVENTS", eventsInDB);				
+			getServletContext().getRequestDispatcher("/psg_view_all_events.jsp").forward(request, response);
 		}
 		else 		
 		doPost(request,response);
@@ -66,6 +78,25 @@ public class eventController extends HttpServlet {
 			url="/index.jsp";	
 		
 			}
+			
+//Passenger - List specific Event 
+		else if (action.equalsIgnoreCase("psg_listSpecificEvent") )  { 
+			System.out.println("List specific company");
+			url="/psg_view_specific_event.jsp";	
+			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+			Events selectedEvent = new Events();
+			eventsInDB=eventsDAO.searchevent(Integer.parseInt(request.getParameter("id")));
+			System.out.println("View button clicked");
+			System.out.println("eventsInDb= "+eventsInDB);
+			System.out.println("eventsInDb= "+	eventsInDB.get(0).getId_event());
+			selectedEvent.setEvent(eventsInDB.get(0).getEventname(), eventsInDB.get(0).getLocation(),
+					eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
+					eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),
+					eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate());
+
+			session.setAttribute("EVENTS", selectedEvent);
+			url="/psg_view_specific_event.jsp";					
+		}
 //     	else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
 //			ArrayList<Events> eventInDBs = new ArrayList<Events>();
 //		    Events selectedevent = new Events();
@@ -93,7 +124,7 @@ public class eventController extends HttpServlet {
 //		
 //	          }
 //			
-		
+	//Event Manager- list specified event	
 		else {
 		ArrayList<Events> eventInDB = new ArrayList<Events>();
 		Events event = new Events();

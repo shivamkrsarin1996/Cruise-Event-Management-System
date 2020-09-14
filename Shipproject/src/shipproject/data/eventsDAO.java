@@ -63,7 +63,7 @@ public class eventsDAO {
 			return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid");
 	}
 	public static ArrayList<Events> searchevent(int ids){
-		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idcreate="+ids);
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where eventid="+ids);
 	}
 	//searchevent(ids)
 	

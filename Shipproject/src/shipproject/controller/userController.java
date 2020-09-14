@@ -90,8 +90,9 @@ public class userController extends HttpServlet {
 				if(seluser.getPassword().equals(psw)) {
 					session.setAttribute("loginU", seluser);
 					if(seluser.getRole().equals("passenger")) {
-						url="/passengerhomepage.jsp";
-						
+						System.out.println("LoginU---"+session.getAttribute("loginU"));
+						url="/psg_homepage.jsp";
+					//	psg_homepage.jsp
 					}
 					else if(seluser.getRole().equals("manager")) {
 						url="/Eventmanagerhomepage.jsp";
