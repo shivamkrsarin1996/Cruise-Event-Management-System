@@ -36,7 +36,7 @@
 			<td class="myTable30 "><c:out value="${event.time}" /></td>
 			<td class="myTable30 "><c:out value="${event.duration}" /></td>
 			<td class="myTable30 "><c:out value="${event.location}" /></td>  		
-            <td> <a href="<c:url value='/eventController?action=psg_listSpecificEvent&id=${event.id_event}' />">View Details</a></td>
+            <td> <a href="<c:url value='/eventController?action=psg_listSpecificEvent&id=${event.idcreate}' />">View Details</a></td>
            <%--    <td> <a href="<c:url value='/CompanyController?action=listSpecificCompany&id=${item.idcompany}' />">Reserve Event</a></td>  --%>
 			</tr>
 		</c:forEach>
