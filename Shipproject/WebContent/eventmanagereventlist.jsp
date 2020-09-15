@@ -40,5 +40,9 @@
  </table>
 <input name="ListSelectedCompanyButton" type="submit" value="View selected">
  </form>
+  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
+ <input name="action" value="logout" type="hidden">
+    <input type="submit" value="logout" />
+</form> 
 </body>
 </html>

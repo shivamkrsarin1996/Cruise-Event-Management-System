@@ -16,8 +16,9 @@ public class Events implements Serializable{
 	private String managerid;
 	private int idcreate;
 	private String time;
+	private String estCap;
 	
-	public void setEvent(String eventname, String location, String capacity, String duration,String type, String date, String managerid, String time, int id_event,int idcreate) 
+	public void setEvent(String eventname, String location, String capacity, String duration,String type, String date, String managerid, String time, int id_event,int idcreate,String estCap) 
 	{
 	   
 		
@@ -31,7 +32,7 @@ public class Events implements Serializable{
 	     setManagerid(managerid);
 	     setTime(time);
 	     setIdcreate(idcreate);
-	     
+	     setEstCap(estCap);
 	}
 	
 	public int getId_event() {
@@ -99,6 +100,14 @@ public class Events implements Serializable{
 
 	public void setTime(String time) {
 		this.time = time;
+	}
+
+	public String getEstCap() {
+		return estCap;
+	}
+
+	public void setEstCap(String estCap) {
+		this.estCap = estCap;
 	}
 	
 	

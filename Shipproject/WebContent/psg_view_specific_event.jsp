@@ -50,11 +50,23 @@
     <td> Capacity: </td>
     <td> <c:out value="${EVENTS.capacity}" /> </td>
     </tr>
+    <tr>
+    <td> Estimated attendees: </td>
+    <td> <c:out value="${EVENTS.estCap}" /> </td>
+    </tr>
 
 
    <tr>
     <td> Type: </td>
     <td> <c:out value="${EVENTS.type}" /> </td>
+    </tr>
+    <tr>
+    <td> Coordinator First name </td>
+    <td> <c:out value="${cordinator.first_name}" /> </td>
+    </tr>
+    <tr>
+    <td> Coordinator Last name </td>
+    <td> <c:out value="${cordinator.last_name}" /> </td>
     </tr>
     
 
@@ -67,5 +79,9 @@
     <input name="ReserveEventButton" type="submit" value="Reserve Event">
     </div>
     </form>
+    <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
+ <input name="action" value="logout" type="hidden">
+    <input type="submit" value="logout" />
+</form>
   </body>
 </html>

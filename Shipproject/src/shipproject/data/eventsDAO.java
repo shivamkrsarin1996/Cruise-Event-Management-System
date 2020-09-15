@@ -33,6 +33,7 @@ public class eventsDAO {
 			    events.setDate(eventList.getString("DATE"));
 			    events.setTime(eventList.getString("time"));
 			    events.setIdcreate(eventList.getInt("idcreate"));
+			    events.setEstCap(eventList.getString("estimated"));
 			    eventListInDB.add(events);
 			}
 		} catch (SQLException e) {}

@@ -111,6 +111,13 @@ public class userController extends HttpServlet {
 				}
 			}
 		}
+		else if(action.equalsIgnoreCase("logout")) {
+			session.removeAttribute("loginU");
+			UerrorMsgs.setCpasswordError("Logged Out Successfully");
+			session.setAttribute("errorMs", UerrorMsgs);
+			session.removeAttribute("user");
+			url="/index.jsp";
+		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
 

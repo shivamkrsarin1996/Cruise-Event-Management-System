@@ -12,3 +12,4 @@
 }
 .errorPane {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text}
 .errorMsg {background-color: white; color: red; border: none; width:800px; disabled:disabled; type:text; maxlength:60}
+.error {background-color: white; color: green; border: none; width:800px; disabled:disabled; type:text}

@@ -10,6 +10,7 @@
 </head>
 <body>
 <h1>Ship project</h1>
+<input name="errMsg"  value="<c:out value='${errorMs.cpasswordError}'/>" class="error">
 <input name="errMsg"  value="<c:out value='${errorMs.usernameError}'/>" class="errorPane">
 <form name="loginForm" action="<c:url value='/userController?login'/>" method="post">
 <table>

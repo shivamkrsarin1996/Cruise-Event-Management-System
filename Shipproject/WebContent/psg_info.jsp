@@ -47,11 +47,24 @@
         <td> <c:out value="${loginU.room_number}" /> </td>
         </tr>
         <tr>
+        <td> Deck Number: </td>
+        <td> <c:out value="${loginU.deck_number}" /> </td>
+        </tr>
+        <tr>
+        <td> Membership Type: </td>
+        <td> <c:out value="${loginU.memtype}" /> </td>
+        </tr>
+        
+        <tr>
         </tr>
         </table>
     </td>
     </tr>
     </table>
+    <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
+ <input name="action" value="logout" type="hidden">
+    <input type="submit" value="logout" />
+</form> 
     </div>
   </body>
 </html>

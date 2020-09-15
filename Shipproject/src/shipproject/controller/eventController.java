@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import shipproject.model.Events;
 import shipproject.model.user;
-import shipproject.model.userErrorMsgs;
 import shipproject.data.eventsDAO;
 import shipproject.data.userDAO;
 
@@ -26,7 +25,7 @@ public class eventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
 	private void getEventParam (HttpServletRequest request, Events events) {
-		events.setEvent(request.getParameter("eventname"),request.getParameter("location"),request.getParameter("capacity"),request.getParameter("duration"), request.getParameter("type"), request.getParameter("date"), request.getParameter("managerid"), request.getParameter("time"), Integer.parseInt(request.getParameter("id_event")),Integer.parseInt(request.getParameter("idcreate")));  
+		events.setEvent(request.getParameter("eventname"),request.getParameter("location"),request.getParameter("capacity"),request.getParameter("duration"), request.getParameter("type"), request.getParameter("date"), request.getParameter("managerid"), request.getParameter("time"), Integer.parseInt(request.getParameter("id_event")),Integer.parseInt(request.getParameter("idcreate")),request.getParameter("estCap"));  
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class eventController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
-		
+		session.removeAttribute("cordinator");
 //Event Manger - View List of events
 		if (action.equalsIgnoreCase("eventmanagereventlist")) {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
@@ -92,9 +91,16 @@ public class eventController extends HttpServlet {
 			selectedEvent.setEvent(eventsInDB.get(0).getEventname(), eventsInDB.get(0).getLocation(),
 					eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
 					eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),
-					eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate());
+					eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate(),eventsInDB.get(0).getEstCap());
 
 			session.setAttribute("EVENTS", selectedEvent);
+			
+			ArrayList<user> UserinDB=new ArrayList<user>();
+			UserinDB=userDAO.searchUserbyID(selectedEvent.getManagerid());
+			user cordinator=new user();
+			cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+			session.setAttribute("cordinator",cordinator);
+			url="/listspecificevent.jsp";
 			url="/psg_view_specific_event.jsp";					
 		}
 //     	else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
@@ -132,11 +138,13 @@ public class eventController extends HttpServlet {
 			selectedeventIndex = Integer.parseInt(request.getParameter("radioCompany")) - 1;
 			 eventInDB=eventsDAO.listevents(); 
 			 event.setEvent(eventInDB.get(selectedeventIndex).getEventname(),  eventInDB.get(selectedeventIndex).getLocation(), 
-					 eventInDB.get(selectedeventIndex).getCapacity(),eventInDB.get(selectedeventIndex).getDuration(),eventInDB.get(selectedeventIndex).getType(),eventInDB.get(selectedeventIndex).getDate(), eventInDB.get(selectedeventIndex).getManagerid(),eventInDB.get(selectedeventIndex).getTime(),eventInDB.get(selectedeventIndex).getId_event(),eventInDB.get(selectedeventIndex).getIdcreate());
+					 eventInDB.get(selectedeventIndex).getCapacity(),eventInDB.get(selectedeventIndex).getDuration(),eventInDB.get(selectedeventIndex).getType(),eventInDB.get(selectedeventIndex).getDate(), eventInDB.get(selectedeventIndex).getManagerid(),eventInDB.get(selectedeventIndex).getTime(),eventInDB.get(selectedeventIndex).getId_event(),eventInDB.get(selectedeventIndex).getIdcreate(),eventInDB.get(selectedeventIndex).getEstCap());
 			session.setAttribute("EVENTS", event);
-//			ArrayList<user> userListInDBs=new ArrayList<user>();
-//			userListInDBs=userDAO.username(event.getManagerid());
-//			String first_name=userListInDBs.get()
+			ArrayList<user> UserinDB=new ArrayList<user>();
+			UserinDB=userDAO.searchUserbyID(event.getManagerid());
+			user cordinator=new user();
+			cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+			session.setAttribute("cordinator",cordinator);
 			url="/listspecificevent.jsp";	
 		
 	      }
@@ -147,8 +155,13 @@ public class eventController extends HttpServlet {
 			int ids=Integer.parseInt(request.getParameter("id"));
 			eventInDBs=eventsDAO.searchevent(ids);
 			//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
-			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate());
+			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate(),eventInDBs.get(0).getEstCap());
 			session.setAttribute("EVENTS", selectedevent);
+			ArrayList<user> UserinDB=new ArrayList<user>();
+			UserinDB=userDAO.searchUserbyID(selectedevent.getManagerid());
+			user cordinator=new user();
+			cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+			session.setAttribute("cordinator",cordinator);
 			url="/listspecificevent.jsp";
 			
 			}

@@ -14,7 +14,11 @@
 <li><a href="<c:url value='/Eventmanagercreateevent.jsp' />"><span>Create Events</span></a> </li>
 
 <li><a href="<c:url value='/eventController?action=eventmanagereventlist' />"><span>View Events</span></a> </li>
-</ul>  
+</ul>
+ <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
+ <input name="action" value="logout" type="hidden">
+    <input type="submit" value="logout" />
+</form> 
 
 </body>
 </html>
