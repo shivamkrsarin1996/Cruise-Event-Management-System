@@ -2,6 +2,7 @@ package shipproject.data;
 
 
 import java.sql.Connection;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -70,7 +71,12 @@ public class eventsDAO {
 		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idcreate="+ids);
 	}
 	//searchevent(ids)
-	
+	public static ArrayList<Events> searcheventbydate(String date,String time){
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' order by time,eventName");
+	}
+	public static ArrayList<Events> searchgreaterdate(String date){
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' order by DATE,time,eventName");
+	}
 
 	
 

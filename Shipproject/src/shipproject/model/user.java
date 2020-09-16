@@ -193,7 +193,7 @@ public class user implements Serializable {
 		else{
 			//String[] list= {"/","!", "@", "#","$","%","%","^","&","*","(",")","_","+","=","-","`","~",";","<",">",".","?","[","]","{","}",","};
 			if(!first_name.matches("[a-zA-Z]*")){
-				result="First Name cannot have numbers of special charectors";
+				result="First Name cannot have numbers or special charectors";
 			}
 		}
 		return result;

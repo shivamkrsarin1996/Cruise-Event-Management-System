@@ -2,6 +2,9 @@ package shipproject.model;
 
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.*;
 
 public class Events implements Serializable{
 
@@ -110,109 +113,61 @@ public class Events implements Serializable{
 		this.estCap = estCap;
 	}
 	
-	
-	
-	
-	
-  
-//
-//  NOTE: 	The following code is not representative of how this would be coded in an industrial application.
-//			We are using this code to maximize the ability of Pit to mutate the code to determine how
-//			good the developed test cases are. This course is using this Java backend code as an application
-//			of the principles learned in CSE 5321 only.
-//	
-/*	
-	public void validateCompany (String action, Company company, CompanyErrorMsgs errorMsgs) {
-		if (action.equals("saveCompany")) {
-			errorMsgs.setCompanyIDerror(validateIdcompany(action,company.getIdcompany()));
-			errorMsgs.setCompanyNameError(validateCompany_name(company.getCompany_name()));
-			errorMsgs.setPhoneError(validatePhone(company.getPhone()));
-			errorMsgs.setEmailError(validateEmail(company.getEmail()));
+	//validate actions
+	public void validateEvent(String action,Events event,EventsErrorMsgs errorMsg) {
+		if(action.equalsIgnoreCase("eventSearch")) {
+			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
 		}
-		else
-			if (action.equals("searchCompany")) {
-				if (company_name.equals("") && idcompany.equals("")) 
-					errorMsgs.setCompanyNameError("Both Company Name and Company ID cannot be blank");
-				else
-					if (!idcompany.equals(""))
-						errorMsgs.setCompanyIDerror(validateIdcompany(action, idcompany));
-			}
-			else 
-				if (idcompany.equals("")) 
-					errorMsgs.setCompanyIDerror("Company ID cannot be blank");
-				else
-					errorMsgs.setCompanyIDerror(validateIdcompany(action,idcompany));
-		errorMsgs.setErrorMsg();
 	}
-
-	private String validateIdcompany(String action, String idcompany) {
+	private String validateDate(String date,String time) {
 		String result="";
-		if (!isTextAnInteger(idcompany))
-			result="Your company ID must be a number";
-		else
-			if (action.equals("saveCompany")) {
-				if (!stringSize(idcompany,3,16))
-					result= "Your Company Id must between 3 and 16 digits";
-				else
-					if (!CompanyDAO.CompanyIDunique(idcompany))
-						result="Company ID already in database";
-			}
-		return result;
-	}
-	
-	private String validateCompany_name(String company_name) {
-		String result="";
-		if (!stringSize(company_name,3,45))
-			result= "Your Company Name must between 3 and 45 digits";
-		else
-			if (Character.isLowerCase(company_name.charAt(0)))
-				result="Your company name must start with a capital letter";
-		return result;		
-	}
-	
-	private String validatePhone(String phone) {
-		String result="";
-		if (phone.length()!=10)
-			result="Phone number must be 10 digits in length";
-		else
-			if (!isTextAnInteger(phone))
-				result="Phone number must be a number";
-		return result;		
-	}
-	
-	private String validateEmail(String email) {
-		String result="",extension="";
-		if (!email.contains("@"))
-			result = "Email address needs to contain @";
-		else
-			if (!stringSize(email,7,45))
-				result="Email address must be between 7 and 45 characters long";
-			else {
-				extension = email.substring(email.length()-4, email.length());
-				if (!extension.equals(".org") && !extension.equals(".edu") && !extension.equals(".com") 
-						&& !extension.equals(".net") && !extension.equals(".gov") && !extension.equals(".mil"))
-					result = "Invalid domain name";				
-			}
-		return result;		
-	}
-
-//	This section is for general purpose methods used internally in this class
-	
-	private boolean stringSize(String string, int min, int max) {
-		return string.length()>=min && string.length()<=max;
-	}
-	private boolean isTextAnInteger (String string) {
-        boolean result;
-		try
-        {
-            Long.parseLong(string);
-            result=true;
-        } 
-        catch (NumberFormatException e) 
-        {
-            result=false;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date1=null,date2 = null;
+		try {
+			date1=sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			result="Date not in correct format";
+		}
+		String current = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+		try {
+			date2=sdf.parse(current);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			result="Date not in correct format";
+		}
+		if(result.equals("")) {
+		if(date1.before(date2)){
+            result="Cannot be past date";
         }
+		else if(date1.equals(date2)) {
+			result=validateTime(time);
+		}
+		}
 		return result;
 	}
-*/
+	private String validateTime(String time) {
+		String result="";
+		SimpleDateFormat skf = new SimpleDateFormat("HH:mm:ss");
+		Date time1=null,time2 = null;
+		try {
+			time1=skf.parse(time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			result="time not in correct format";
+		}
+		String current = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		try {
+			time2=skf.parse(current);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(result.equals("")) {
+		if(time1.before(time2)) {
+			result="Cannot be past time";
+		}
+		}
+		return result;
+	}
 }

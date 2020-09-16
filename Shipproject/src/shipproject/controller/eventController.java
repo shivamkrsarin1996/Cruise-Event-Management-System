@@ -1,7 +1,9 @@
 package shipproject.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 
 import shipproject.model.Events;
+import shipproject.model.EventsErrorMsgs;
 import shipproject.model.user;
 import shipproject.data.eventsDAO;
 import shipproject.data.userDAO;
@@ -36,7 +39,8 @@ public class eventController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String action = request.getParameter("action");
-		session.removeAttribute("cordinator");
+		session.removeAttribute("cordinator");//Msgs
+		session.removeAttribute("dateevent");
 //Event Manger - View List of events
 		if (action.equalsIgnoreCase("eventmanagereventlist")) {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
@@ -65,6 +69,9 @@ public class eventController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action"), url="";
 		HttpSession session = request.getSession();
+		session.removeAttribute("cordinator");//Msgs
+		session.removeAttribute("dateevent");
+		session.removeAttribute("Msgs");
 		int selectedeventIndex;
 		Events events=new Events();
 		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
@@ -100,8 +107,43 @@ public class eventController extends HttpServlet {
 			user cordinator=new user();
 			cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
 			session.setAttribute("cordinator",cordinator);
-			url="/listspecificevent.jsp";
 			url="/psg_view_specific_event.jsp";					
+		}
+		else if (action.equalsIgnoreCase("redirectPagedatetime") ){
+			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+			Events dateevent = new Events();
+			dateevent.setDate(currentdate);
+			dateevent.setTime(currentTime);
+			session.setAttribute("dateevent",dateevent);
+			url="/dateselect.jsp";
+		}
+		else if(action.equalsIgnoreCase("eventSearch")) {
+			String date=request.getParameter("date");
+			String time=request.getParameter("time");
+			Events datecheck=new Events();
+			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+			datecheck.setDate(date);
+			datecheck.setTime(time);
+			datecheck.validateEvent(action, datecheck, errorMsg);
+			if(!errorMsg.getErrorMsg().equals("")) {
+				url="/dateselect.jsp";
+				session.setAttribute("dateevent",datecheck);
+				session.setAttribute("Msgs",errorMsg);
+			}
+			else {
+			ArrayList<Events> eventInDB = new ArrayList<Events>();
+			eventInDB=eventsDAO.searcheventbydate(date, time);
+			eventInDB.addAll(eventsDAO.searchgreaterdate(date));
+			session.setAttribute("EVENTS", eventInDB);
+			user loginU=(user) session.getAttribute("loginU");
+			if(loginU.getRole().equalsIgnoreCase("passenger")) {
+				url="/psg_view_all_events.jsp";
+			}
+			else {
+				url="/eventmanagereventlist.jsp";
+			}
+			}
 		}
 //     	else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
 //			ArrayList<Events> eventInDBs = new ArrayList<Events>();
