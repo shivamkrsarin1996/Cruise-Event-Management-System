@@ -2,7 +2,6 @@ package shipproject.data;
 
 
 import java.sql.Connection;
-import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -40,25 +39,45 @@ public class eventsDAO {
 		} catch (SQLException e) {}
 		return eventListInDB;
 	}
+	//Use above one
+	private static ArrayList<Events> ReturnSimpleEventList (String queryString) {
+		ArrayList<Events> eventListInDB = new ArrayList<Events>();
+		
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();  
+		try {
+			stmt = conn.createStatement();
+			ResultSet eventList = stmt.executeQuery(queryString);
+			while (eventList.next()) {
+				Events events = new Events(); 
+			    events.setId_event(eventList.getInt("idevents"));
+			    events.setEventname(eventList.getString("eventName"));
+			    events.setLocation(eventList.getString("location"));
+			    events.setCapacity(eventList.getString("capacity"));
+			    events.setDuration(eventList.getString("duration"));
+			    events.setType(eventList.getString("Type"));
+			    eventListInDB.add(events);
+			}
+		} catch (SQLException e) {}
+		return eventListInDB;
+	}
 	
-	public static void insertevent (Events events) {
+	public static void createEvent (Events events) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();  
 		try {
 			stmt = conn.createStatement();
 			
-			String insertevent ="INSERT INTO events (idevents,eventName,location,capacity,duration,Type) VALUES('"
+			String insertevent ="INSERT INTO ship.create (eventid, managerid, time, DATE, estimated) VALUES('"
 					+events.getId_event()+"','"
-					+events.getEventname()+"','"
-					+events.getLocation()+"','"
-					+Integer.parseInt(events.getCapacity())+"','"
-					+Integer.parseInt(events.getDuration())+"','"
-					+events.getType()+"','"				
-				    +"')";
+					+events.getManagerid()+"','"
+					+events.getTime()+"','"
+					+events.getDate()+"','"
+					+Integer.parseInt(events.getEstCap())+"')";
 			
 			stmt.executeUpdate(insertevent);	
 			conn.commit(); 
-		} catch (SQLException e) {}
+		} catch (SQLException e) {System.out.println("FAIL");}
 	}
 
 	public static ArrayList<Events>  listevents() {  
@@ -76,6 +95,12 @@ public class eventsDAO {
 	}
 	public static ArrayList<Events> searchgreaterdate(String date){
 		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' order by DATE,time,eventName");
+	}
+	public static ArrayList<Events> simpleEventlist(){
+		return ReturnSimpleEventList("SELECT * FROM ship.events");
+	}
+	public static ArrayList<Events> simpleEventlistint(int id){
+		return ReturnSimpleEventList("SELECT * FROM ship.events where idevents="+id);
 	}
 
 	

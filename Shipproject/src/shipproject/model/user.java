@@ -156,14 +156,22 @@ public class user implements Serializable {
 			result="Username must be between 4(not inclusive) and 21(not inclusive) characters long";
 		}
 		else {
-			if(!username.matches("[a-zA-Z].*")) {
+			if(Character.isDigit(username.charAt(0))) {
 				result="Username must start with a letter";
 			}
 			else {
-				if(!username.matches("[a-zA-Z0-9]*")) {
-					result="Username must have only letters and numbers";
+				int m=username.length();
+				int i=0;
+				while(i<m&& result.equals("")) {
+					if(!Character.isLetterOrDigit(username.charAt(i))) {
+						result="Username must have only letters and numbers";
+					}
+					i++;
 				}
-				else {
+//				if(!username.matches("[a-zA-Z0-9]*")) {
+//					result="Username must have only letters and numbers";
+//				}
+				if(result.equals("")) {
 					boolean usernameinDB=userDAO.checkusername(username);
 					if(!usernameinDB) {
 						result="Username already exsits";
@@ -179,9 +187,13 @@ public class user implements Serializable {
 		if (!stringSize(last_name,3,29))
 			result="Last Name must be between 2(not inclusive) and 30(not inclusive) characters long";
 		else{
-			//String[] list= {"/","!", "@", "#","$","%","%","^","&","*","(",")","_","+","=","-","`","~",";","<",">",".","?","[","]","{","}",","};
-			if(!last_name.matches("[a-zA-Z]*")){
-				result="Last Name cannot have numbers or special charectors";
+			int m=last_name.length();
+			int i=0;
+			while(i<m&&result.equals("")) {
+				if(!Character.isLetter(last_name.charAt(i))) {
+					result="Last Name cannot have numbers or special charectors";
+				}
+				i++;
 			}
 		}
 		return result;
@@ -191,9 +203,13 @@ public class user implements Serializable {
 		if (!stringSize(first_name,3,29))
 			result="First Name must be between 2(not inclusive) and 30 characters long";
 		else{
-			//String[] list= {"/","!", "@", "#","$","%","%","^","&","*","(",")","_","+","=","-","`","~",";","<",">",".","?","[","]","{","}",","};
-			if(!first_name.matches("[a-zA-Z]*")){
-				result="First Name cannot have numbers or special charectors";
+			int m=first_name.length();
+			int i=0;
+			while(i<m&&result.equals("")) {
+				if(!Character.isLetter(first_name.charAt(i))) {
+					result="First name cannot have numbers or special charectors";
+				}
+				i++;
 			}
 		}
 		return result;

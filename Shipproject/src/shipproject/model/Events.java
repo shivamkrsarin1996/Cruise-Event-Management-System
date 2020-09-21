@@ -37,6 +37,13 @@ public class Events implements Serializable{
 	     setIdcreate(idcreate);
 	     setEstCap(estCap);
 	}
+	public void setEvent2(int id_event,String date,String managerid, String time,String estCap) {
+		setId_event(id_event);
+		setDate(date);
+		setManagerid(managerid);
+		setTime(time);
+		setEstCap(estCap);
+	}
 	
 	public int getId_event() {
 		return id_event;
@@ -148,7 +155,7 @@ public class Events implements Serializable{
 	}
 	private String validateTime(String time) {
 		String result="";
-		SimpleDateFormat skf = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
 		Date time1=null,time2 = null;
 		try {
 			time1=skf.parse(time);
@@ -156,7 +163,7 @@ public class Events implements Serializable{
 			// TODO Auto-generated catch block
 			result="time not in correct format";
 		}
-		String current = new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+		String current = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 		try {
 			time2=skf.parse(current);
 		} catch (ParseException e) {

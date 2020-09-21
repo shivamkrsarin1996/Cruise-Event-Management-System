@@ -71,17 +71,29 @@ public class eventController extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("cordinator");//Msgs
 		session.removeAttribute("dateevent");
-		session.removeAttribute("Msgs");
+		session.removeAttribute("Msgs");//
+		session.removeAttribute("CordinatorList");
+		session.removeAttribute("simpleEventList");
+		session.removeAttribute("create");
 		int selectedeventIndex;
 		Events events=new Events();
 		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
 		
-			getEventParam(request,events);
-		
-			session.setAttribute("events", events);
-		
-			eventsDAO.insertevent(events);
-			url="/index.jsp";	
+			events.setEvent2(Integer.parseInt(request.getParameter("eventid")),request.getParameter("date"), request.getParameter("coordinatorid"),request.getParameter("time"), request.getParameter("estCap"));
+			ArrayList<Events> eventDB=new ArrayList<Events>();
+			eventDB=eventsDAO.simpleEventlistint(events.getId_event());
+//			System.out.println(events.getId_event());
+//			System.out.println(events.getDate());
+//			System.out.println(events.getManagerid());
+//			System.out.println(events.getTime());
+//			System.out.println(events.getEstCap());
+			events.setEventname(eventDB.get(0).getEventname());
+			events.setLocation(eventDB.get(0).getLocation());
+			events.setCapacity(eventDB.get(0).getCapacity());
+			events.setDuration(eventDB.get(0).getDuration());
+			events.setType(eventDB.get(0).getType());
+			eventsDAO.createEvent(events);
+			url="/Eventmanagerhomepage.jsp";	
 		
 			}
 			
@@ -111,12 +123,27 @@ public class eventController extends HttpServlet {
 		}
 		else if (action.equalsIgnoreCase("redirectPagedatetime") ){
 			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-			String currentTime =new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+			String currentTime =new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 			Events dateevent = new Events();
 			dateevent.setDate(currentdate);
 			dateevent.setTime(currentTime);
 			session.setAttribute("dateevent",dateevent);
 			url="/dateselect.jsp";
+		}
+		else if(action.equalsIgnoreCase("redirectCreatepage")) {
+			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
+			CordinatorsinDB=userDAO.searchCoordinator();
+			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+			eventsInDB=eventsDAO.simpleEventlist();
+			session.setAttribute("CordinatorList",CordinatorsinDB);
+			session.setAttribute("simpleEventList", eventsInDB);
+			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String currentTime =new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+			Events create = new Events();
+			create.setDate(currentdate);
+			create.setTime(currentTime);
+			session.setAttribute("create", create);
+			url="/Eventmanagercreateevent.jsp";
 		}
 		else if(action.equalsIgnoreCase("eventSearch")) {
 			String date=request.getParameter("date");
@@ -128,6 +155,7 @@ public class eventController extends HttpServlet {
 			datecheck.validateEvent(action, datecheck, errorMsg);
 			if(!errorMsg.getErrorMsg().equals("")) {
 				url="/dateselect.jsp";
+				datecheck.setTime(time);
 				session.setAttribute("dateevent",datecheck);
 				session.setAttribute("Msgs",errorMsg);
 			}

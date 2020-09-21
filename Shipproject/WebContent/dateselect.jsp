@@ -12,13 +12,13 @@
 <form name="dateForm" action="<c:url value='/eventController?eventSearch'/>" method="post">
 <table>
 <tr>
- <td> Date(yyyy-mm-dd): </td>
+ <td> Date(YYYY-MM-dd): </td>
  <td>
  <input name="date" type="date" value="<c:out value='${dateevent.date}'/>">
  </td>
  </tr>
  <tr>
- <td>Time(hh:mm:ss)</td>
+ <td>Time(HH:mm)</td>
  <td><input name="time" type="time" value="<c:out value='${dateevent.time}'/>"></td>
  </tr>
  </table>

@@ -16,47 +16,41 @@
 <table>
 <tr>
  <td> Event Name: </td>
- <td>
- <input name="eventname" value="<c:out value='${events.eventname}'/>">
- 
+ <td><select name="eventid">
+ <c:forEach items="${simpleEventList}" var="item" varStatus="status">
+ <option value="<c:out value="${item.id_event}" />"><c:out value="${item.eventname}" />(<c:out value="${item.type}" />)</option>
+ </c:forEach>
+ </select>
  </td> 
  </tr>
  
  <tr>
- <td>Location</td>
- <td><input name="location" value="<c:out value='${events.location}'/>"></td>
+ <td>Date(YYYY-MM-dd)</td>
+ <td><input name="date" value="<c:out value='${create.date}'/>"></td>
  </tr>
  <tr>
- <td>capacity</td>
+ <td>Time(HH:mm)</td>
  <td>
- <input name="capacity" value="<c:out value='${events.capacity}'/>"></td>
+ <input name="time" value="<c:out value='${create.time}'/>"></td>
  </tr>
+ 
  <tr>
- <td>Duration</td>
- <td><input name="duration" value="<c:out value='${events.duration}'/>"></td>
+ <td>Estimated Attendees</td>
+ <td><input name="estCap" value="<c:out value='${create.estCap}'/>"></td>
  
  </tr>
 
  <tr>
- <td> Type</td>
- <td><select name="type">
- 
-  <option value="bowling1">Bowling1</option>
-  <option value="bowling2">Bowling2</option>
-  <option value="movie1">Movie1</option>
-  <option value="movie2">Movie2</option>
-  <option value="extreme zipline">Extreme zipline</option>
-  <option value="skycourse ropes">Skycourse ropes</option>
-  <option value="ice skating">Ice skating</option>
-  <option value="go karting">Go karting</option>
-  <option value="broadway show">Broadway show</option>
-  <option value="planetarium">Planetarium</option>
-  
+ <td> Event Coordinator</td>
+ <td><select name="coordinatorid">
+ <c:forEach items="${CordinatorList}" var="item" varStatus="status">
+ <option value="<c:out value="${item.id_user}" />"><c:out value="${item.first_name}" /> <c:out value="${item.last_name}" /></option>
+ </c:forEach>
 </select>
 </td>
  </tr>
  </table>
-<input name="action" value="createevent" type="hidden">
+<input name="action" value="Eventmanagercreateevent" type="hidden">
     <input type="submit" value="Submit">
 </form>
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">

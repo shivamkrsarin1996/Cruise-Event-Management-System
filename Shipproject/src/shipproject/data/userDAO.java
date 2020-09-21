@@ -67,6 +67,10 @@ public class userDAO {
 		String query="Select * from user WHERE id_used="+ids;
 		return returnMatcingusers(query);
 	}
+	public static ArrayList<user> searchCoordinator(){
+		String query="SELECT * FROM ship.user where role='coordinator'";
+		return returnMatcingusers(query);
+	}
 	
 	public static void insertuser(user user) {
 		Statement stmt = null;
