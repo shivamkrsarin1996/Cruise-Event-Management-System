@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <div class="regHeader">
-    <div class="logo"><h1><a href="<c:url value='/' />">Passenger Information</a></h1></div>
+    <div class="logo"><h1><a href="<c:url value='/psg_homepage.jsp'  />">Passenger Information</a></h1></div>
     <div class="menu_nav">
     </div>
   </div>					
