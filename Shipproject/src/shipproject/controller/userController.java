@@ -58,6 +58,8 @@ public class userController extends HttpServlet {
 			else {
 				userDAO.insertuser(user);
 				url="/index.jsp";
+				UerrorMsgs.setCpasswordError("Registered Successfully");
+				session.setAttribute("errorMs", UerrorMsgs);
 				session.removeAttribute("user");
 			}
 //			boolean usernameinDB=userDAO.checkusername(user.getUsername());

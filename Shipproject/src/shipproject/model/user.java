@@ -186,6 +186,9 @@ public class user implements Serializable {
 		String result="";
 		if (!stringSize(last_name,3,29))
 			result="Last Name must be between 2(not inclusive) and 30(not inclusive) characters long";
+		else if(!Character.isUpperCase(last_name.charAt(0))) {
+			result="First Letter must be Capital";
+		}
 		else{
 			int m=last_name.length();
 			int i=0;
@@ -202,6 +205,9 @@ public class user implements Serializable {
 		String result="";
 		if (!stringSize(first_name,3,29))
 			result="First Name must be between 2(not inclusive) and 30 characters long";
+		else if(!Character.isUpperCase(first_name.charAt(0))) {
+			result="First Letter must be Capital";
+		}
 		else{
 			int m=first_name.length();
 			int i=0;
