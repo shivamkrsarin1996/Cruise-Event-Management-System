@@ -74,7 +74,8 @@ public class eventController extends HttpServlet {
 		session.removeAttribute("Msgs");//
 		session.removeAttribute("CordinatorList");
 		session.removeAttribute("simpleEventList");
-		session.removeAttribute("create");
+		session.removeAttribute("create");//
+		session.removeAttribute("createMsgs");
 		int selectedeventIndex;
 		Events events=new Events();
 		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
@@ -92,10 +93,27 @@ public class eventController extends HttpServlet {
 			events.setCapacity(eventDB.get(0).getCapacity());
 			events.setDuration(eventDB.get(0).getDuration());
 			events.setType(eventDB.get(0).getType());
-			eventsDAO.createEvent(events);
-			url="/Eventmanagerhomepage.jsp";	
-		
+			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+			events.validateEvent(action, events, errorMsg);
+			session.setAttribute("create",events);
+			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
+			CordinatorsinDB=userDAO.searchCoordinator();
+			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+			eventsInDB=eventsDAO.simpleEventlist();
+			session.setAttribute("CordinatorList",CordinatorsinDB);
+			session.setAttribute("simpleEventList", eventsInDB);
+			if(!errorMsg.getErrorMsg().equals("")) {
+				session.setAttribute("createMsgs",errorMsg);
+				url="/Eventmanagercreateevent.jsp";
 			}
+			else {
+				eventsDAO.createEvent(events);
+				url="/Eventmanagerhomepage.jsp";
+				session.removeAttribute("create");
+			}
+		}
+		
+			
 			
 //Passenger - List specific Event 
 		else if (action.equalsIgnoreCase("psg_listSpecificEvent") )  { 

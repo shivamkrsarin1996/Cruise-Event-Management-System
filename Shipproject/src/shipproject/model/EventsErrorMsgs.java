@@ -4,11 +4,17 @@ public class EventsErrorMsgs {
 	private String errorMsg;
 	private String date;
 	private String time;
+	private String eventname;
+	private String manager;
+	private String estCap;
 	
 	public EventsErrorMsgs() {
 		this.setErrorMsg("");
 		this.date="";
 		this.time="";
+		this.eventname="";
+		this.manager="";
+		this.estCap="";
 	}
 	
 	public String getTime() {
@@ -30,6 +36,30 @@ public class EventsErrorMsgs {
 
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
+	}
+
+	public String getEventname() {
+		return eventname;
+	}
+
+	public void setEventname(String eventname) {
+		this.eventname = eventname;
+	}
+
+	public String getManager() {
+		return manager;
+	}
+
+	public void setManager(String manager) {
+		this.manager = manager;
+	}
+
+	public String getEstCap() {
+		return estCap;
+	}
+
+	public void setEstCap(String estCap) {
+		this.estCap = estCap;
 	}
 
 }

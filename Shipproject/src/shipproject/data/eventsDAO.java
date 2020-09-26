@@ -61,6 +61,22 @@ public class eventsDAO {
 		} catch (SQLException e) {}
 		return eventListInDB;
 	}
+	private static boolean emptycheck(String queryString){
+		boolean ans=false;
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			stmt = conn.createStatement();
+			ResultSet userList=stmt.executeQuery(queryString);
+			if(userList.next()) {
+				ans=false;
+			}
+			else {
+				ans=true;
+			}
+		} catch (SQLException e) {}
+		return ans;
+	}
 	
 	public static void createEvent (Events events) {
 		Statement stmt = null;
@@ -101,6 +117,16 @@ public class eventsDAO {
 	}
 	public static ArrayList<Events> simpleEventlistint(int id){
 		return ReturnSimpleEventList("SELECT * FROM ship.events where idevents="+id);
+	}
+	public static boolean checkbook(int id,String date,String time,String time2) {
+		
+		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
+		return emptycheck(query);
+	}
+public static boolean checkMbook(String id,String date,String time,String time2) {
+		
+		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where managerid="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
+		return emptycheck(query);
 	}
 
 	
