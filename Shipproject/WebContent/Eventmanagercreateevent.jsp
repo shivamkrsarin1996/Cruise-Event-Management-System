@@ -42,7 +42,6 @@
  <td>Estimated Attendees</td>
  <td><input name="estCap" value="<c:out value='${create.estCap}'/>"></td>
  <td><input name="errorestCap"  value="<c:out value='${createMsgs.estCap}'/>" class="errorMsg"></td>
- 
  </tr>
 
  <tr>

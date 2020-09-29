@@ -3,17 +3,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Specific Event</title>
+<title>Modify Event</title>
 <link rel="stylesheet" href="style.css">
 </head>
-   
-    
 <body>
     <div><h1><a href="<c:url value='/Eventmanagerhomepage.jsp' />">Event Manager</a></h1></div>
-    <h2> Selected Event</h2>
+    <h2> Modify Event</h2>
     
 
-         <table border="1" class="myTable"> 
+         <table> 
     <tr>
     <td> EventName: </td>
     <td> <c:out value="${EVENTS.eventname}" /> </td>
@@ -30,9 +28,9 @@
     </tr>
     <tr>
     <td> Estimated attendees: </td>
-    <td> <c:out value="${EVENTS.estCap}" /> </td>
+    <td><input name="estCap" value="<c:out value="${EVENTS.estCap}" /> "></td>
+    <td><input name="errorestCap"  value="<c:out value='${ModifyMsgs.estCap}'/>" class="errorMsg"></td>
     </tr>
-
     <tr>
     <td> Duration: </td>
     <td> <c:out value="${EVENTS.duration}" /> </td>
@@ -45,13 +43,16 @@
     
      <tr>
     <td> Date: </td>
-    <td> <c:out value="${EVENTS.date}" /> </td>
-    </tr>
+    <td><input name="date" value="<c:out value="${EVENTS.date}" />"></td>
+ <td><input name="errordate"  value="<c:out value='${ModifyMsgs.date}'/>" class="errorMsg"></td>
+ </tr>
     
      <tr>
     <td> Time: </td>
-    <td> <c:out value="${EVENTS.time}" /> </td>
-    </tr>
+    <td>
+ <input name="time" value="<c:out value="${EVENTS.time}" />"></td>
+ <td><input name="errortime"  value="<c:out value='${ModifyMsgs.time}'/>" class="errorMsg"></td>
+ </tr>
     <tr>
     <td> Coordinator First name </td>
     <td> <c:out value="${cordinator.first_name}" /> </td>
@@ -64,14 +65,9 @@
     <tr>
     </tr>
     </table>
-    <div class=lin>
-    <form action="EventModify.jsp">
-    <input type="submit" value="Modify" />
-</form>
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
     <input type="submit" value="logout" />
 </form> 
-</div>
 </body>
 </html>
