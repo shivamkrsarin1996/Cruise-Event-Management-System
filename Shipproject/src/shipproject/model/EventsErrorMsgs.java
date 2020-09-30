@@ -9,7 +9,7 @@ public class EventsErrorMsgs {
 	private String estCap;
 	
 	public EventsErrorMsgs() {
-		this.setErrorMsg("");
+		this.errorMsg="";
 		this.date="";
 		this.time="";
 		this.eventname="";

@@ -140,6 +140,30 @@ public class Events implements Serializable{
 			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
 		}
 	}
+	public void validateEventModify(String action,Events event,EventsErrorMsgs errorMsg,String cdate,String ctime,String cEstCap) {
+		errorMsg.setErrorMsg(validateSame(event,cdate,ctime,cEstCap));
+		if(errorMsg.getErrorMsg().equals("")){
+			errorMsg.setEstCap(validateEstCap(cEstCap,event.getCapacity()));
+			errorMsg.setDate(validateDate(cdate,ctime));
+			errorMsg.setTime(validateDate(cdate,ctime));
+			if(errorMsg.getTime().equals("")) {
+				errorMsg.setTime(validateRTime(ctime,event.getDuration()));
+			}
+			if(errorMsg.getTime().equals("")) {
+				errorMsg.setTime(validateEvent2(event.getId_event(),cdate,ctime,event.getDuration(),event.getIdcreate()));		
+			}
+			errorMsg.setEventname("");
+			errorMsg.setManager("");
+			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
+		}
+	}
+	private String validateSame(Events event,String cdate,String ctime,String cEstCap) {
+		String result="";
+		if(cdate.equals(event.getDate())&&ctime.equals(event.getTime())&&cEstCap.equals(event.getEstCap())) {
+			result="No modifications has been made";
+		}
+		return result;
+	}
 	private String validateErrorMsg(String error1,String error2,String error3,String error4,String error5) {
 		String result="";
 		if(!error1.equals("")||!error2.equals("")||!error3.equals("")||!error4.equals("")||!error5.equals("")) {
@@ -265,6 +289,29 @@ public class Events implements Serializable{
 		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
 		 String newTime2 = skf.format(cal.getTime());
 		boolean booked=eventsDAO.checkbook(id, date, newTime2, newTime);
+		if(!booked) {
+			result="This event has prior booking during this time";
+		}
+		return result;
+	}
+	private String validateEvent2(int id,String date,String time,String duration,int cid) {
+		String result="";
+		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
+		Date time1=null;
+		try {
+			time1=skf.parse(time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		 cal.setTime(time1);
+		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
+		 String newTime = skf.format(cal.getTime());
+		 cal.setTime(time1);
+		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
+		 String newTime2 = skf.format(cal.getTime());
+		boolean booked=eventsDAO.checkbook2(id, date, newTime2, newTime,cid);
 		if(!booked) {
 			result="This event has prior booking during this time";
 		}

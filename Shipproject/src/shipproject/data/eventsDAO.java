@@ -34,6 +34,7 @@ public class eventsDAO {
 			    events.setTime(eventList.getString("time"));
 			    events.setIdcreate(eventList.getInt("idcreate"));
 			    events.setEstCap(eventList.getString("estimated"));
+			    events.setTime(events.getTime().substring(0, events.getTime().length()-3));
 			    eventListInDB.add(events);
 			}
 		} catch (SQLException e) {}
@@ -95,6 +96,17 @@ public class eventsDAO {
 			conn.commit(); 
 		} catch (SQLException e) {System.out.println("FAIL");}
 	}
+	public static void modifyevent(Events events,String cdate,String cestCap, String ctime) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			stmt = conn.createStatement();
+			String updateevent="update ship.create set DATE='"+cdate+"',estimated='"+cestCap+"',time='"+ctime+"' where idcreate="+events.getIdcreate();
+			stmt.executeUpdate(updateevent);
+			conn.commit(); 
+		} catch (SQLException e) {System.out.println("FAIL");}
+			
+	}
 
 	public static ArrayList<Events>  listevents() {  
 			return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid order by DATE,time,eventName");
@@ -121,6 +133,11 @@ public class eventsDAO {
 	public static boolean checkbook(int id,String date,String time,String time2) {
 		
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
+		return emptycheck(query);
+	}
+public static boolean checkbook2(int id,String date,String time,String time2,int cid) {
+		
+		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"' and idcreate!="+cid;
 		return emptycheck(query);
 	}
 public static boolean checkMbook(String id,String date,String time,String time2) {

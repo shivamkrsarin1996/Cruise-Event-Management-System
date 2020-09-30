@@ -28,13 +28,13 @@
  
  <tr>
  <td>Date(YYYY-MM-dd)</td>
- <td><input name="date" value="<c:out value='${create.date}'/>"></td>
+ <td><input name="date" type="date" value="<c:out value='${create.date}'/>"></td>
  <td><input name="errordate"  value="<c:out value='${createMsgs.date}'/>" class="errorMsg"></td>
  </tr>
  <tr>
  <td>Time(HH:mm)</td>
  <td>
- <input name="time" value="<c:out value='${create.time}'/>"></td>
+ <input name="time" type="time" value="<c:out value='${create.time}'/>"></td>
  <td><input name="errortime"  value="<c:out value='${createMsgs.time}'/>" class="errorMsg"></td>
  </tr>
  
