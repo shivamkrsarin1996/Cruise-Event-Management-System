@@ -69,7 +69,7 @@ public class eventController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action"), url="";
 		HttpSession session = request.getSession();
-		session.removeAttribute("cordinator");//Msgs
+		//session.removeAttribute("cordinator");//Msgs
 		session.removeAttribute("dateevent");
 		session.removeAttribute("Msgs");//
 		session.removeAttribute("CordinatorList");
@@ -77,7 +77,8 @@ public class eventController extends HttpServlet {
 		session.removeAttribute("create");//
 		session.removeAttribute("createMsgs");//ModifyMsgs
 		session.removeAttribute("ModifyMsgs");//success
-		//session.removeAttribute("success");
+		//session.removeAttribute("success");corMsgs
+		session.removeAttribute("corMsgs");
 		int selectedeventIndex;
 		Events events=new Events();
 		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
@@ -141,6 +142,34 @@ public class eventController extends HttpServlet {
 			    url="/eventController?action=listSpecificevent&id="+selectedevent.getIdcreate();
 		    }
 		}
+		else if(action.equalsIgnoreCase("Eventmanagerassignevent")) {
+			session.removeAttribute("success");
+			int ids=Integer.parseInt(request.getParameter("id"));
+			ArrayList<Events> eventInDBs = new ArrayList<Events>();
+			Events selectedevent = new Events();
+			eventInDBs=eventsDAO.searchevent(ids);
+			//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
+			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate(),eventInDBs.get(0).getEstCap());
+		    String id2=request.getParameter("coordinatorid");
+		    EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+		    errorMsg.setErrorMsg("Modified Successfully");
+		    events.validateEventCor(action, selectedevent, errorMsg, id2);
+		    if(!errorMsg.getErrorMsg().equals("")) {
+		    	session.setAttribute("EVENTS", selectedevent);//corMsgs
+		    	session.setAttribute("corMsgs", errorMsg);
+		    	ArrayList<user> CordinatorsinDB=new ArrayList<user>();
+				CordinatorsinDB=userDAO.searchCoordinator();
+				session.setAttribute("CordinatorList",CordinatorsinDB);
+				url="/ChangeCodinator.jsp";
+		    }
+		    else {
+		    	errorMsg.setErrorMsg("Assigned New Coordinator Successfully");
+		    	session.setAttribute("success",errorMsg);
+		    	eventsDAO.assigncor(selectedevent, id2);
+		    	url="/eventController?action=listSpecificevent&id="+selectedevent.getIdcreate();
+		    	
+		    }
+		}
 		
 			
 			
@@ -177,6 +206,13 @@ public class eventController extends HttpServlet {
 			dateevent.setTime(currentTime);
 			session.setAttribute("dateevent",dateevent);
 			url="/dateselect.jsp";
+		}
+		else if(action.equalsIgnoreCase("redirectAssignCor")) {
+			session.removeAttribute("success");
+			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
+			CordinatorsinDB=userDAO.searchCoordinator();
+			session.setAttribute("CordinatorList",CordinatorsinDB);
+			url="/ChangeCodinator.jsp";
 		}
 		else if(action.equalsIgnoreCase("redirectCreatepage")) {
 			session.removeAttribute("success");

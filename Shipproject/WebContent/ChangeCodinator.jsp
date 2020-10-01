@@ -3,17 +3,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Specific Event</title>
+<title>Modify Event</title>
 <link rel="stylesheet" href="style.css">
 </head>
-   
-    
 <body>
     <div><h1><a href="<c:url value='/Eventmanagerhomepage.jsp' />">Event Manager</a></h1></div>
-    <h2> Selected Event</h2>
-    <input name="errMsg"  value="<c:out value='${success.errorMsg}'/>" class="error">
+    <h2> Modify Event</h2>
+    <input name="errMsg"  value="<c:out value='${corMsgs.errorMsg}'/>" class="errorPane">
+  <form name="ModifyForm" action="<c:url value='/eventController?Eventmanagerassignevent&id=${EVENTS.idcreate}'/>" method="post">
 
-         <table border="1" class="myTable"> 
+         <table> 
     <tr>
     <td> EventName: </td>
     <td> <c:out value="${EVENTS.eventname}" /> </td>
@@ -29,10 +28,10 @@
     <td> <c:out value="${EVENTS.capacity}" /> </td>
     </tr>
     <tr>
+     <tr>
     <td> Estimated attendees: </td>
     <td> <c:out value="${EVENTS.estCap}" /> </td>
     </tr>
-
     <tr>
     <td> Duration: </td>
     <td> <c:out value="${EVENTS.duration}" /> </td>
@@ -53,29 +52,33 @@
     <td> <c:out value="${EVENTS.time}" /> </td>
     </tr>
     <tr>
-    <td> Coordinator First name </td>
+    <td> Current Coordinator First name </td>
     <td> <c:out value="${cordinator.first_name}" /> </td>
     </tr>
     <tr>
-    <td> Coordinator Last name </td>
+    <td> Current Coordinator Last name </td>
     <td> <c:out value="${cordinator.last_name}" /> </td>
     </tr>
+    <tr>
+ <td> New Event Coordinator</td>
+ <td><select name="coordinatorid">
+ <c:forEach items="${CordinatorList}" var="item" varStatus="status">
+ <option value="<c:out value="${item.id_user}" />"><c:out value="${item.first_name}" /> <c:out value="${item.last_name}" /></option>
+ </c:forEach>
+</select>
+</td>
+<td><input name="errorestcoordinatorid"  value="<c:out value='${corMsgs.manager}'/>" class="errorMsg"></td>
+ </tr>
     
     <tr>
     </tr>
     </table>
-    <div class=lin>
-    <form action="<c:url value='/EventModify.jsp'/>">
-    <input type="submit" value="Modify" />
-</form>
-<form action="<c:url value='/eventController?redirectAssignCor'/>" method="post">
-<input name="action" value="redirectAssignCor" type="hidden">
-    <input type="submit" value="Assign New Cordinator" />
-</form>
+    <input name="action" value="Eventmanagerassignevent" type="hidden">
+    <input type="submit" value="Submit">
+    </form>
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
     <input type="submit" value="logout" />
 </form> 
-</div>
 </body>
 </html>

@@ -107,6 +107,16 @@ public class eventsDAO {
 		} catch (SQLException e) {System.out.println("FAIL");}
 			
 	}
+	public static void assigncor(Events events,String id) {
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			stmt = conn.createStatement();
+			String updateevent="update ship.create set managerid="+id+" where idcreate="+events.getIdcreate();
+			stmt.executeUpdate(updateevent);
+			conn.commit(); 
+		} catch (SQLException e) {System.out.println("FAIL");}
+	}
 
 	public static ArrayList<Events>  listevents() {  
 			return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid order by DATE,time,eventName");
@@ -135,16 +145,21 @@ public class eventsDAO {
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
 		return emptycheck(query);
 	}
-public static boolean checkbook2(int id,String date,String time,String time2,int cid) {
+    public static boolean checkbook2(int id,String date,String time,String time2,int cid) {
 		
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"' and idcreate!="+cid;
 		return emptycheck(query);
 	}
-public static boolean checkMbook(String id,String date,String time,String time2) {
+    public static boolean checkMbook(String id,String date,String time,String time2) {
 		
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where managerid="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
 		return emptycheck(query);
 	}
+    public static boolean checkMbook2(String id,String date,String time,String time2,int cid) {
+	
+	String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where managerid="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"' and idcreate!="+cid;
+	return emptycheck(query);
+}
 
 	
 

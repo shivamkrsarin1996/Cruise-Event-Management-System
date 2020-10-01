@@ -157,10 +157,28 @@ public class Events implements Serializable{
 			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
 		}
 	}
+	public void validateEventCor(String action,Events event,EventsErrorMsgs errorMsg,String id) {
+		errorMsg.setErrorMsg(validateSame2(event,id));
+		if(errorMsg.getErrorMsg().equals("")){
+			errorMsg.setManager(validateManager2(id,event.getDate(),event.getTime(),event.getDuration(),event.getIdcreate()));
+			errorMsg.setEventname("");
+			errorMsg.setDate("");
+			errorMsg.setTime("");
+			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
+			
+		}
+	}
 	private String validateSame(Events event,String cdate,String ctime,String cEstCap) {
 		String result="";
 		if(cdate.equals(event.getDate())&&ctime.equals(event.getTime())&&cEstCap.equals(event.getEstCap())) {
 			result="No modifications has been made";
+		}
+		return result;
+	}
+	private String validateSame2(Events event,String id) {
+		String result="";
+		if(id.equals(event.getManagerid())) {
+			result="your have assigned same Coordinator";
 		}
 		return result;
 	}
@@ -335,6 +353,29 @@ public class Events implements Serializable{
 		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
 		 String newTime2 = skf.format(cal.getTime());
 		 boolean busy=eventsDAO.checkMbook(id, date, newTime2, newTime);
+		 if(!busy) {
+				result="This Manager has prior booking during this time";
+			}
+		 return result;
+	}
+	private String validateManager2(String id,String date,String time,String duration,int cid) {
+		String result="";
+		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
+		Date time1=null;
+		try {
+			time1=skf.parse(time);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		 cal.setTime(time1);
+		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
+		 String newTime = skf.format(cal.getTime());
+		 cal.setTime(time1);
+		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
+		 String newTime2 = skf.format(cal.getTime());
+		 boolean busy=eventsDAO.checkMbook2(id, date, newTime2, newTime,cid);
 		 if(!busy) {
 				result="This Manager has prior booking during this time";
 			}
