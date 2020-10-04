@@ -10,7 +10,7 @@
 <ul>
 
 <li><a href="<c:url value='/eventController?action=eventassignedtlist&id=${loginU.id_user}' />"><span>View Assigned Events</span></a> </li>
-<li><a href="<c:url value='/eventController?action=eventcorlist' />"><span>View Events</span></a> </li>
+<li><a href="<c:url value='/eventController?action=redirectPagedatetime' />"><span>View Event Summary</span></a> </li>
 </ul>  
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">

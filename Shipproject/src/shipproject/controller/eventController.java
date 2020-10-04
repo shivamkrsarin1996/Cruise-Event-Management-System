@@ -152,7 +152,7 @@ public class eventController extends HttpServlet {
 			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate(),eventInDBs.get(0).getEstCap());
 		    String id2=request.getParameter("coordinatorid");
 		    EventsErrorMsgs errorMsg=new EventsErrorMsgs();
-		    errorMsg.setErrorMsg("Modified Successfully");
+		    //errorMsg.setErrorMsg("Modified Successfully");
 		    events.validateEventCor(action, selectedevent, errorMsg, id2);
 		    if(!errorMsg.getErrorMsg().equals("")) {
 		    	session.setAttribute("EVENTS", selectedevent);//corMsgs
@@ -250,14 +250,47 @@ public class eventController extends HttpServlet {
 			eventInDB=eventsDAO.searcheventbydate(date, time);
 			eventInDB.addAll(eventsDAO.searchgreaterdate(date));
 			session.setAttribute("EVENTS", eventInDB);
+			session.setAttribute("EVENTScor", eventInDB);
 			user loginU=(user) session.getAttribute("loginU");
 			if(loginU.getRole().equalsIgnoreCase("passenger")) {
 				url="/psg_view_all_events.jsp";
 			}
-			else {
+			else if(loginU.getRole().equalsIgnoreCase("manager")) {
 				url="/eventmanagereventlist.jsp";
 			}
+			else {
+				url="/corodinatoreventlist.jsp";
 			}
+			}
+		}
+		else if(action.equalsIgnoreCase("eventcorlist")){
+			ArrayList<Events> eventInDB = new ArrayList<Events>();
+			eventInDB= eventsDAO.listevents();
+			session.setAttribute("EVENTScor", eventInDB);			
+			url="/corodinatoreventlist.jsp";
+		
+		}
+		else if(action.equalsIgnoreCase("eventassignedtlist")){
+			int id=Integer.parseInt(request.getParameter("id"));
+			ArrayList<Events> eventInDB = new ArrayList<Events>();
+			eventInDB= eventsDAO.listcorevents(id);
+			session.setAttribute("EVENTScor", eventInDB);			
+			url="/corodinatoreventlist.jsp";
+		}
+		else if(action.equalsIgnoreCase("listcorSpecificevent")) {
+			ArrayList<Events> eventInDBs = new ArrayList<Events>();
+			Events selectedevent = new Events();
+			int ids=Integer.parseInt(request.getParameter("id"));
+			eventInDBs=eventsDAO.searchevent(ids);
+			//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
+			selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate(),eventInDBs.get(0).getEstCap());
+			session.setAttribute("EVENTScor", selectedevent);
+			ArrayList<user> UserinDB=new ArrayList<user>();
+			UserinDB=userDAO.searchUserbyID(selectedevent.getManagerid());
+			user cordinator=new user();
+			cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+			session.setAttribute("cordinatorcor",cordinator);
+			url="/coordinatorspecificlist.jsp";
 		}
 //     	else if(action.equalsIgnoreCase("listSpecificevent")){//request.getParameter("id")
 //			ArrayList<Events> eventInDBs = new ArrayList<Events>();

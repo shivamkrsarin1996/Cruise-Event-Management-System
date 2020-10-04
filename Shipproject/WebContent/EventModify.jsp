@@ -67,7 +67,7 @@
     </tr>
     </table>
     <input name="action" value="Eventmanagermodifyevent" type="hidden">
-    <input type="submit" value="Submit">
+    <input type="submit" onclick="return confirm('Are you sure you want to modify this item?');"value="Submit">
     </form>
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">

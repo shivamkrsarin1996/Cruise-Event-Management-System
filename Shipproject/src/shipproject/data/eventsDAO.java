@@ -121,6 +121,9 @@ public class eventsDAO {
 	public static ArrayList<Events>  listevents() {  
 			return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid order by DATE,time,eventName");
 	}
+	public static ArrayList<Events>  listcorevents(int id) {  
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where managerid="+id+" order by DATE,time,eventName");
+}
 	public static ArrayList<Events> searchevent(int ids){
 		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idcreate="+ids);
 	}
