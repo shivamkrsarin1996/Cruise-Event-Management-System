@@ -144,7 +144,7 @@ public class eventsDAO {
 		return ReturnSimpleEventList("SELECT * FROM ship.events where idevents="+id);
 	}
 	public static boolean checkbook(int id,String date,String time,String time2) {
-		
+	
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where idevents="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
 		return emptycheck(query);
 	}
@@ -154,7 +154,7 @@ public class eventsDAO {
 		return emptycheck(query);
 	}
     public static boolean checkMbook(String id,String date,String time,String time2) {
-		
+	
 		String query=" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where managerid="+id+" and DATE='"+date+"' and time>='"+time+"' and time<='"+time2+"'";
 		return emptycheck(query);
 	}
@@ -164,6 +164,65 @@ public class eventsDAO {
 	return emptycheck(query);
 }
 
+	// For creating reservation
+	public static void createReservation(int reserveID, int createdEventID,int userID){
+		System.out.println("Inside create reservation method of EventDAO");
+		System.out.println("rId="+ reserveID + " evntId=" + createdEventID + " uid="+ userID);
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection();
+		try {
+			System.out.println("Inside try");
+			System.out.println("con="+conn);
+			stmt = conn.createStatement();
+			System.out.println("stmt created="+ stmt);
+			String registerevent ="INSERT INTO ship.reserve (idreserve, eventcreateid, userid) VALUES ('" +
+					reserveID + "','" + createdEventID + "','" + userID+"')";
+			System.out.println(registerevent);
+			System.out.println("before update");
+			stmt.executeUpdate(registerevent);
+			System.out.println("after execute update");
+			conn.commit();
+			System.out.println("Reservation created");
+			conn.close();
+		}
+		catch (SQLException e) {System.out.println("FAIL");}
+		//return ReturnSimpleEventList("SELECT * FROM ship.events where idevents="+id); */
+	}
+
+//to check if there is an existing Reservation with the same reservation id
+	public static int searchReservationId() {
 	
+		Statement stmt = null;
+		Connection conn = SQLConnection.getDBConnection(); 
+		int reservationID= 0;
+		try {
+			
+			stmt = conn.createStatement();
+			reservationID = (int)(Math.random()*10000);
+			String query = "SELECT * FROM ship.reserve where idreserve="+reservationID;
+			ResultSet ReservedEventList = stmt.executeQuery(query);
+			
+			while (ReservedEventList == null) {
+				reservationID = (int)(Math.random()*10000);
+				query = "SELECT * FROM ship.reserve where idreserve="+reservationID;
+				ReservedEventList = stmt.executeQuery(query);
+			}
+	
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return reservationID;
+	}
+	
+
+	
+	public static ArrayList<Events> searchEventbyUser(int userId){
+		System.out.println("in DAO func-searchEventbyUser");
+		String query = " SELECT * FROM events,ship.create,reserve,ship.user where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and reserve.userid = user.id_used and user.id_used="+userId;
+		System.out.println(query);
+		return ReturnMatchingCompaniesList(query);
+	}
 
 }
