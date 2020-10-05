@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import shipproject.data.eventsDAO;
+import shipproject.data.userDAO;
 import shipproject.model.Events;
 import shipproject.model.user;
 import shipproject.model.userErrorMsgs;
@@ -51,38 +52,69 @@ public class registerEventController extends HttpServlet{
 		userErrorMsgs UerrorMsgs=new userErrorMsgs();
 		session.removeAttribute("errorMsgs");
 		
-//List specific Event
+//Register specific Event
 		if (action.equalsIgnoreCase("registerSpecifiedEvent") )  { 
-			System.out.println("Registering event");
-			url="/reservation_confirmation.jsp";	
-	/*		ArrayList<Events> eventsInDB = new ArrayList<Events>();
-			Events selectedEvent = new Events();
-		/*	if (request.getParameter("radioCompany")!=null) {
-				selectedCompanyIndex = Integer.parseInt(request.getParameter("radioCompany")) - 1;
-				companyInDB=CompanyDAO.listCompanies(); 
-				selectedCompany.setCompany(	companyInDB.get(selectedCompanyIndex).getIdcompany(), companyInDB.get(selectedCompanyIndex).getCompany_name(), 
-						companyInDB.get(selectedCompanyIndex).getPhone(), companyInDB.get(selectedCompanyIndex).getEmail());
-				session.setAttribute("COMPANIES", selectedCompany);
-				url="/ListSpecificCompany.jsp";					
-			}	
-			else { // determine if Submit button was clicked without selecting a company
-				if (request.getParameter("ListSelectedCompanyButton")!=null) {
-					String errorMsgs =  "Please select a company";
-					session.setAttribute("errorMsgs",errorMsgs);
-					url="/listCompany.jsp";					
-				}
-				else { //view button was used instead of radio button
+			System.out.println("Registering event in controller");
+			
+			int reservationID = eventsDAO.searchReservationId();
+			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+			Events reservingEvent = new Events();
+			//eventsInDB=eventsDAO.searchEvents(request.getParameter("id"));
+			System.out.println("Reserve button clicked");
+			
+			
+			System.out.println("Reservation ID=" +reservationID);
+			int createdEventId = Integer.parseInt(request.getParameter("id"));
+				System.out.println("Event ID ="+ createdEventId);
+			int userId = Integer.parseInt(request.getParameter("userId"));
+				System.out.println("User ID ="+ userId);
 				
-					eventsInDB=eventsDAO.searchEvents(request.getParameter("id"));
+				
+		//		insert into reservation
+				eventsDAO.createReservation(reservationID, createdEventId, userId);
+
+			url="/reservation_confirmation.jsp";	
+			
+		}
+
+// view registerd events		
+		if (action.equalsIgnoreCase("psg_viewRegisteredEvent") )  { 
+			System.out.println("Controller-Viewing regsiterd event of the user");
+			ArrayList<Events> res_eventInDB = new ArrayList<Events>();
+			int userId = Integer.parseInt(request.getParameter("userId"));
+			System.out.println("User ID ="+ userId);
+			res_eventInDB=eventsDAO.searchEventbyUser(userId);
+			System.out.println(res_eventInDB);
+			session.setAttribute("REG_EVENTS", res_eventInDB);	
+
+			url="/psg_reserved_events.jsp";	
+		
+		}
+		
+		
+//Passenger - List specific Event 
+				else if (action.equalsIgnoreCase("psg_listSpecificEvent") )  { 
+					System.out.println("List specific company");
+					url="/psg_view_specific_event.jsp";	
+					ArrayList<Events> eventsInDB = new ArrayList<Events>();
+					Events selectedEvent = new Events();
+					eventsInDB=eventsDAO.psg_searchevent(Integer.parseInt(request.getParameter("id")));
 					System.out.println("View button clicked");
 					System.out.println("eventsInDb= "+eventsInDB);
-					System.out.println("eventsInDb= "+	eventsInDB.get(0).getIdevents());
-					
-					selectedEvent.setEvent(	eventsInDB.get(0).getIdevents(), eventsInDB.get(0).getEventName(), 
-							eventsInDB.get(0).getLocation(), eventsInDB.get(0).getCapacity(), 
-							eventsInDB.get(0).getDuration(), eventsInDB.get(0).getType());
+					System.out.println("eventsInDb= "+	eventsInDB.get(0).getId_event());
+					selectedEvent.setEvent(eventsInDB.get(0).getEventname(), eventsInDB.get(0).getLocation(),
+							eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
+							eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),
+							eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate(),eventsInDB.get(0).getEstCap());
+
 					session.setAttribute("EVENTS", selectedEvent);
-					url="/psg_view_specific_event.jsp";		*/			
+					
+					ArrayList<user> UserinDB=new ArrayList<user>();
+					UserinDB=userDAO.searchUserbyID(selectedEvent.getManagerid());
+					user cordinator=new user();
+					cordinator.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+					session.setAttribute("cordinator",cordinator);
+					url="/psg_view_specific_reg_event.jsp";					
 				}
 				
 	//	}
