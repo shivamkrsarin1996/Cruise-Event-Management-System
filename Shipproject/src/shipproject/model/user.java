@@ -1,8 +1,8 @@
 package shipproject.model;
 
 import java.io.Serializable;
-//import java.util.regex.Matcher;
-//import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import shipproject.data.userDAO;
 import shipproject.model.userErrorMsgs;
@@ -108,6 +108,118 @@ public class user implements Serializable {
 		this.deck_number=deck_number;
 	}
 	// validate actions
+	public void validateUpdateUser(String action,user user,userErrorMsgs UerrorMsgs) {
+		if(action.equalsIgnoreCase("updateProfile")) {
+			//errorMsgs.setUsernameError(validateUsername(user.getUsername()));
+			UerrorMsgs.setFirst_nameError(validateUpdateFirst_name(user.getFirst_name()));
+			UerrorMsgs.setLast_nameError(validateUpdateLast_name(user.getLast_name()));
+			//errorMsgs.setPasswordError(validatePassword(user.getPassword()));
+			//errorMsgs.setCpasswordError(validateCpassword(user.getCpassword(),user.getPassword()));
+			UerrorMsgs.setPhoneError(validateUpdatePhone(user.getPhone()));
+			UerrorMsgs.setEmailError(validateUpdateEmail(user.getEmail()));
+			UerrorMsgs.setDeck_numberError(validateUpdateDeck_number(user.getDeck_number()));
+			UerrorMsgs.setRoom_numberError(validateUpdateRoom_number(user.getRoom_number()));
+		}
+		UerrorMsgs.setErrorMsg();
+	}
+	// validations feature 
+	private String validateUpdateDeck_number(String deck_number) {
+		String result="";
+		if (!isTextAnInteger(deck_number)) {
+			result="Deck number must be a number";
+		}
+		else {
+			int inum = Integer.parseInt(deck_number);
+			if((inum<1)||(inum>15)) {
+				result="Deck number must be between 1(inclusive) and 15(inclusive)";
+			}
+		}
+		return result;
+	}
+	
+	private String validateUpdateRoom_number(String room_number) {
+		String result="";
+		if (!isTextAnInteger(room_number)) {
+			result="Room number must be a number";
+		}
+		else {
+			int inum = Integer.parseInt(room_number);
+			if((inum<100)||(inum>199)) {
+				result="Room number must be between 100(inclusive) and 200(not inclusive)";
+			}
+		}
+		return result;
+	}
+	
+			
+	
+	private String validateUpdateLast_name(String last_name) {
+		String result="";
+		if (!stringSize(last_name,3,29))
+			result="Last Name must be between 2(not inclusive) and 30(not inclusive) characters long";
+		else if(!Character.isUpperCase(last_name.charAt(0))) {
+			result="First Letter must be Capital";
+		}
+		else{
+			int m=last_name.length();
+			int i=0;
+			while(i<m&&result.equals("")) {
+				if(!Character.isLetter(last_name.charAt(i))) {
+					result="Last Name cannot have numbers or special charectors";
+				}
+				i++;
+			}
+		}
+		return result;
+	}
+	private String validateUpdateFirst_name(String first_name) {
+		String result="";
+		if (!stringSize(first_name,3,29))
+			result="First Name must be between 2(not inclusive) and 30 characters long";
+		else if(!Character.isUpperCase(first_name.charAt(0))) {
+			result="First Letter must be Capital";
+		}
+		else{
+			int m=first_name.length();
+			int i=0;
+			while(i<m&&result.equals("")) {
+				if(!Character.isLetter(first_name.charAt(i))) {
+					result="First name cannot have numbers or special charectors";
+				}
+				i++;
+			}
+		}
+		return result;
+	}
+	
+	private String validateUpdatePhone(String phone) {
+		String result="";
+		if (phone.length()!=10)
+			result="Phone number must be 10 digits in length";
+		else
+			if (!isTextAnInteger(phone))
+				result="Phone number must be a number";
+		return result;		
+	}
+	
+	private String validateUpdateEmail(String email) {
+		String result="",extension="";
+		if (!email.contains("@"))
+			result = "Email address needs to contain @";
+		else
+			if (!stringSize(email,7,45))
+				result="Email address must be between 7 and 45 characters long";
+			else {
+				extension = email.substring(email.length()-4, email.length());
+				if (!extension.equals(".org") && !extension.equals(".edu") && !extension.equals(".com") 
+						&& !extension.equals(".net") && !extension.equals(".gov") && !extension.equals(".mil"))
+					result = "Invalid domain name";	
+			}
+		return result;
+	}
+
+
+	
 	public void validateUser(String action,user user,userErrorMsgs errorMsgs) {
 		if(action.equalsIgnoreCase("registerUser")) {
 			errorMsgs.setUsernameError(validateUsername(user.getUsername()));
@@ -232,37 +344,13 @@ public class user implements Serializable {
 		if(!stringSize(password,8,29))
 			result="Password must be between 7(not inclusive) and 30 characters long";
 		else {
-			String uppercase="(.*[A-Z].*)";
-			if(!password.matches(uppercase)) {
-				result="Password should contain atleast one upper case alphabet";
-			}
-			else {
-				String lowercase="(.*[a-z].*)";
-				if(!password.matches(lowercase)) {
-					result="Password should contain atleast one lower case alphabet";
-				}
-				else {
-					String numbers="(.*[0-9].*)";
-					if(!password.matches(numbers)) {
-						result="Password should contain atleast one number.";
-					}
-					else {
-						String specialchar="(.*[.,~,!,@,#,$,%,^,&,*,(,),-,_,=,+,?].*)";
-						if(!password.matches(specialchar)) {
-							result="Password should contain atleast one special character";
-						}
-					}
-				}
-			}
+			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
+			Pattern p = Pattern.compile(regex);
+			Matcher m = p.matcher(password);
+			if(!m.matches()) {
+				result="Password must have a number,upper case letter,lower case letter and special character";
+			}	
 		}
-//		else {
-//			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
-//			Pattern p = Pattern.compile(regex);
-//			Matcher m = p.matcher(password);
-//			if(!m.matches()) {
-//				result="Password must have a number,upper case letter,lower case letter and special character";
-//			}	
-//		}
 		return result;
 	}
 	
@@ -291,7 +379,6 @@ public class user implements Serializable {
 			}
 		return result;
 	}
-
 //	This section is for general purpose methods used internally in this class
 	
 	private boolean stringSize(String string, int min, int max) {
@@ -309,5 +396,15 @@ public class user implements Serializable {
             result=false;
         }
 		return result;
+	}
+	public void setUser1(String first_name, String last_name, String phone,String email,String room_number,String deck_number) {
+		
+		setFirst_name(first_name);
+		setLast_name(last_name);
+		setPhone(phone);
+		setEmail(email);
+		setRoom_number(room_number);
+		setDeck_number(deck_number);
+	
 	}
 }
