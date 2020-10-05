@@ -6,8 +6,12 @@
 <title>Login</title>
 <link rel="stylesheet" href="style.css">
 </head>
+  <div class="regHeader">
+    <div class="logo"><h1><a href="<c:url value='/'  />">Ship project</a></h1></div>
+    <div class="menu_nav">
+    </div>
+  </div>
 <body>
-<h1>Ship project</h1>
 <input name="errMsg"  value="<c:out value='${errorMs.cpasswordError}'/>" class="error">
 <input name="errMsg"  value="<c:out value='${errorMs.usernameError}'/>" class="errorPane">
 <form name="loginForm" action="<c:url value='/userController?login'/>" method="post">

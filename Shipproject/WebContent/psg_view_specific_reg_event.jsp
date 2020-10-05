@@ -74,7 +74,7 @@
     </td>
     </tr>	
     </table>  
-    <input name="ReserveEventButton" type="submit" value="Reserve Event">
+  <!--   <input name="ReserveEventButton" type="submit" value="Reserve Event">	-->
     </div>
     </form>
     <form name="logout" action="<c:url value='/userController?logout'/>" method="post">

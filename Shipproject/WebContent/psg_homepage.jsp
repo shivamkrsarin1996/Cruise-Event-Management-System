@@ -12,7 +12,7 @@
 		</header>
 		<ul>	
 	          <li><a href="<c:url value='/eventController?action=psg_view_all_events' />"><span>View All Events</span></a></li>
-	          <br><li><a href="<c:url value='/psg_reserved_events.jsp' />"><span>View my reservations</span></a></li>  
+	          <br><li><a href="<c:url value='/registerEventController?action=psg_viewRegisteredEvent&userId=${loginU.id_user}' />"><span>View my reservations</span></a></li>  
 	          <br><li><a href="<c:url value='/psg_info.jsp' />"><span>View profile</span></a></li>
 	          <br><li><a href="<c:url value='/eventController?action=redirectPagedatetime'/>"><span>View Event Summary</span></a></li> 
 		</ul>
