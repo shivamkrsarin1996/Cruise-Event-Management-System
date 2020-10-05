@@ -1,8 +1,8 @@
 package shipproject.model;
 
 import java.io.Serializable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+//import java.util.regex.Matcher;
+//import java.util.regex.Pattern;
 
 import shipproject.data.userDAO;
 import shipproject.model.userErrorMsgs;
@@ -232,13 +232,37 @@ public class user implements Serializable {
 		if(!stringSize(password,8,29))
 			result="Password must be between 7(not inclusive) and 30 characters long";
 		else {
-			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
-			Pattern p = Pattern.compile(regex);
-			Matcher m = p.matcher(password);
-			if(!m.matches()) {
-				result="Password must have a number,upper case letter,lower case letter and special character";
-			}	
+			String uppercase="(.*[A-Z].*)";
+			if(!password.matches(uppercase)) {
+				result="Password should contain atleast one upper case alphabet";
+			}
+			else {
+				String lowercase="(.*[a-z].*)";
+				if(!password.matches(lowercase)) {
+					result="Password should contain atleast one lower case alphabet";
+				}
+				else {
+					String numbers="(.*[0-9].*)";
+					if(!password.matches(numbers)) {
+						result="Password should contain atleast one number.";
+					}
+					else {
+						String specialchar="(.*[.,~,!,@,#,$,%,^,&,*,(,),-,_,=,+,?].*)";
+						if(!password.matches(specialchar)) {
+							result="Password should contain atleast one special character";
+						}
+					}
+				}
+			}
 		}
+//		else {
+//			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
+//			Pattern p = Pattern.compile(regex);
+//			Matcher m = p.matcher(password);
+//			if(!m.matches()) {
+//				result="Password must have a number,upper case letter,lower case letter and special character";
+//			}	
+//		}
 		return result;
 	}
 	
