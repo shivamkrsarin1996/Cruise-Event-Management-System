@@ -12,9 +12,9 @@
     </div>
   </div>					
   <body>
-  <form action="<c:url value='registerEventController?action=registerSpecifiedEvent&id=${EVENTS.idcreate}&userId=${loginU.id_user}&event_type=${EVENTS.type}&event_date=${EVENTS.date}&evnt_capacity=${EVENTS.capacity}&evnt_Name=${EVENTS.eventname}' />" method="post">
+  <form action="<c:url value='registerEventController?action=registerSpecifiedEvent&id=${EVENTS.idcreate}'/>" method="post">
     <div class="bodyreg">
-   
+   <input name="errMsg"  value="<c:out value='${andy3.errorMsg}'/>" class="errorPane">
   <table>
       <tr>
        <td>

@@ -41,6 +41,7 @@ public class eventController extends HttpServlet {
 		String action = request.getParameter("action");
 		session.removeAttribute("cordinator");//Msgs
 		session.removeAttribute("dateevent");
+		session.removeAttribute("andy3");
 //Event Manger - View List of events
 		if (action.equalsIgnoreCase("eventmanagereventlist")) {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();

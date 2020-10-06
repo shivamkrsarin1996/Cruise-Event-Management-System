@@ -45,6 +45,7 @@ public class userController extends HttpServlet {
 		session.removeAttribute("errorMs");
 		session.removeAttribute("andy");
 		session.removeAttribute("andy2");
+		session.removeAttribute("andy3");
 		if(action.equalsIgnoreCase("registerUser")) {
 			getUserParam(request,user);
 			user.setCpassword(request.getParameter("cpassword"));
