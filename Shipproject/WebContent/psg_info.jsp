@@ -13,6 +13,7 @@
   </div>					
   <body>
     <div class="bodyreg">
+    <input name="errMsg"  value="<c:out value='${andy2.cpasswordError}'/>" class="error">
     <table>
       <tr>
        <td>
@@ -59,6 +60,9 @@
     </td>
     </tr>
     </table>
+    <form action="<c:url value='/psg_updateinfo.jsp'/>" >
+    <input type="submit" value="Update profile" />
+</form>
     <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
     <input type="submit" value="logout" />

@@ -1,10 +1,8 @@
 package shipproject.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +14,7 @@ import shipproject.model.user;
 import shipproject.model.userErrorMsgs;
 import shipproject.data.userDAO;
 
+
 /**
  * Servlet implementation class userController
  */
@@ -26,13 +25,7 @@ public class userController extends HttpServlet {
     private void getUserParam(HttpServletRequest request, user user) {
     	user.setUser(request.getParameter("username"), request.getParameter("firstname"), request.getParameter("lastname"), request.getParameter("password"), "passenger", request.getParameter("phone"),request.getParameter("email"), request.getParameter("memtype"), request.getParameter("roomNumber"), request.getParameter("deckNumber"));
     }
-    
 
-	private void getUserParam1(HttpServletRequest request, user user) {
-		// TODO Auto-generated method stub
-		user.setUser1(request.getParameter("firstname"), request.getParameter("lastname"), request.getParameter("phone"),
-				request.getParameter("email"),  request.getParameter("roomNumber"), request.getParameter("deckNumber"));
-	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -45,15 +38,13 @@ public class userController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action"), url="";
-		String username=request.getParameter("username");
-		String email=request.getParameter("email");
-		
-		userDAO dao=new userDAO();
 		HttpSession session = request.getSession();
 		user user=new user();
 		userErrorMsgs UerrorMsgs=new userErrorMsgs();
 		session.removeAttribute("errorMsgs");//
 		session.removeAttribute("errorMs");
+		session.removeAttribute("andy");
+		session.removeAttribute("andy2");
 		if(action.equalsIgnoreCase("registerUser")) {
 			getUserParam(request,user);
 			user.setCpassword(request.getParameter("cpassword"));
@@ -124,40 +115,38 @@ public class userController extends HttpServlet {
 				}
 			}
 		}
-		
-		else if(action.equalsIgnoreCase("updateProfile"))
-		{
-				
-				getUserParam1(request,user);
-				//user.setCpassword(request.getParameter("cpassword"));
-				//String rpwd=user.getCpassword();
-				user.validateUpdateUser(action, user, UerrorMsgs);
-				session.setAttribute("user", user);
-			if(!UerrorMsgs.getErrorMsg().equals(""))
-			  {
-					getUserParam1(request,user);
-					//user.setCpassword(rpwd);
-					session.setAttribute("errorMsgs",UerrorMsgs);
-					url="/psg_updateinfo.jsp";
-				}
-			else 
-			{
-			PrintWriter write=response.getWriter();
-			user us = new user();
-			//us.setUsername(request.getParameter("username"));
-			us.setFirst_name(request.getParameter("first_name"));
-			us.setLast_name(request.getParameter("last_name"));
-			us.setPhone(request.getParameter("phone"));
-			us.setEmail(request.getParameter("email"));
-			us.setRoom_number(request.getParameter("room_number"));
-			us.setDeck_number(request.getParameter("deck_number"));
+		else if(action.equalsIgnoreCase("updateProfile")) {
+			user loginU=(user) session.getAttribute("loginU");
+			String pass=request.getParameter("password");
+			String first=request.getParameter("firstname");
+			String last=request.getParameter("lastname");
+			String phone=request.getParameter("phone");
+			String email=request.getParameter("email");
+			String room=request.getParameter("roomNumber");
+			String deck=request.getParameter("deckNumber");
+			String mem=request.getParameter("memtype");
+			user.validateChange(action, loginU, UerrorMsgs, first, last, pass, email, mem, phone, deck, room);
+			if(!UerrorMsgs.getErrorMsg().equals("")) {
+				session.setAttribute("andy",UerrorMsgs);
+				url="/psg_updateinfo.jsp";
+			}
+			else {
+				loginU.setFirst_name(first);
+				loginU.setLast_name(last);
+				loginU.setPassword(pass);
+				loginU.setPhone(phone);
+				loginU.setEmail(email);
+				loginU.setRoom_number(room);
+				loginU.setDeck_number(deck);
+				loginU.setMemtype(mem);
+				session.setAttribute("loginU", loginU);
+				userDAO.updateuser(loginU, first, last, pass, email, mem, phone, deck, room);
+				UerrorMsgs.setCpasswordError("Updated Successfully");
+				session.setAttribute("andy2",UerrorMsgs);
+				url="/psg_info.jsp";
+			}
 			
-			dao.updateProfile(us);
-			request.setAttribute("username", username);
-			RequestDispatcher rd=request.getRequestDispatcher("/psg_homepage.jsp");
-			rd.include(request, response);
-			write.print("<br><font color=green>profile update successfully</font>");
-		}
+			
 		}
 		else if(action.equalsIgnoreCase("logout")) {
 			session.removeAttribute("loginU");
@@ -168,7 +157,5 @@ public class userController extends HttpServlet {
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
-
-
 
 }

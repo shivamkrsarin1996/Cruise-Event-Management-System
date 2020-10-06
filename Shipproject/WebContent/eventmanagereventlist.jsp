@@ -34,7 +34,11 @@
 			<td class="myTable35 "><c:out value="${item.date}" /></td>
 			<td class="myTable20 "><c:out value="${item.time}" /></td>
 			<td class="myTable20 "><c:out value="${item.type}" /></td>
-            <td> <a href="<c:url value='/eventController?action=listSpecificevent&id=${item.idcreate}' />">View</a></td>
+			<c:url value='' var="itemDetailsURL">
+			<c:param name="action" value="listSpecificevent"/>
+			<c:param name="id" value="${item.idcreate}"/>
+			</c:url>
+            <td> <a href="<c:url value="${itemDetailsURL}" />">View</a></td>
 			</tr>
 		   </c:forEach>
  </table>

@@ -2,7 +2,6 @@ package shipproject.data;
 
 import shipproject.util.SQLConnection;
 
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -90,25 +89,18 @@ public class userDAO {
 					+user.getEmail()+"','"
 					+Integer.parseInt(user.getRoom_number())+"')";
 			stmt.executeUpdate(insert);
-			//System.out.println("username="+user.getUsername()+"");
 			conn.commit();
 		}catch(SQLException e) {}
 	}
-	
-	public  void updateProfile(user user) {
+	public static void updateuser(user user,String first,String last, String pass,String email,String mem,String phone,String deck,String room) {
 		Statement stmt = null;
 		Connection conn = SQLConnection.getDBConnection();
 		try {
 			stmt = conn.createStatement();
-			String updateUser = "UPDATE user SET first_name='"+user.getFirst_name()+"',last_name='"+user.getLast_name()+"',phone='"+user.getPhone()+"',email='"+user.getEmail()+"',room_number='"+user.getRoom_number()+"',decknumber='"+user.getDeck_number()+"' where username='"+user.getUsername()+"'";				
-			stmt.execute(updateUser);
-			//System.out.println("email="+user.getEmail()+"");
-			conn.commit(); 
-		} catch (SQLException e) {
-			
-		}			
-	
-					
+			String update="update ship.user set first_name='"+first+"',last_name='"+last+"',password='"+pass+"',email='"+email+
+					"',memtype='"+mem+"',phone='"+phone+"',decknumber="+deck+", room_number="+room+" where id_used="+user.getId_user();
+			stmt.executeUpdate(update);
+			conn.commit();
+		}catch(SQLException e) {System.out.println("FAIL");}
 	}
-		
 }
