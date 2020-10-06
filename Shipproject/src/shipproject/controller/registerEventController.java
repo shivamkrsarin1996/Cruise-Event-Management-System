@@ -54,6 +54,10 @@ public class registerEventController extends HttpServlet{
 		
 //Register specific Event
 		if (action.equalsIgnoreCase("registerSpecifiedEvent") )  { 
+	
+	//checking for validation for no. of events		
+			boolean checkCount = checkforEventValidation(request);
+		if (checkCount == true) {
 			System.out.println("Registering event in controller");
 			
 			int reservationID = eventsDAO.searchReservationId();
@@ -74,7 +78,12 @@ public class registerEventController extends HttpServlet{
 				eventsDAO.createReservation(reservationID, createdEventId, userId);
 
 			url="/reservation_confirmation.jsp";	
-			
+			}
+		else 
+		{
+			System.out.println("Limit exceeded");
+			url="/psg_view_specific_event.jsp";	
+		}
 		}
 
 // view registerd events		
@@ -121,6 +130,32 @@ public class registerEventController extends HttpServlet{
 	
 	
 		getServletContext().getRequestDispatcher(url).forward(request, response);
+	}
+
+
+	private boolean checkforEventValidation(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		boolean status = true;
+		System.out.println("In checkforEventValidation");
+		String eventType = request.getParameter("event_type");
+		System.out.println("Event type ="+ eventType);
+		String eventDate = request.getParameter("event_date");
+		System.out.println("Event Date ="+ eventDate);
+		int userId = Integer.parseInt(request.getParameter("userId"));
+		System.out.println("User ID ="+ userId);
+		
+		ArrayList<Events> val_eventsInDB = new ArrayList<Events>();
+		val_eventsInDB=eventsDAO.countReservedEventsForUser(eventType, eventDate, userId);
+		System.out.println("events result size="+ val_eventsInDB.size());
+		if (eventType.equalsIgnoreCase("Athletic")) {
+			if(val_eventsInDB.size() > 2)
+			{ status = false;}
+		}
+		else if (eventType.equalsIgnoreCase("Show")) {
+			if(val_eventsInDB.size() > 1)
+			{ status = false;}
+		}
+		return status;
 	}
 
 

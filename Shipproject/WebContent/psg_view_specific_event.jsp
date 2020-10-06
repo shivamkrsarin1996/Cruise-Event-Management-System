@@ -12,7 +12,7 @@
     </div>
   </div>					
   <body>
-  <form action="<c:url value='registerEventController?action=registerSpecifiedEvent&id=${EVENTS.idcreate}&userId=${loginU.id_user}' />" method="post">
+  <form action="<c:url value='registerEventController?action=registerSpecifiedEvent&id=${EVENTS.idcreate}&userId=${loginU.id_user}&event_type=${EVENTS.type}&event_date=${EVENTS.date}' />" method="post">
     <div class="bodyreg">
    
   <table>

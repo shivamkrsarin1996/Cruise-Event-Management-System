@@ -224,5 +224,15 @@ public class eventsDAO {
 		System.out.println(query);
 		return ReturnMatchingCompaniesList(query);
 	}
+	
+	public static ArrayList<Events> countReservedEventsForUser(String eventType, String eventDate, int userId) {
+		// TODO Auto-generated method stub
+		System.out.println("in eDAO func-countReservedEventsForUser");
+		String query ="SELECT * FROM events,ship.create,reserve,ship.user where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and reserve.userid = user.id_used and user.id_used=" + userId + " and events.Type ='" + eventType +"' and ship.create.DATE ='" +eventDate + "'";
+
+		System.out.println(query);
+		return ReturnMatchingCompaniesList(query);
+		
+	}
 
 }
