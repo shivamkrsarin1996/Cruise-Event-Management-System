@@ -141,6 +141,14 @@ public class user implements Serializable {
 			result="No modifications has been made";
 		}
 		else {
+			System.out.println(mem+"1");
+			System.out.println(user.getMemtype()+"1");
+			System.out.println(phone+"1");
+			System.out.println(user.getPhone()+"1");
+			System.out.println(deck+"1");
+			System.out.println(user.getDeck_number()+"1");
+			System.out.println(room+"1");
+			System.out.println(user.getRoom_number()+"1");
 			System.out.println("Retest");
 		}
 		return result;
