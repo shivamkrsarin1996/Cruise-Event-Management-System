@@ -234,5 +234,15 @@ public class eventsDAO {
 		return ReturnMatchingCompaniesList(query);
 		
 	}
+	public static ArrayList<Events> fetchCapacity(String eventDate, String eventName) {
+		// TODO Auto-generated method stub
+		System.out.println("in eDAO func-fetchCapacity");
+		System.out.println("date= " + eventDate);
+		System.out.println("Event Name= " + eventName);
+		String query = "SELECT * FROM events,ship.create,reserve where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and events.eventName= '"+eventName +"' and ship.create.DATE = '"+ eventDate +"'";	
+		System.out.println(query);
+		return ReturnMatchingCompaniesList(query);
+		
+	}
 
 }

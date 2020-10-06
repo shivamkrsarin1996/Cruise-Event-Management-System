@@ -55,9 +55,10 @@ public class registerEventController extends HttpServlet{
 //Register specific Event
 		if (action.equalsIgnoreCase("registerSpecifiedEvent") )  { 
 	
-	//checking for validation for no. of events		
-			boolean checkCount = checkforEventValidation(request);
-		if (checkCount == true) {
+	//checking for validation for no. of events	
+					boolean checkCount = checkforEventValidation(request);
+					
+		if (checkCount) {
 			System.out.println("Registering event in controller");
 			
 			int reservationID = eventsDAO.searchReservationId();
@@ -135,15 +136,35 @@ public class registerEventController extends HttpServlet{
 
 	private boolean checkforEventValidation(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		boolean status = true;
 		System.out.println("In checkforEventValidation");
+		boolean status = true;
+		int createdEventId = Integer.parseInt(request.getParameter("id"));
+		System.out.println("Event ID ="+ createdEventId);
+		
 		String eventType = request.getParameter("event_type");
 		System.out.println("Event type ="+ eventType);
 		String eventDate = request.getParameter("event_date");
 		System.out.println("Event Date ="+ eventDate);
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		System.out.println("User ID ="+ userId);
+		int eventCapacity = Integer.parseInt(request.getParameter("evnt_capacity"));
+		System.out.println("Event capacity ="+ eventCapacity);
+		String eventName = request.getParameter("evnt_Name");
+		System.out.println("Event name ="+ eventName);
 		
+		
+		
+	//for checking estimated < capacity
+		ArrayList<Events> attendees_eventsInDB = new ArrayList<Events>();
+		attendees_eventsInDB = eventsDAO.fetchCapacity(eventDate, eventName);
+		System.out.println("capacity of events result size="+ attendees_eventsInDB.size());
+		if (attendees_eventsInDB.size() >= eventCapacity)
+		{
+			return false;
+		}
+		
+		
+	// for checking count of Athletic and show event
 		ArrayList<Events> val_eventsInDB = new ArrayList<Events>();
 		val_eventsInDB=eventsDAO.countReservedEventsForUser(eventType, eventDate, userId);
 		System.out.println("events result size="+ val_eventsInDB.size());
