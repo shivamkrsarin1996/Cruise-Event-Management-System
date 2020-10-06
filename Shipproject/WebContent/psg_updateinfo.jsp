@@ -72,7 +72,7 @@
         <tr>
         <td>Change Membership Type</td>
         <td><select name="memtype">
-        <option value="<c:out value="${loginU.memtype}" /> ">No change</option>
+        <option value="<c:out value="${loginU.memtype}"/>">No change</option>
         <option value="none">None</option>
         <option value="standard">Standard</option>
         <option value="superior">Superior</option>
