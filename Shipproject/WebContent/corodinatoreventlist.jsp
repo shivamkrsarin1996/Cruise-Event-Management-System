@@ -26,7 +26,7 @@
 				<th class="myTable30">Action</th> 
 			</tr>
 
- 			<c:forEach items="${EVENTScor}" var="item" varStatus="status">
+ 			<c:forEach items="${andyEVENTScor}" var="item" varStatus="status">
 			<tr class="myTableRow">
 			<td class="myTable20 "><c:out value="${item.eventname}" /></td>
 			<td class="myTable20 "><c:out value="${item.location}" /></td>

@@ -9,7 +9,7 @@
    
     
 <body>
-   <div><h1><a href="<c:url value='/corodinorhomepage.jsp' />">Event Coordinator</a></h1></div>
+   <div><h1><a href="<c:url value='/corodinatoreventlist.jsp' />">Event Coordinator</a></h1></div>
     <h2> Selected Event</h2>
     <input name="errMsg"  value="<c:out value='${success.errorMsg}'/>" class="error">
 

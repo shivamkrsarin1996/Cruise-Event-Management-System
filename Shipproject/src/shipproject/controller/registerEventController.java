@@ -78,7 +78,9 @@ public class registerEventController extends HttpServlet{
 		if (action.equalsIgnoreCase("psg_viewRegisteredEvent") )  { 
 			System.out.println("Controller-Viewing regsiterd event of the user");
 			ArrayList<Events> res_eventInDB = new ArrayList<Events>();
-			int userId = Integer.parseInt(request.getParameter("userId"));
+			user luser=new user();
+			luser= (user) session.getAttribute("loginU");
+			int userId = luser.getId_user();
 			System.out.println("User ID ="+ userId);
 			res_eventInDB=eventsDAO.searchEventbyUser(userId);
 			System.out.println(res_eventInDB);

@@ -7,12 +7,11 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <div class="regHeader">
-      <div class="logo"><h1><a href="<c:url value='/psg_view_all_events.jsp' />">Event Details</a></h1></div>
+      <div class="logo"><h1><a href="<c:url value='/psg_reserved_events.jsp' />">Event Details</a></h1></div>
   <div class="menu_nav">
     </div>
   </div>					
   <body>
-  <form action="<c:url value='registerEventController?action=registerSpecifiedEvent&id=${EVENTS.idcreate}&userId=${loginU.id_user}' />" method="post">
     <div class="bodyreg">
    
   <table>
@@ -76,7 +75,7 @@
     </table>  
   <!--   <input name="ReserveEventButton" type="submit" value="Reserve Event">	-->
     </div>
-    </form>
+
     <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
     <input type="submit" value="logout" />

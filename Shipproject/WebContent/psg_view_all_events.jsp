@@ -27,7 +27,7 @@
 			<!-- 	<th class="myTable30">Est Attendees</th> -->
 			</tr>
 
- 		<c:forEach items="${EVENTS}" var="event" varStatus="status">
+ 		<c:forEach items="${andyEVENTS}" var="event" varStatus="status">
 			<tr class="myTableRow">
 		<%-- 	<td class="myTable20 "><c:out value="${event.idevents}" /></td> --%>
 			<td class="myTable35 "><c:out value="${event.eventname}" /></td>

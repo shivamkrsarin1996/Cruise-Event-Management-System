@@ -46,7 +46,7 @@ public class eventController extends HttpServlet {
 		if (action.equalsIgnoreCase("eventmanagereventlist")) {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB= eventsDAO.listevents();
-			session.setAttribute("EVENTS", eventInDB);			
+			session.setAttribute("andy0EVENTS", eventInDB);			
 			getServletContext().getRequestDispatcher("/eventmanagereventlist.jsp").forward(request, response);
 		}
 		
@@ -57,7 +57,7 @@ public class eventController extends HttpServlet {
 		//	System.out.println("events in DB="+eventsInDB);
 			eventsInDB=eventsDAO.listevents();
 		//	System.out.println("events in DB after query="+eventsInDB);
-			session.setAttribute("EVENTS", eventsInDB);				
+			session.setAttribute("andyEVENTS", eventsInDB);				
 			getServletContext().getRequestDispatcher("/psg_view_all_events.jsp").forward(request, response);
 		}
 		else 		
@@ -208,6 +208,26 @@ public class eventController extends HttpServlet {
 			session.setAttribute("dateevent",dateevent);
 			url="/dateselect.jsp";
 		}
+		else if(action.equalsIgnoreCase("redirectPageTypedatetime")) {
+			session.removeAttribute("success");
+			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String currentTime =new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+			Events dateevent = new Events();
+			dateevent.setDate(currentdate);
+			dateevent.setTime(currentTime);
+			session.setAttribute("dateeventandy",dateevent);
+			url="/datetypeselect.jsp";
+		}
+		else if(action.equalsIgnoreCase("redirectPagedatetimeAssigned")) {
+			session.removeAttribute("success");
+			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+			String currentTime =new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+			Events dateevent = new Events();
+			dateevent.setDate(currentdate);
+			dateevent.setTime(currentTime);
+			session.setAttribute("dateeventandy2",dateevent);
+			url="/datetypeselectassigned.jsp";
+		}
 		else if(action.equalsIgnoreCase("redirectAssignCor")) {
 			session.removeAttribute("success");
 			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
@@ -231,6 +251,58 @@ public class eventController extends HttpServlet {
 			session.setAttribute("create", create);
 			url="/Eventmanagercreateevent.jsp";
 		}
+		else if(action.equalsIgnoreCase("eventAssignedSearch")) {
+			session.removeAttribute("success");
+			String date=request.getParameter("date");
+			String time=request.getParameter("time");
+			user loginU=(user) session.getAttribute("loginU");
+			Events datecheck=new Events();
+			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+			datecheck.setDate(date);
+			datecheck.setTime(time);
+			datecheck.setManagerid(Integer.toString(loginU.getId_user()));
+			datecheck.validateEvent(action, datecheck, errorMsg);
+			if(!errorMsg.getErrorMsg().equals("")) {
+				url="/datetypeselectassigned.jsp";
+				datecheck.setTime(time);
+				session.setAttribute("dateeventandy2",datecheck);
+				session.setAttribute("Msgs",errorMsg);
+				
+			}
+			else {
+				ArrayList<Events> eventInDB = new ArrayList<Events>();
+				eventInDB=eventsDAO.searcheventbydateassigned(date, time,loginU.getId_user());
+				eventInDB.addAll(eventsDAO.searchgreaterdateassigned(date,loginU.getId_user()));
+				session.setAttribute("andyEVENTScor", eventInDB);
+				url="/corodinatoreventlist.jsp";
+			}
+		}
+		else if(action.equalsIgnoreCase("eventtypeSearch")) {
+			session.removeAttribute("success");
+			String date=request.getParameter("date");
+			String time=request.getParameter("time");
+			String type=request.getParameter("type");
+			Events datecheck=new Events();
+			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+			datecheck.setDate(date);
+			datecheck.setTime(time);
+			datecheck.setType(type);
+			datecheck.validateEvent(action, datecheck, errorMsg);
+			if(!errorMsg.getErrorMsg().equals("")) {
+				url="/datetypeselect.jsp";
+				datecheck.setTime(time);
+				session.setAttribute("dateeventandy",datecheck);
+				session.setAttribute("Msgs",errorMsg);
+			}
+			else {
+				ArrayList<Events> eventInDB = new ArrayList<Events>();
+				eventInDB=eventsDAO.searcheventbydatetype(date, time,type);
+				eventInDB.addAll(eventsDAO.searchgreaterdatetype(date,type));
+				session.setAttribute("andyEVENTS", eventInDB);
+				url="/psg_view_all_events.jsp";
+				
+			}
+		}
 		else if(action.equalsIgnoreCase("eventSearch")) {
 			session.removeAttribute("success");
 			String date=request.getParameter("date");
@@ -250,8 +322,10 @@ public class eventController extends HttpServlet {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB=eventsDAO.searcheventbydate(date, time);
 			eventInDB.addAll(eventsDAO.searchgreaterdate(date));
+			session.setAttribute("andyEVENTS", eventInDB);
 			session.setAttribute("EVENTS", eventInDB);
-			session.setAttribute("EVENTScor", eventInDB);
+			session.setAttribute("andy0EVENTS", eventInDB);
+			session.setAttribute("andyEVENTScor", eventInDB);
 			user loginU=(user) session.getAttribute("loginU");
 			if(loginU.getRole().equalsIgnoreCase("passenger")) {
 				url="/psg_view_all_events.jsp";
@@ -267,15 +341,16 @@ public class eventController extends HttpServlet {
 		else if(action.equalsIgnoreCase("eventcorlist")){
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB= eventsDAO.listevents();
-			session.setAttribute("EVENTScor", eventInDB);			
+			session.setAttribute("andyEVENTScor", eventInDB);			
 			url="/corodinatoreventlist.jsp";
 		
 		}
 		else if(action.equalsIgnoreCase("eventassignedtlist")){
-			int id=Integer.parseInt(request.getParameter("id"));
+			user loginU=(user) session.getAttribute("loginU");
+			int id=loginU.getId_user();
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB= eventsDAO.listcorevents(id);
-			session.setAttribute("EVENTScor", eventInDB);			
+			session.setAttribute("andyEVENTScor", eventInDB);			
 			url="/corodinatoreventlist.jsp";
 		}
 		else if(action.equalsIgnoreCase("listcorSpecificevent")) {

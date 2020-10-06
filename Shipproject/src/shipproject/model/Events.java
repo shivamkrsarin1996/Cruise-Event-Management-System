@@ -128,6 +128,12 @@ public class Events implements Serializable{
 		if(action.equalsIgnoreCase("eventSearch")) {
 			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
 		}
+		else if(action.equalsIgnoreCase("eventtypeSearch")) {
+			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
+		}
+		else if(action.equalsIgnoreCase("eventAssignedSearch")) {
+			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
+		}
 		else if(action.equals("Eventmanagercreateevent")) {
 			errorMsg.setDate(validateDate(event.getDate(),event.getTime()));
 			errorMsg.setTime(validateDate(event.getDate(),event.getTime()));

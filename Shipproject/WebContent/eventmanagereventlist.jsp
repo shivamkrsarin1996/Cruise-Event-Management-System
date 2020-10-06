@@ -26,7 +26,7 @@
 				<th class="myTable30">Action</th> 
 			</tr>
 
- 			<c:forEach items="${EVENTS}" var="item" varStatus="status">
+ 			<c:forEach items="${andy0EVENTS}" var="item" varStatus="status">
 			<tr class="myTableRow">
 			<td class="myTableRadio"><input type="radio" id="radioCompany${status.count}" name="radioCompany" value="<c:out value="${status.count}" />"></td> 	
 			<td class="myTable20 "><c:out value="${item.eventname}" /></td>

@@ -134,8 +134,20 @@ public class eventsDAO {
 	public static ArrayList<Events> searcheventbydate(String date,String time){
 		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' order by time,eventName");
 	}
+	public static ArrayList<Events> searcheventbydatetype(String date,String time,String type){
+		return ReturnMatchingCompaniesList("SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' and Type='"+type+"' order by time,eventName");
+	}
 	public static ArrayList<Events> searchgreaterdate(String date){
 		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' order by DATE,time,eventName");
+	}
+	public static ArrayList<Events> searchgreaterdatetype(String date,String type){
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' and Type='"+type+"' order by DATE,time,eventName");
+	}
+	public static ArrayList<Events> searcheventbydateassigned(String date,String time,int id){
+		return ReturnMatchingCompaniesList("SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' and managerid="+id+" order by time,eventName");
+	}
+	public static ArrayList<Events> searchgreaterdateassigned(String date,int id){
+		return ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' and managerid="+id+" order by DATE,time,eventName");
 	}
 	public static ArrayList<Events> simpleEventlist(){
 		return ReturnSimpleEventList("SELECT * FROM ship.events");

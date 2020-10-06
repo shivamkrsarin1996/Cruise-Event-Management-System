@@ -8,13 +8,14 @@
 	</head>
 	<body>
 		<header class="regHeader">
-			<h1><a href="<c:url value='/' />">Welcome aboard Passenger!!</a></h1>
+			<h1>Welcome aboard Passenger!!</h1>
 		</header>
 		<ul>	
 	          <li><a href="<c:url value='/eventController?action=psg_view_all_events' />"><span>View All Events</span></a></li>
-	          <br><li><a href="<c:url value='/registerEventController?action=psg_viewRegisteredEvent&userId=${loginU.id_user}' />"><span>View my reservations</span></a></li>  
+	          <br><li><a href="<c:url value='/registerEventController?action=psg_viewRegisteredEvent'/>"><span>View my reservations</span></a></li>  
 	          <br><li><a href="<c:url value='/psg_info.jsp' />"><span>View profile</span></a></li>
 	          <br><li><a href="<c:url value='/eventController?action=redirectPagedatetime'/>"><span>View Event Summary</span></a></li> 
+	          <br><li><a href="<c:url value='/eventController?action=redirectPageTypedatetime'/>"><span>Search Event Based on type date and time</span></a></li>
 		</ul>
  <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
