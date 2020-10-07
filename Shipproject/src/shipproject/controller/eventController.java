@@ -15,8 +15,10 @@ import javax.servlet.http.HttpSession;
 
 import shipproject.model.Events;
 import shipproject.model.EventsErrorMsgs;
+import shipproject.model.reserve;
 import shipproject.model.user;
 import shipproject.data.eventsDAO;
+import shipproject.data.reserveDAO;
 import shipproject.data.userDAO;
 
 
@@ -57,6 +59,11 @@ public class eventController extends HttpServlet {
 		//	System.out.println("events in DB="+eventsInDB);
 			eventsInDB=eventsDAO.listevents();
 		//	System.out.println("events in DB after query="+eventsInDB);
+			for(int i=0;i<eventsInDB.size();i++) {
+				ArrayList<reserve> list=new ArrayList<reserve>();
+				list=reserveDAO.capSearch(eventsInDB.get(i).getIdcreate());
+				eventsInDB.get(i).setEstCap(String.valueOf(Integer.parseInt(eventsInDB.get(i).getCapacity())-list.size()));
+			}
 			session.setAttribute("andyEVENTS", eventsInDB);				
 			getServletContext().getRequestDispatcher("/psg_view_all_events.jsp").forward(request, response);
 		}
@@ -188,6 +195,11 @@ public class eventController extends HttpServlet {
 					eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
 					eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),
 					eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate(),eventsInDB.get(0).getEstCap());
+			
+				ArrayList<reserve> list=new ArrayList<reserve>();
+				list=reserveDAO.capSearch(selectedEvent.getIdcreate());
+				selectedEvent.setEstCap(String.valueOf(Integer.parseInt(selectedEvent.getCapacity())-list.size()));
+			
 
 			session.setAttribute("EVENTS", selectedEvent);
 			
@@ -298,6 +310,11 @@ public class eventController extends HttpServlet {
 				ArrayList<Events> eventInDB = new ArrayList<Events>();
 				eventInDB=eventsDAO.searcheventbydatetype(date, time,type);
 				eventInDB.addAll(eventsDAO.searchgreaterdatetype(date,type));
+				for(int i=0;i<eventInDB.size();i++) {
+					ArrayList<reserve> list=new ArrayList<reserve>();
+					list=reserveDAO.capSearch(eventInDB.get(i).getIdcreate());
+					eventInDB.get(i).setEstCap(String.valueOf(Integer.parseInt(eventInDB.get(i).getCapacity())-list.size()));
+				}
 				session.setAttribute("andyEVENTS", eventInDB);
 				url="/psg_view_all_events.jsp";
 				
@@ -322,12 +339,17 @@ public class eventController extends HttpServlet {
 			ArrayList<Events> eventInDB = new ArrayList<Events>();
 			eventInDB=eventsDAO.searcheventbydate(date, time);
 			eventInDB.addAll(eventsDAO.searchgreaterdate(date));
-			session.setAttribute("andyEVENTS", eventInDB);
 			session.setAttribute("EVENTS", eventInDB);
 			session.setAttribute("andy0EVENTS", eventInDB);
 			session.setAttribute("andyEVENTScor", eventInDB);
 			user loginU=(user) session.getAttribute("loginU");
 			if(loginU.getRole().equalsIgnoreCase("passenger")) {
+				for(int i=0;i<eventInDB.size();i++) {
+					ArrayList<reserve> list=new ArrayList<reserve>();
+					list=reserveDAO.capSearch(eventInDB.get(i).getIdcreate());
+					eventInDB.get(i).setEstCap(String.valueOf(Integer.parseInt(eventInDB.get(i).getCapacity())-list.size()));
+				}
+				session.setAttribute("andyEVENTS", eventInDB);
 				url="/psg_view_all_events.jsp";
 			}
 			else if(loginU.getRole().equalsIgnoreCase("manager")) {

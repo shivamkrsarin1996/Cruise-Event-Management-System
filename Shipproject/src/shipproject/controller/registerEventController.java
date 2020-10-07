@@ -84,6 +84,11 @@ public class registerEventController extends HttpServlet{
 			System.out.println("User ID ="+ userId);
 			res_eventInDB=eventsDAO.searchEventbyUser(userId);
 			System.out.println(res_eventInDB);
+			for(int i=0;i<res_eventInDB.size();i++) {
+				ArrayList<reserve> list=new ArrayList<reserve>();
+				list=reserveDAO.capSearch(res_eventInDB.get(i).getIdcreate());
+				res_eventInDB.get(i).setEstCap(String.valueOf(list.size()));
+			}
 			session.setAttribute("REG_EVENTS", res_eventInDB);	
 
 			url="/psg_reserved_events.jsp";	
@@ -105,7 +110,9 @@ public class registerEventController extends HttpServlet{
 							eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
 							eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),
 							eventsInDB.get(0).getId_event(), eventsInDB.get(0).getIdcreate(),eventsInDB.get(0).getEstCap());
-
+					ArrayList<reserve> list=new ArrayList<reserve>();
+					list=reserveDAO.capSearch(selectedEvent.getIdcreate());
+					selectedEvent.setEstCap(String.valueOf(list.size()));
 					session.setAttribute("EVENTS", selectedEvent);
 					
 					ArrayList<user> UserinDB=new ArrayList<user>();

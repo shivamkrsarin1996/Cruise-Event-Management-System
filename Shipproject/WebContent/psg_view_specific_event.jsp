@@ -53,7 +53,7 @@
     <td> <c:out value="${EVENTS.capacity}" /> </td>
     </tr>
     <tr>
-    <td> Estimated attendees: </td>
+    <td> Available Seats: </td>
     <td> <c:out value="${EVENTS.estCap}" /> </td>
     </tr>
 

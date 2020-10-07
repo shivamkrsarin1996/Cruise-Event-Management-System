@@ -24,7 +24,7 @@
 		 		<th class="myTable20">Start time</th>
 				<th class="myTable30">Duration</th> 
 				<th class="myTable30">Location</th> 
-			<!-- 	<th class="myTable30">Est Attendees</th> -->
+			    <th class="myTable30">Number of attendees:</th>
 			</tr>
 
  		<c:forEach items="${REG_EVENTS}" var="event" varStatus="status">
@@ -35,6 +35,7 @@
 			<td class="myTable30 "><c:out value="${event.time}" /></td>
 			<td class="myTable30 "><c:out value="${event.duration}" /></td>
 			<td class="myTable30 "><c:out value="${event.location}" /></td>
+			<td class="myTable30 "><c:out value="${event.estCap }"/></td>
 			<c:url value='/../registerEventController' var="itemDetailsURL">
 			<c:param name="action" value="psg_listSpecificEvent"/>
 			<c:param name="id" value="${event.idcreate}"/>
