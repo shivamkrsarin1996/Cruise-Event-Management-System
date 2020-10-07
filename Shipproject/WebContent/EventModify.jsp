@@ -10,7 +10,11 @@
     <div><h1><a href="<c:url value='/listspecificevent.jsp' />">Event Manager</a></h1></div>
     <h2> Modify Event</h2>
     <input name="errMsg"  value="<c:out value='${ModifyMsgs.errorMsg}'/>" class="errorPane">
-  <form name="ModifyForm" action="<c:url value='/eventController?Eventmanagermodifyevent&id=${EVENTS.idcreate}'/>" method="post">
+    <c:url value='/../eventController' var="itemDetailsURL">
+			<c:param name="action" value="Eventmanagermodifyevent"/>
+			<c:param name="id" value="${EVENTS.idcreate}"/>
+			</c:url>
+  <form name="ModifyForm" action="<c:url value='${itemDetailsURL}'/>" method="post">
 
          <table> 
     <tr>

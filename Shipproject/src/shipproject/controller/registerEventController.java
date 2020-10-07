@@ -30,7 +30,7 @@ public class registerEventController extends HttpServlet{
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String action = request.getParameter("action"), url="";;
+//		String action = request.getParameter("action"), url="";;
 		session.removeAttribute("errorMsgs");
 		
 		//List all events
