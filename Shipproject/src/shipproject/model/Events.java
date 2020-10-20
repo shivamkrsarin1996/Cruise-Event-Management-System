@@ -284,7 +284,7 @@ public class Events implements Serializable{
 			 result="Event Cannot Start Before 7:00";
 		 }
 		 else if(time1.after(time3)) {
-			 result="Event Start End after 10:00PM";
+			 result="Event Start after 10:00PM";
 		 }
 		 else if(time1.equals(time3)) {
 			 result="Event cannot End after 10:00PM";

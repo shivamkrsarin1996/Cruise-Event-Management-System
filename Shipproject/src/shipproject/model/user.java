@@ -235,7 +235,7 @@ public class user implements Serializable {
 	private String validateFirst_name(String first_name) {
 		String result="";
 		if (!stringSize(first_name,3,29))
-			result="First Name must be between 2(not inclusive) and 30 characters long";
+			result="First Name must be between 2(not inclusive) and 30(not inclusive) characters long";
 		else if(!Character.isUpperCase(first_name.charAt(0))) {
 			result="First Letter must be Capital";
 		}

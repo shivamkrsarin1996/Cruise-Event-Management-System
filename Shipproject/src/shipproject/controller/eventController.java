@@ -54,6 +54,7 @@ public class eventController extends HttpServlet {
 		
 //Passenger - List all events
 		else if(action.equalsIgnoreCase("psg_view_all_events")) {
+			session.removeAttribute("andyEVENTS");
 			System.out.println("found func to view all events");
 			ArrayList<Events> eventsInDB = new ArrayList<Events>();
 		//	System.out.println("events in DB="+eventsInDB);
@@ -222,6 +223,7 @@ public class eventController extends HttpServlet {
 		}
 		else if(action.equalsIgnoreCase("redirectPageTypedatetime")) {
 			session.removeAttribute("success");
+			session.removeAttribute("andyEVENTS");
 			String currentdate = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 			String currentTime =new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
 			Events dateevent = new Events();
@@ -307,8 +309,9 @@ public class eventController extends HttpServlet {
 				session.setAttribute("Msgs",errorMsg);
 			}
 			else {
+				session.removeAttribute("andyEVENTS");
 				ArrayList<Events> eventInDB = new ArrayList<Events>();
-				eventInDB=eventsDAO.searcheventbydatetype(date, time,type);
+				eventInDB=eventsDAO.searcheventbydatetype(date,time,type);
 				eventInDB.addAll(eventsDAO.searchgreaterdatetype(date,type));
 				for(int i=0;i<eventInDB.size();i++) {
 					ArrayList<reserve> list=new ArrayList<reserve>();

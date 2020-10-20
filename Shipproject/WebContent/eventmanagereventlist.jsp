@@ -34,7 +34,7 @@
 			<td class="myTable35 "><c:out value="${item.date}" /></td>
 			<td class="myTable20 "><c:out value="${item.time}" /></td>
 			<td class="myTable20 "><c:out value="${item.type}" /></td>
-			<c:url value='' var="itemDetailsURL">
+			<c:url value='/../eventController' var="itemDetailsURL">
 			<c:param name="action" value="listSpecificevent"/>
 			<c:param name="id" value="${item.idcreate}"/>
 			</c:url>

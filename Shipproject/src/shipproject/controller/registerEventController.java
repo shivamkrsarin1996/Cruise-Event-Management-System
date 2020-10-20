@@ -76,6 +76,7 @@ public class registerEventController extends HttpServlet{
 
 // view registerd events		
 		if (action.equalsIgnoreCase("psg_viewRegisteredEvent") )  { 
+			session.removeAttribute("REG_EVENTS");
 			System.out.println("Controller-Viewing regsiterd event of the user");
 			ArrayList<Events> res_eventInDB = new ArrayList<Events>();
 			user luser=new user();
