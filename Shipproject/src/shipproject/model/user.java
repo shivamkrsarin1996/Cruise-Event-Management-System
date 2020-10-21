@@ -109,7 +109,6 @@ public class user implements Serializable {
 	}
 	// validate actions
 	public void validateUser(String action,user user,userErrorMsgs errorMsgs) {
-		if(action.equalsIgnoreCase("registerUser")) {
 			errorMsgs.setUsernameError(validateUsername(user.getUsername()));
 			errorMsgs.setFirst_nameError(validateFirst_name(user.getFirst_name()));
 			errorMsgs.setLast_nameError(validateLast_name(user.getLast_name()));
@@ -119,7 +118,6 @@ public class user implements Serializable {
 			errorMsgs.setEmailError(validateEmail(user.getEmail()));
 			errorMsgs.setDeck_numberError(validateDeck_number(user.getDeck_number()));
 			errorMsgs.setRoom_numberError(validateRoom_number(user.getRoom_number()));
-		}
 		errorMsgs.setErrorMsg();
 	}
 	public void validateChange(String action,user user,userErrorMsgs errorMsgs,String first,String last, String pass,String email,String mem,String phone,String deck,String room) {
@@ -139,17 +137,6 @@ public class user implements Serializable {
 		String result="";
 		if(first.equals(user.getFirst_name())&&last.equals(user.getLast_name())&&pass.equals(user.getPassword())&&email.equals(user.getEmail())&&mem.equals(user.getMemtype())&&phone.equals(user.getPhone())&&deck.equals(user.getDeck_number())&&room.equals(user.getRoom_number())) {
 			result="No modifications has been made";
-		}
-		else {
-			System.out.println(mem+"1");
-			System.out.println(user.getMemtype()+"1");
-			System.out.println(phone+"1");
-			System.out.println(user.getPhone()+"1");
-			System.out.println(deck+"1");
-			System.out.println(user.getDeck_number()+"1");
-			System.out.println(room+"1");
-			System.out.println(user.getRoom_number()+"1");
-			System.out.println("Retest");
 		}
 		return result;
 	}
@@ -193,7 +180,7 @@ public class user implements Serializable {
 			else {
 				int m=username.length();
 				int i=0;
-				while(i<m&& result.equals("")) {
+				while(i<m) {
 					if(!Character.isLetterOrDigit(username.charAt(i))) {
 						result="Username must have only letters and numbers";
 					}
@@ -223,7 +210,7 @@ public class user implements Serializable {
 		else{
 			int m=last_name.length();
 			int i=0;
-			while(i<m&&result.equals("")) {
+			while(i<m) {
 				if(!Character.isLetter(last_name.charAt(i))) {
 					result="Last Name cannot have numbers or special charectors";
 				}
@@ -242,7 +229,7 @@ public class user implements Serializable {
 		else{
 			int m=first_name.length();
 			int i=0;
-			while(i<m&&result.equals("")) {
+			while(i<m) {
 				if(!Character.isLetter(first_name.charAt(i))) {
 					result="First name cannot have numbers or special charectors";
 				}
