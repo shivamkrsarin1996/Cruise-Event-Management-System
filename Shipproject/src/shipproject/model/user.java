@@ -3,6 +3,7 @@ package shipproject.model;
 import java.io.Serializable;
 //import java.util.regex.Matcher;
 //import java.util.regex.Pattern;
+import java.util.ArrayList;
 
 import shipproject.data.userDAO;
 import shipproject.model.userErrorMsgs;
@@ -109,6 +110,7 @@ public class user implements Serializable {
 	}
 	// validate actions
 	public void validateUser(String action,user user,userErrorMsgs errorMsgs) {
+		if(action.equals("registerUser")) {
 			errorMsgs.setUsernameError(validateUsername(user.getUsername()));
 			errorMsgs.setFirst_nameError(validateFirst_name(user.getFirst_name()));
 			errorMsgs.setLast_nameError(validateLast_name(user.getLast_name()));
@@ -118,7 +120,29 @@ public class user implements Serializable {
 			errorMsgs.setEmailError(validateEmail(user.getEmail()));
 			errorMsgs.setDeck_numberError(validateDeck_number(user.getDeck_number()));
 			errorMsgs.setRoom_numberError(validateRoom_number(user.getRoom_number()));
-		errorMsgs.setErrorMsg();
+			errorMsgs.setErrorMsg();
+		}
+		else {
+			boolean usernameinDB=userDAO.checkusername(user.getUsername());
+			if(usernameinDB) {
+				errorMsgs.setUsernameError("Username Does not exist");
+			}
+			else {
+				ArrayList<user> UserinDB=new ArrayList<user>();
+				UserinDB=userDAO.Searchusername(user.getUsername());
+				user seluser=new user();
+				seluser.setId_user(UserinDB.get(0).getId_user());
+				seluser.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+				if(!(user.getPassword().equals(seluser.getPassword()))) {
+				 errorMsgs.setUsernameError("Wrong Password");
+				}
+				else {
+					user.setId_user(UserinDB.get(0).getId_user());
+					user.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
+					
+				}
+			}
+		}
 	}
 	public void validateChange(String action,user user,userErrorMsgs errorMsgs,String first,String last, String pass,String email,String mem,String phone,String deck,String room) {
 		errorMsgs.setCpasswordError(validateSame(user,first,last,pass,email,mem,phone,deck,room));

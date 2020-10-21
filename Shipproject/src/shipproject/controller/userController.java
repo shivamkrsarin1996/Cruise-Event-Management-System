@@ -79,43 +79,27 @@ public class userController extends HttpServlet {
 			String psw=request.getParameter("password");
 			user.setUsername(uname);
 			user.setPassword(psw);
-			boolean usernameinDB=userDAO.checkusername(uname);
-			if(usernameinDB) {
-				UerrorMsgs.setUsernameError("Username Does not exist");
-				url="/index.jsp";
-				session.setAttribute("user", user);//errorMs
-				session.setAttribute("errorMs", UerrorMsgs);
-			}
-			else {
-				ArrayList<user> UserinDB=new ArrayList<user>();
-				UserinDB=userDAO.Searchusername(uname);
-				user seluser=new user();
-				seluser.setId_user(UserinDB.get(0).getId_user());
-				seluser.setUser(UserinDB.get(0).getUsername(), UserinDB.get(0).getFirst_name(), UserinDB.get(0).getLast_name(), UserinDB.get(0).getPassword(), UserinDB.get(0).getRole(), UserinDB.get(0).getPhone(), UserinDB.get(0).getEmail(), UserinDB.get(0).getMemtype(), UserinDB.get(0).getRoom_number(), UserinDB.get(0).getDeck_number());
-				if(seluser.getPassword().equals(psw)) {
-					session.setAttribute("loginU", seluser);
-					if(seluser.getRole().equals("passenger")) {
-						System.out.println("LoginU---"+session.getAttribute("loginU"));
-						url="/psg_homepage.jsp";
+			user.validateUser(action, user, UerrorMsgs);
+			if(UerrorMsgs.getUsernameError().equals("")) {
+				session.setAttribute("loginU", user);
+				if(user.getRole().equals("passenger")) {
+					System.out.println("LoginU---"+session.getAttribute("loginU"));
+					url="/psg_homepage.jsp";
 					//	psg_homepage.jsp
 					}
-					else if(seluser.getRole().equals("manager")) {
-						url="/Eventmanagerhomepage.jsp";
-						
+				else if(user.getRole().equals("manager")) {
+					url="/Eventmanagerhomepage.jsp";
 					}
-					else {
-						url="/corodinorhomepage.jsp";
-						
+				else {
+					url="/corodinorhomepage.jsp";
 					}
 				}
-				else {
-					UerrorMsgs.setUsernameError("Wrong Password");
-					url="/index.jsp";
-					session.setAttribute("user", user);
-					session.setAttribute("errorMs", UerrorMsgs);
+			else {
+				url="/index.jsp";
+				session.setAttribute("user", user);
+				session.setAttribute("errorMs", UerrorMsgs);
 				}
 			}
-		}
 		else if(action.equalsIgnoreCase("updateProfile")) {
 			user loginU=(user) session.getAttribute("loginU");
 			String pass=request.getParameter("password");

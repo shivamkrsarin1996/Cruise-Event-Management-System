@@ -20,11 +20,18 @@ public class usertest {
 	
 	@Test
 	@FileParameters("test/shipproject/model/User_test_cases.csv")
-	public void test(int testcaseNo, String action,int id_user,String username,String first_name, String last_name, String password,String cpassword,String role, String phone,String email,String memtype,String room_number,String deck_number,
+	public void test(int testcaseNo, String action,String id_user,String username,String first_name, String last_name, String password,String cpassword,String role, String phone,String email,String memtype,String room_number,String deck_number,
 			String cfirst,String clast,String cpass,String cemail,String cmem,String cphone,String cdeck,String croom,
 			String errorMsg,String usernameError,String first_nameError,String last_nameError,String passwordError,String cpasswordError,String phoneError,String emailError,String room_numberError,String deck_numberError) {
+		if(action.equals("login")) {
+			usr.setUsername(username);
+			usr.setPassword(password);
+			usr.validateUser(action, usr, usrerror);
+			assertTrue(usernameError.equals(usrerror.getUsernameError()));
+		}
+		else {
 		usr.setUser(username, first_name, last_name, password, role, phone, email, memtype, room_number, deck_number);
-		if(action.equals("registerUser")) {
+		 if(action.equals("registerUser")) {
 			usr.setCpassword(cpassword);
 			usr.validateUser(action, usr, usrerror);
 			assertTrue(errorMsg.equals(usrerror.getErrorMsg()));
@@ -42,6 +49,7 @@ public class usertest {
 			usr.validateChange(action, usr, usrerror, cfirst, clast, cpass, cemail, cmem, cphone, cdeck, croom);
 			assertTrue(errorMsg.equals(usrerror.getErrorMsg()));
 			assertTrue(cpasswordError.equals(usrerror.getCpasswordError()));
+		}
 		}
 	}
 }
