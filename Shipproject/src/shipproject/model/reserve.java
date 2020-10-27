@@ -11,19 +11,15 @@ public class reserve implements Serializable{
 	private int id_user;
 	private int idreserve;
 	private int idcreate;
-	private String capacity;
-	private String type;
-	private String date;
-	private String time;
 	public int getId_user() {
 		return id_user;
 	}
 	public void setId_user(int id_user) {
 		this.id_user = id_user;
 	}
-	public int getIdreserve() {
-		return idreserve;
-	}
+//	public int getIdreserve() {
+//		return idreserve;
+//	}
 	public void setIdreserve(int idreserve) {
 		this.idreserve = idreserve;
 	}
@@ -33,43 +29,17 @@ public class reserve implements Serializable{
 	public void setIdcreate(int idcreate) {
 		this.idcreate = idcreate;
 	}
-	public String getCapacity() {
-		return capacity;
-	}
-	public void setCapacity(String capacity) {
-		this.capacity = capacity;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getDate() {
-		return date;
-	}
-	public void setDate(String date) {
-		this.date = date;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
-	}
 //validation 
 	
 	public void validatereservation(String action,reserve reserve,reserveErrorMsgs errormsg) {
-		if(action.equalsIgnoreCase("registerSpecifiedEvent")){
 			System.out.println("reach");
-			errormsg.setErrorMsg(validatetypecap(reserve.id_user,reserve.idcreate));
+			errormsg.setErrorMsg(validatetypecap(reserve.getId_user(),reserve.getIdcreate()));
 			if(errormsg.getErrorMsg().equals("")) {
-				errormsg.setErrorMsg(validateCap(reserve.idcreate));
+				errormsg.setErrorMsg(validateCap(reserve.getIdcreate()));
 				if(errormsg.getErrorMsg().equals("")) {
-					errormsg.setErrorMsg(validatereg(reserve.idcreate,reserve.id_user));
+					errormsg.setErrorMsg(validatereg(reserve.getIdcreate(),reserve.getId_user()));
 				}
 			}
-		}
 	}
 	private String validatetypecap(int userid,int createid) {
 		ArrayList<Events> eventInDBs = new ArrayList<Events>();

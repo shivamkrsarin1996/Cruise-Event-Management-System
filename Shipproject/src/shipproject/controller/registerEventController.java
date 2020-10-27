@@ -17,7 +17,6 @@ import shipproject.model.Events;
 import shipproject.model.reserve;
 import shipproject.model.reserveErrorMsgs;
 import shipproject.model.user;
-import shipproject.model.userErrorMsgs;
 
 @WebServlet("/registerEventController")
 public class registerEventController extends HttpServlet{
@@ -52,7 +51,6 @@ public class registerEventController extends HttpServlet{
 		String action = request.getParameter("action"), url="";
 		HttpSession session = request.getSession();
 		user loginU=new user();
-		userErrorMsgs UerrorMsgs=new userErrorMsgs();
 		session.removeAttribute("errorMsgs");
 		session.removeAttribute("andy3");
 //Register specific Event

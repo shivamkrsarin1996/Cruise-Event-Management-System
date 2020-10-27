@@ -11,7 +11,7 @@
 
 
 <ul>
-<li><a href="<c:url value='/eventController?action=redirectCreatepage' />"><span>Create Events</span></a> </li>
+<!--<li><a href="<c:url value='/eventController?action=redirectCreatepage' />"><span>Create Events</span></a> </li>-->
 <li><a href="<c:url value='/eventController?action=redirectPagedatetime'/>"><span>View Event Summary</span></a></li>
 <li><a href="<c:url value='/eventController?action=eventmanagereventlist' />"><span>View All Events</span></a> </li>
 </ul>

@@ -40,13 +40,13 @@ public class Events implements Serializable{
 	     setIdcreate(idcreate);
 	     setEstCap(estCap);
 	}
-	public void setEvent2(int id_event,String date,String managerid, String time,String estCap) {
-		setId_event(id_event);
-		setDate(date);
-		setManagerid(managerid);
-		setTime(time);
-		setEstCap(estCap);
-	}
+//	public void setEvent2(int id_event,String date,String managerid, String time,String estCap) {
+//		setId_event(id_event);
+//		setDate(date);
+//		setManagerid(managerid);
+//		setTime(time);
+//		setEstCap(estCap);
+//	}
 	
 	public int getId_event() {
 		return id_event;
@@ -124,29 +124,30 @@ public class Events implements Serializable{
 	}
 	
 	//validate actions
-	public void validateEvent(String action,Events event,EventsErrorMsgs errorMsg) {
+	public void validateEvent(String action,Events event,EventsErrorMsgs errorMsg) throws ParseException {
 		if(action.equalsIgnoreCase("eventSearch")) {
 			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
 		}
 		else if(action.equalsIgnoreCase("eventtypeSearch")) {
 			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
 		}
-		else if(action.equalsIgnoreCase("eventAssignedSearch")) {
+		else {
+//		else if(action.equalsIgnoreCase("eventAssignedSearch")) {
 			errorMsg.setErrorMsg(validateDate(event.getDate(),event.getTime()));
 		}
-		else if(action.equals("Eventmanagercreateevent")) {
-			errorMsg.setDate(validateDate(event.getDate(),event.getTime()));
-			errorMsg.setTime(validateDate(event.getDate(),event.getTime()));
-			if(errorMsg.getTime().equals("")) {
-				errorMsg.setTime(validateRTime(event.getTime(),event.getDuration()));
-			}
-			errorMsg.setEventname(validateEvent(event.getId_event(),event.getDate(),event.getTime(),event.getDuration()));
-			errorMsg.setManager(validateManager(event.getManagerid(),event.getDate(),event.getTime(),event.getDuration()));
-			errorMsg.setEstCap(validateEstCap(event.getEstCap(),event.getCapacity()));
-			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
-		}
+//		else if(action.equals("Eventmanagercreateevent")) {
+//			errorMsg.setDate(validateDate(event.getDate(),event.getTime()));
+//			errorMsg.setTime(validateDate(event.getDate(),event.getTime()));
+//			if(errorMsg.getTime().equals("")) {
+//				errorMsg.setTime(validateRTime(event.getTime(),event.getDuration()));
+//			}
+//			errorMsg.setEventname(validateEvent(event.getId_event(),event.getDate(),event.getTime(),event.getDuration()));
+//			errorMsg.setManager(validateManager(event.getManagerid(),event.getDate(),event.getTime(),event.getDuration()));
+//			errorMsg.setEstCap(validateEstCap(event.getEstCap(),event.getCapacity()));
+//			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
+//		}
 	}
-	public void validateEventModify(String action,Events event,EventsErrorMsgs errorMsg,String cdate,String ctime,String cEstCap) {
+	public void validateEventModify(String action,Events event,EventsErrorMsgs errorMsg,String cdate,String ctime,String cEstCap) throws ParseException {
 		errorMsg.setErrorMsg(validateSame(event,cdate,ctime,cEstCap));
 		if(errorMsg.getErrorMsg().equals("")){
 			errorMsg.setEstCap(validateEstCap(cEstCap,event.getCapacity()));
@@ -158,20 +159,21 @@ public class Events implements Serializable{
 			if(errorMsg.getTime().equals("")) {
 				errorMsg.setTime(validateEvent2(event.getId_event(),cdate,ctime,event.getDuration(),event.getIdcreate()));		
 			}
-			errorMsg.setEventname("");
+			if(errorMsg.getTime().equals("")) {
+				errorMsg.setTime(validateManager2(event.getManagerid(),cdate,ctime,event.getDuration(),event.getIdcreate()));
+				
+			}
 			errorMsg.setManager("");
-			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
+			errorMsg.setErrorMsg(validateErrorMsg2(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getManager(),errorMsg.getEstCap()));
 		}
 	}
-	public void validateEventCor(String action,Events event,EventsErrorMsgs errorMsg,String id) {
+	public void validateEventCor(String action,Events event,EventsErrorMsgs errorMsg,String id) throws ParseException {
 		errorMsg.setErrorMsg(validateSame2(event,id));
 		if(errorMsg.getErrorMsg().equals("")){
 			errorMsg.setManager(validateManager2(id,event.getDate(),event.getTime(),event.getDuration(),event.getIdcreate()));
-			errorMsg.setEventname("");
 			errorMsg.setDate("");
 			errorMsg.setTime("");
-			errorMsg.setErrorMsg(validateErrorMsg(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getEventname(),errorMsg.getManager(),errorMsg.getEstCap()));
-			
+			errorMsg.setErrorMsg(validateErrorMsg2(errorMsg.getDate(),errorMsg.getTime(),errorMsg.getManager(),errorMsg.getEstCap()));
 		}
 	}
 	private String validateSame(Events event,String cdate,String ctime,String cEstCap) {
@@ -184,102 +186,66 @@ public class Events implements Serializable{
 	private String validateSame2(Events event,String id) {
 		String result="";
 		if(id.equals(event.getManagerid())) {
-			result="your have assigned same Coordinator";
+			result="you have assigned same Coordinator";
 		}
 		return result;
 	}
-	private String validateErrorMsg(String error1,String error2,String error3,String error4,String error5) {
+//	private String validateErrorMsg(String error1,String error2,String error3,String error4,String error5) {
+//		String result="";
+//		if(!error1.equals("")||!error2.equals("")||!error3.equals("")||!error4.equals("")||!error5.equals("")) {
+//			result="Please correct the following errors";
+//		}
+//		return result;
+//	}
+	private String validateErrorMsg2(String error1,String error2,String error3,String error4) {
 		String result="";
-		if(!error1.equals("")||!error2.equals("")||!error3.equals("")||!error4.equals("")||!error5.equals("")) {
+		if(!error1.equals("")||!error2.equals("")||!error3.equals("")||!error4.equals("")) {
 			result="Please correct the following errors";
 		}
 		return result;
 	}
-	private String validateDate(String date,String time) {
+	private String validateDate(String date,String time) throws ParseException {
 		String result="";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1=null,date2 = null;
-		try {
-			date1=sdf.parse(date);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			result="Date not in correct format";
-		}
+		date1=sdf.parse(date);
 		String current = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-		try {
-			date2=sdf.parse(current);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			result="Date not in correct format";
-		}
-		if(result.equals("")) {
+		date2=sdf.parse(current);
 		if(date1.before(date2)){
             result="Cannot be past date";
         }
 		else if(date1.equals(date2)) {
 			result=validateTime(time);
 		}
-		}
 		return result;
 	}
-	private String validateTime(String time) {
+	private String validateTime(String time) throws ParseException {
 		String result="";
 		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
 		Date time1=null,time2 = null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			result="time not in correct format";
-		}
+		time1=skf.parse(time);
 		String current = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
-		try {
-			time2=skf.parse(current);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if(result.equals("")) {
+		time2=skf.parse(current);
 		if(time1.before(time2)) {
 			result="Cannot be past time";
 		}
-		}
 		return result;
 	}
-	private String validateRTime(String time,String duration) {
+	private String validateRTime(String time,String duration) throws ParseException {
 		String result="";
 		String Morning="07:00";
 		String Night="22:00";
 		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
 		Date time1=null,time2 = null,time3 = null,time4=null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			time2=skf.parse(Morning);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			time3=skf.parse(Night);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	    time1=skf.parse(time);
+		time2=skf.parse(Morning);
+		time3=skf.parse(Night);
+		
 		 Calendar cal = Calendar.getInstance();
 		 cal.setTime(time1);
 		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
 		 String newTime = skf.format(cal.getTime());
-		 try {
-			time4=skf.parse(newTime);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		 time4=skf.parse(newTime);
 		 if(time1.before(time2)) {
 			 result="Event Cannot Start Before 7:00";
 		 }
@@ -295,39 +261,35 @@ public class Events implements Serializable{
 		 }
 		return result;
 	}
-	private String validateEvent(int id,String date,String time,String duration) {
+//	private String validateEvent(int id,String date,String time,String duration) {
+//		String result="";
+//		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
+//		Date time1=null;
+//		try {
+//			time1=skf.parse(time);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Calendar cal = Calendar.getInstance();
+//		 cal.setTime(time1);
+//		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
+//		 String newTime = skf.format(cal.getTime());
+//		 cal.setTime(time1);
+//		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
+//		 String newTime2 = skf.format(cal.getTime());
+//		boolean booked=eventsDAO.checkbook(id, date, newTime2, newTime);
+//		if(!booked) {
+//			result="This event has prior booking during this time";
+//		}
+//		return result;
+//	}
+	private String validateEvent2(int id,String date,String time,String duration,int cid) throws ParseException {
 		String result="";
 		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
 		Date time1=null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Calendar cal = Calendar.getInstance();
-		 cal.setTime(time1);
-		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
-		 String newTime = skf.format(cal.getTime());
-		 cal.setTime(time1);
-		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
-		 String newTime2 = skf.format(cal.getTime());
-		boolean booked=eventsDAO.checkbook(id, date, newTime2, newTime);
-		if(!booked) {
-			result="This event has prior booking during this time";
-		}
-		return result;
-	}
-	private String validateEvent2(int id,String date,String time,String duration,int cid) {
-		String result="";
-		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
-		Date time1=null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		time1=skf.parse(time);
+		
 		Calendar cal = Calendar.getInstance();
 		 cal.setTime(time1);
 		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
@@ -341,39 +303,35 @@ public class Events implements Serializable{
 		}
 		return result;
 	}
-	private String validateManager(String id,String date,String time,String duration) {
+//	private String validateManager(String id,String date,String time,String duration) {
+//		String result="";
+//		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
+//		Date time1=null;
+//		try {
+//			time1=skf.parse(time);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		Calendar cal = Calendar.getInstance();
+//		 cal.setTime(time1);
+//		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
+//		 String newTime = skf.format(cal.getTime());
+//		 cal.setTime(time1);
+//		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
+//		 String newTime2 = skf.format(cal.getTime());
+//		 boolean busy=eventsDAO.checkMbook(id, date, newTime2, newTime);
+//		 if(!busy) {
+//				result="This Manager has prior booking during this time";
+//			}
+//		 return result;
+//	}
+	private String validateManager2(String id,String date,String time,String duration,int cid) throws ParseException {
 		String result="";
 		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
 		Date time1=null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Calendar cal = Calendar.getInstance();
-		 cal.setTime(time1);
-		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
-		 String newTime = skf.format(cal.getTime());
-		 cal.setTime(time1);
-		 cal.add(Calendar.MINUTE, -1*Integer.parseInt(duration));
-		 String newTime2 = skf.format(cal.getTime());
-		 boolean busy=eventsDAO.checkMbook(id, date, newTime2, newTime);
-		 if(!busy) {
-				result="This Manager has prior booking during this time";
-			}
-		 return result;
-	}
-	private String validateManager2(String id,String date,String time,String duration,int cid) {
-		String result="";
-		SimpleDateFormat skf = new SimpleDateFormat("HH:mm");
-		Date time1=null;
-		try {
-			time1=skf.parse(time);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		time1=skf.parse(time);
+		
 		Calendar cal = Calendar.getInstance();
 		 cal.setTime(time1);
 		 cal.add(Calendar.MINUTE, Integer.parseInt(duration));
@@ -383,7 +341,7 @@ public class Events implements Serializable{
 		 String newTime2 = skf.format(cal.getTime());
 		 boolean busy=eventsDAO.checkMbook2(id, date, newTime2, newTime,cid);
 		 if(!busy) {
-				result="This Manager has prior booking during this time";
+				result="This Co-ordinator has prior booking during this time";
 			}
 		 return result;
 	}

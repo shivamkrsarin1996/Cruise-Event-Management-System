@@ -1,6 +1,7 @@
 package shipproject.controller;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -90,42 +91,43 @@ public class eventController extends HttpServlet {
 		session.removeAttribute("corMsgs");
 		int selectedeventIndex;
 		Events events=new Events();
-		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
-			session.removeAttribute("success");
-		
-			events.setEvent2(Integer.parseInt(request.getParameter("eventid")),request.getParameter("date"), request.getParameter("coordinatorid"),request.getParameter("time"), request.getParameter("estCap"));
-			ArrayList<Events> eventDB=new ArrayList<Events>();
-			eventDB=eventsDAO.simpleEventlistint(events.getId_event());
-//			System.out.println(events.getId_event());
-//			System.out.println(events.getDate());
-//			System.out.println(events.getManagerid());
-//			System.out.println(events.getTime());
-//			System.out.println(events.getEstCap());
-			events.setEventname(eventDB.get(0).getEventname());
-			events.setLocation(eventDB.get(0).getLocation());
-			events.setCapacity(eventDB.get(0).getCapacity());
-			events.setDuration(eventDB.get(0).getDuration());
-			events.setType(eventDB.get(0).getType());
-			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
-			events.validateEvent(action, events, errorMsg);
-			session.setAttribute("create",events);
-			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
-			CordinatorsinDB=userDAO.searchCoordinator();
-			ArrayList<Events> eventsInDB = new ArrayList<Events>();
-			eventsInDB=eventsDAO.simpleEventlist();
-			session.setAttribute("CordinatorList",CordinatorsinDB);
-			session.setAttribute("simpleEventList", eventsInDB);
-			if(!errorMsg.getErrorMsg().equals("")) {
-				session.setAttribute("createMsgs",errorMsg);
-				url="/Eventmanagercreateevent.jsp";
-			}
-			else {
-				eventsDAO.createEvent(events);
-				url="/Eventmanagerhomepage.jsp";
-				session.removeAttribute("create");
-			}
-		}
-		else if(action.equalsIgnoreCase("Eventmanagermodifyevent")) {
+//		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
+//			session.removeAttribute("success");
+//		
+//			events.setEvent2(Integer.parseInt(request.getParameter("eventid")),request.getParameter("date"), request.getParameter("coordinatorid"),request.getParameter("time"), request.getParameter("estCap"));
+//			ArrayList<Events> eventDB=new ArrayList<Events>();
+//			eventDB=eventsDAO.simpleEventlistint(events.getId_event());
+////			System.out.println(events.getId_event());
+////			System.out.println(events.getDate());
+////			System.out.println(events.getManagerid());
+////			System.out.println(events.getTime());
+////			System.out.println(events.getEstCap());
+//			events.setEventname(eventDB.get(0).getEventname());
+//			events.setLocation(eventDB.get(0).getLocation());
+//			events.setCapacity(eventDB.get(0).getCapacity());
+//			events.setDuration(eventDB.get(0).getDuration());
+//			events.setType(eventDB.get(0).getType());
+////			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
+////			events.validateEvent(action, events, errorMsg);
+//			session.setAttribute("create",events);
+//			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
+//			CordinatorsinDB=userDAO.searchCoordinator();
+//			ArrayList<Events> eventsInDB = new ArrayList<Events>();
+//			eventsInDB=eventsDAO.simpleEventlist();
+//			session.setAttribute("CordinatorList",CordinatorsinDB);
+//			session.setAttribute("simpleEventList", eventsInDB);
+////			if(!errorMsg.getErrorMsg().equals("")) {
+////				session.setAttribute("createMsgs",errorMsg);
+////				url="/Eventmanagercreateevent.jsp";
+////			}
+////			else {
+//				eventsDAO.createEvent(events);
+//				url="/Eventmanagerhomepage.jsp";
+//				session.removeAttribute("create");
+////			}
+//		}
+//		else if(action.equalsIgnoreCase("Eventmanagermodifyevent")) {
+		if(action.equalsIgnoreCase("Eventmanagermodifyevent")) {
 			session.removeAttribute("success");
 			int ids=Integer.parseInt(request.getParameter("id"));
 			ArrayList<Events> eventInDBs = new ArrayList<Events>();
@@ -137,7 +139,12 @@ public class eventController extends HttpServlet {
 		    String ctime=request.getParameter("time");
 		    String cestCap=request.getParameter("estCap");
 		    EventsErrorMsgs errorMsg=new EventsErrorMsgs();
-		    events.validateEventModify(action, selectedevent, errorMsg, cdate, ctime, cestCap);
+		    try {
+				events.validateEventModify(action, selectedevent, errorMsg, cdate, ctime, cestCap);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    if(!errorMsg.getErrorMsg().equals("")) {
 		    	session.setAttribute("EVENTS", selectedevent);
 		    	session.setAttribute("ModifyMsgs", errorMsg);
@@ -162,7 +169,12 @@ public class eventController extends HttpServlet {
 		    String id2=request.getParameter("coordinatorid");
 		    EventsErrorMsgs errorMsg=new EventsErrorMsgs();
 		    //errorMsg.setErrorMsg("Modified Successfully");
-		    events.validateEventCor(action, selectedevent, errorMsg, id2);
+		    try {
+				events.validateEventCor(action, selectedevent, errorMsg, id2);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    if(!errorMsg.getErrorMsg().equals("")) {
 		    	session.setAttribute("EVENTS", selectedevent);//corMsgs
 		    	session.setAttribute("corMsgs", errorMsg);
@@ -275,7 +287,12 @@ public class eventController extends HttpServlet {
 			datecheck.setDate(date);
 			datecheck.setTime(time);
 			datecheck.setManagerid(Integer.toString(loginU.getId_user()));
-			datecheck.validateEvent(action, datecheck, errorMsg);
+			try {
+				datecheck.validateEvent(action, datecheck, errorMsg);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(!errorMsg.getErrorMsg().equals("")) {
 				url="/datetypeselectassigned.jsp";
 				datecheck.setTime(time);
@@ -301,7 +318,12 @@ public class eventController extends HttpServlet {
 			datecheck.setDate(date);
 			datecheck.setTime(time);
 			datecheck.setType(type);
-			datecheck.validateEvent(action, datecheck, errorMsg);
+			try {
+				datecheck.validateEvent(action, datecheck, errorMsg);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(!errorMsg.getErrorMsg().equals("")) {
 				url="/datetypeselect.jsp";
 				datecheck.setTime(time);
@@ -331,7 +353,12 @@ public class eventController extends HttpServlet {
 			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
 			datecheck.setDate(date);
 			datecheck.setTime(time);
-			datecheck.validateEvent(action, datecheck, errorMsg);
+			try {
+				datecheck.validateEvent(action, datecheck, errorMsg);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(!errorMsg.getErrorMsg().equals("")) {
 				url="/dateselect.jsp";
 				datecheck.setTime(time);

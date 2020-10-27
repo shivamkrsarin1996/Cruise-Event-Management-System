@@ -203,21 +203,26 @@ public class user implements Serializable {
 			}
 			else {
 				int m=username.length();
-				int i=0;
-				while(i<m) {
+//				int i=0;
+//				while(i<m) {
+//					if(!Character.isLetterOrDigit(username.charAt(i))) {
+//						result="Username must have only letters and numbers";
+//					}
+//					i++;
+//				}
+				for(int i=0;i<m;i++) {
 					if(!Character.isLetterOrDigit(username.charAt(i))) {
 						result="Username must have only letters and numbers";
 					}
-					i++;
 				}
-//				if(!username.matches("[a-zA-Z0-9]*")) {
-//					result="Username must have only letters and numbers";
-//				}
 				if(result.equals("")) {
 					boolean usernameinDB=userDAO.checkusername(username);
 					if(!usernameinDB) {
 						result="Username already exsits";
 					}
+				}
+				else {
+					System.out.println("Anirudh");
 				}
 			}
 		}

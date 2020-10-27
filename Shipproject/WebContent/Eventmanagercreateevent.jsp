@@ -23,7 +23,7 @@
  </c:forEach>
  </select>
  </td>
- <td><input name="erroreventname"  value="<c:out value='${createMsgs.eventname}'/>" class="errorMsg"> </td> 
+ <td><!--<input name="erroreventname"  value="<c:out value='${createMsgs.eventname}'/>" class="errorMsg">--> </td> 
  </tr>
  
  <tr>

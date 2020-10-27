@@ -1,0 +1,6 @@
+1,registerSpecifiedEvent,49,1,188,
+2,registerSpecifiedEvent,49,1,187,you cant reserve more then 2 Athletic events per day
+3,registerSpecifiedEvent,49,1,191,you cant reserve more then 1 Show event per day
+4,registerSpecifiedEvent,49,1,193,you have already registered for this event
+5,registerSpecifiedEvent,49,1,189,This event capasity is full
+6,registerSpecifiedEvent,49,1,194,
