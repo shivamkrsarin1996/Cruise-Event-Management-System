@@ -46,13 +46,9 @@ public class reserve implements Serializable{
 		ArrayList<reserve> reserveinDB=new ArrayList<reserve>();
 		Events selectedevent = new Events();
 		eventInDBs=eventsDAO.searchevent(createid);
-		//selectedevent.setEvent(eventname, location, capacity, duration, type, date, managerid, time, id_event, idcreate);
 		selectedevent.setEvent(eventInDBs.get(0).getEventname(), eventInDBs.get(0).getLocation(),eventInDBs.get(0).getCapacity(), eventInDBs.get(0).getDuration(),  eventInDBs.get(0).getType(),  eventInDBs.get(0).getDate(),  eventInDBs.get(0).getManagerid(),eventInDBs.get(0).getTime(), eventInDBs.get(0).getId_event(), eventInDBs.get(0).getIdcreate(),eventInDBs.get(0).getEstCap());
 		String result="";
 		reserveinDB=reserveDAO.typeDateSearch(selectedevent.getType(),selectedevent.getDate(), userid);
-//		System.out.print(selectedevent.getType());
-//		System.out.print(selectedevent.getDate());
-//		System.out.println(reserveinDB.size());
 		if(selectedevent.getType().equals("Athletic")) {
 			if(reserveinDB.size()>=2) {
 				result="you cant reserve more then 2 Athletic events per day";

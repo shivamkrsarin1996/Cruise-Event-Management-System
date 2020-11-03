@@ -26,6 +26,6 @@
 26,Eventmanagerassignevent,Bowling 2,Deck 8,10,60,Athletic,3,202,209,11/24/2020,16:25,9,,,,12,Please correct the following errors,,,,This Co-ordinator has prior booking during this time
 27,eventSearch,,,,,,,,,10/22/2020,13:00,,,,,,Cannot be past date,,,,
 28,eventtypeSearch,,,,,,,,,10/22/2020,13:00,,,,,,Cannot be past date,,,,
-29,eventAssignedSearch,,,,,,,,,10/25/2020,13:00,,,,,,Cannot be past date,,,,
-30,eventAssignedSearch,,,,,,,,,10/26/2020,14:18,,,,,,Cannot be past time,,,,
-31,eventAssignedSearch,,,,,,,,,10/26/2020,14:19,,,,,,,,,,
+29,eventAssignedSearch,,,,,,,,,10/28/2020,13:00,,,,,,Cannot be past date,,,,
+30,eventAssignedSearch,,,,,,,,,10/29/2020,9:19,,,,,,Cannot be past time,,,,
+31,eventAssignedSearch,,,,,,,,,10/29/2020,9:20,,,,,,,,,,

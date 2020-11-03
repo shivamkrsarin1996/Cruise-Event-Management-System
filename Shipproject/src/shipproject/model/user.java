@@ -203,13 +203,6 @@ public class user implements Serializable {
 			}
 			else {
 				int m=username.length();
-//				int i=0;
-//				while(i<m) {
-//					if(!Character.isLetterOrDigit(username.charAt(i))) {
-//						result="Username must have only letters and numbers";
-//					}
-//					i++;
-//				}
 				for(int i=0;i<m;i++) {
 					if(!Character.isLetterOrDigit(username.charAt(i))) {
 						result="Username must have only letters and numbers";
@@ -302,14 +295,6 @@ public class user implements Serializable {
 				}
 			}
 		}
-//		else {
-//			String regex = "^(?=.*[0-9])"+ "(?=.*[a-z])(?=.*[A-Z])"+ "(?=.*[@#$%^&+=])"+ "(?=\\S+$).{7,30}$";
-//			Pattern p = Pattern.compile(regex);
-//			Matcher m = p.matcher(password);
-//			if(!m.matches()) {
-//				result="Password must have a number,upper case letter,lower case letter and special character";
-//			}	
-//		}
 		return result;
 	}
 	
