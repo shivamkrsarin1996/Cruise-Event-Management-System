@@ -8,7 +8,7 @@
 </head>
 <body class="regbody">
 <header class="regHeader">
-<h1>Registration</h1>
+<h1><a href="<c:url value='/'  />">Registration</a></h1>
 </header>
 <div class="bodyreg">
 <h4>Enter your Information</h4>

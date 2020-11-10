@@ -17,9 +17,9 @@ public class reserve implements Serializable{
 	public void setId_user(int id_user) {
 		this.id_user = id_user;
 	}
-//	public int getIdreserve() {
-//		return idreserve;
-//	}
+	public int getIdreserve() {
+		return idreserve;
+	}
 	public void setIdreserve(int idreserve) {
 		this.idreserve = idreserve;
 	}
