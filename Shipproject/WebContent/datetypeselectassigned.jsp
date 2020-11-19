@@ -30,5 +30,9 @@
  <input name="action" value="eventAssignedSearch" type="hidden">
     <input type="submit" value="Submit">
  </form>
+ <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
+ <input name="action" value="logout" type="hidden">
+    <input type="submit" value="logout" />
+</form> 
 </body>
 </html>

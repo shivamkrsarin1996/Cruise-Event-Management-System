@@ -120,7 +120,7 @@ public class shipproject_funtions {
 		sdf.applyPattern(NEW_FORMAT);
 		date = sdf.format(d);
 		SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
-	    SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
+	    SimpleDateFormat parseFormat = new SimpleDateFormat("hhmma");
 	    Date t = parseFormat.parse(time);
 	    time=displayFormat.format(t);
 		ArrayList<Events> UfromDB=ReturnMatchingCompaniesList("SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' and managerid="+id+" order by time,eventName");
@@ -145,7 +145,7 @@ public class shipproject_funtions {
 		sdf.applyPattern(NEW_FORMAT);
 		date = sdf.format(d);
 		SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
-	    SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
+	    SimpleDateFormat parseFormat = new SimpleDateFormat("hhmma");
 	    Date t = parseFormat.parse(time);
 	    time=displayFormat.format(t);
 		ArrayList<Events> UfromDB=ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' order by time,eventName");
@@ -214,18 +214,19 @@ public class shipproject_funtions {
 		}
 	}
 	
-	public void ship_login(WebDriver driver, String sUserName, String sPassword,String snapShotName) {
+	public void ship_login(WebDriver driver, String sUserName, String sPassword,String snapShotName) throws InterruptedException {
 		driver.findElement(By.xpath(prop.getProperty("login_username"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("login_username"))).sendKeys(sUserName);
 		driver.findElement(By.xpath(prop.getProperty("login_password"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("login_password"))).sendKeys(sPassword);
+		Thread.sleep(1_000);
 		driver.findElement(By.xpath(prop.getProperty("login_Submit_Btn"))).click();
 		takeScreenshot(driver,snapShotName);
 	}
-	public void filldate(WebDriver driver,String date,String time,String snapShotName) {
+	public void filldate(WebDriver driver,String date,String time,String snapShotName) throws InterruptedException {
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).sendKeys(date);
-		//driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Time_Val"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Time_Val"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Time_Val"))).sendKeys(time);
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Btn"))).click();
 		takeScreenshot(driver,snapShotName);
@@ -240,7 +241,7 @@ public class shipproject_funtions {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_error"))).getAttribute("value").equals(errorMsg));
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_error"))).getAttribute("value").equals(errorMsg));
 	}
-	public void ship_registration(WebDriver driver,String username,String first_name, String last_name, String password,String cpassword, String phone,String email,String memtype,String room_number,String deck_number,String snapShotName) {
+	public void ship_registration(WebDriver driver,String username,String first_name, String last_name, String password,String cpassword, String phone,String email,String memtype,String room_number,String deck_number,String snapShotName) throws InterruptedException {
 		//driver.findElement(By.xpath(prop.getProperty("login_Registration_Btn"))).click();
 		driver.findElement(By.xpath(prop.getProperty("registration_fname"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("registration_fname"))).sendKeys(first_name);
@@ -262,6 +263,7 @@ public class shipproject_funtions {
 		driver.findElement(By.xpath(prop.getProperty("registration_dnum"))).sendKeys(deck_number);
 		new Select(driver.findElement(By.xpath(prop.getProperty("registration_mem")))).selectByVisibleText(memtype);
 		driver.findElement(By.xpath(prop.getProperty("registration_Btn"))).click();
+		Thread.sleep(1_000);
 		takeScreenshot(driver,snapShotName);
 	}
 
@@ -277,5 +279,14 @@ public class shipproject_funtions {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("registration_rnumErr"))).getAttribute("value").equals(room_numberError));
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("registration_dnumErr"))).getAttribute("value").equals(deck_numberError));
 	}
-
+	public void corlogin(WebDriver driver,String header,String snapShotName) throws InterruptedException {
+		Thread.sleep(1_000);
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatorhmpg_Title"))).getText().equals(header));
+		takeScreenshot(driver,snapShotName);
+	}
+	public void logout(WebDriver driver,String logout,String snapShotName) throws InterruptedException {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_regMsg"))).getAttribute("value").equals(logout));
+		Thread.sleep(1_000);
+		takeScreenshot(driver,snapShotName);
+	}
 }

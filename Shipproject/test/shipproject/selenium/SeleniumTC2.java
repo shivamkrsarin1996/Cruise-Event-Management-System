@@ -92,6 +92,7 @@ public class SeleniumTC2 extends shipproject_funtions{
 		int id=userid(username);
 		assertFalse(arraysDiff(getTableContentsFromPage(rows),listcorevents(id,rows)));
 		driver.findElement(By.xpath(prop.getProperty("coordinatoreventpg_Logout_Btn"))).click();
+		Thread.sleep(1_000);
 	}
 	
 	@Test
@@ -102,13 +103,14 @@ public class SeleniumTC2 extends shipproject_funtions{
 		ship_login(driver,username,password,methodName+" CoordinatorHomePage");
 		Coordinator_function(driver,FunctionCoordinator.ListAllAssignedEvent);
 		System.out.println(col1);
-		Thread.sleep(1_000);
+		Thread.sleep(2_000);
 		driver.findElement(By.xpath(col1)).click();
 		verifystrings10(driver,"coordinatorspecificlist_EventnameRow",col2,"coordinatorspecificlist_LocationRow",col3,"coordinatorspecificlist_CapacityRow",col4,"coordinatorspecificlist_EstimatedRow",col5,"coordinatorspecificlist_DurationRow",col6,"coordinatorspecificlist_TypeRow",col7,"coordinatorspecificlist_DateRow",col8,
 				"coordinatorspecificlist_TimeRow",col9,"coordinatorspecificlist_CoordinatorFname",col10,"coordinatorspecificlist_CoordinatorLname",col11,methodName+" verifySpecific2 test case "+testcaseNo);
 		verifystrings10(driver,"coordinatorspecificlist_EventnameVal",col12,"coordinatorspecificlist_LocationVal",col13,"coordinatorspecificlist_CapacityVal",col14,"coordinatorspecificlist_EstimatedVal",col15,"coordinatorspecificlist_DurationVal",col16,"coordinatorspecificlist_TypeVal",col17,"coordinatorspecificlist_DateVal",col18,
 				"coordinatorspecificlist_TimeVal",col19,"coordinatorspecificlist_CoordinatorFnameVal",col20,"coordinatorspecificlist_CoordinatorLnameVal",col21,methodName+" verifySpecific2 test case "+testcaseNo);
 		driver.findElement(By.xpath(prop.getProperty("coordinatoreventspecificlist_Logout_Btn"))).click();
+		Thread.sleep(1_000);
 	}
 	
 	@Test
@@ -121,6 +123,9 @@ public class SeleniumTC2 extends shipproject_funtions{
 		filldate(driver,date,time,methodName+" datefill test case "+testcaseNo);
 		if(!error.equals("")) {
 		verifyfilldate(driver,error);
+		Thread.sleep(1_000);
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_logout"))).click();
+		Thread.sleep(1_000);
 		}
 		else {
 			verifycorlistpage(driver,header);
@@ -142,6 +147,9 @@ public class SeleniumTC2 extends shipproject_funtions{
 		filldate(driver,date,time,methodName+" datefill test case "+testcaseNo);
 		if(!error.equals("")) {
 		verifyfilldate(driver,error);
+		Thread.sleep(1_000);
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_logout"))).click();
+		Thread.sleep(1_000);
 		}
 		else {
 			verifycorlistpage(driver,header);
@@ -151,6 +159,7 @@ public class SeleniumTC2 extends shipproject_funtions{
 			int id=userid(username);
 			assertFalse(arraysDiff(getTableContentsFromPage(rows),listCoreventdate(date,time,rows,id)));
 			driver.findElement(By.xpath(prop.getProperty("coordinatoreventpg_Logout_Btn"))).click();
+			Thread.sleep(1_000);
 		}
 	}
 	

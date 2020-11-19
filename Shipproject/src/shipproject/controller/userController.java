@@ -132,7 +132,8 @@ public class userController extends HttpServlet {
 			
 			
 		}
-		else if(action.equalsIgnoreCase("logout")) {
+		//else if(action.equalsIgnoreCase("logout")) {
+		else {
 			session.removeAttribute("loginU");
 			UerrorMsgs.setCpasswordError("Logged Out Successfully");
 			session.setAttribute("errorMs", UerrorMsgs);

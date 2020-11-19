@@ -41,32 +41,42 @@ public class SeleniumTC1 extends shipproject_funtions{
 	@Test
 	@FileParameters("test/shipproject/selenium/TC01a_test_cases.csv")
 	public void TC01a(int testcaseNo,String username,String first_name, String last_name, String password,String cpassword, String phone,String email,String memtype,String room_number,String deck_number,
-			String errorMsg,String usernameError,String first_nameError,String last_nameError,String passwordError,String cpasswordError,String phoneError,String emailError,String room_numberError,String deck_numberError) throws Exception {
+			String errorMsg,String usernameError,String first_nameError,String last_nameError,String passwordError,String cpasswordError,String phoneError,String emailError,String room_numberError,String deck_numberError,String sucess) throws Exception {
 		String methodName= new Throwable().getStackTrace()[0].getMethodName();
 	    driver.get(sAppURL);
 	    driver.findElement(By.xpath(prop.getProperty("login_Registration_Btn"))).click();
 	    if(!errorMsg.equals("")) {
 	    	ship_registration(driver,username,first_name,last_name,password,cpassword, phone,email,memtype,room_number,deck_number,methodName+" registationFuntion "+testcaseNo);
 		    verifyRegistration(driver,errorMsg,usernameError,first_nameError,last_nameError,passwordError,cpasswordError,phoneError,emailError,room_numberError,deck_numberError);
-	        driver.findElement(By.xpath(prop.getProperty("registration_AppLink"))).click();
+		    Thread.sleep(1_000);
+		    driver.findElement(By.xpath(prop.getProperty("registration_AppLink"))).click();
+	        Thread.sleep(1_000);
 	    }
 	    else {
 	    	Random rand = new Random();
 	    	username=username+Integer.toString(rand.nextInt(900)+100)+Integer.toString(rand.nextInt(900)+100);
 	    	ship_registration(driver,username,first_name,last_name,password,cpassword, phone,email,memtype,room_number,deck_number,methodName+" registationFuntion "+testcaseNo);
-	    	assertTrue(driver.findElement(By.xpath(prop.getProperty("login_regMsg"))).getAttribute("value").equals("Registered Successfully"));
+	    	Thread.sleep(1_000);
+	    	assertTrue(driver.findElement(By.xpath(prop.getProperty("login_regMsg"))).getAttribute("value").equals(sucess));
+	    	Thread.sleep(1_000);
 	    }
 	}
 	
 	@Test
 	@FileParameters("test/shipproject/selenium/TC01b_test_cases.csv")
-	public void TC01b(int testcaseNo,String username,String password,String errorMsg) {
+	public void TC01b(int testcaseNo,String username,String password,String errorMsg,String header,String logoutmsg) throws InterruptedException {
 		String methodName= new Throwable().getStackTrace()[0].getMethodName();
 	    driver.get(sAppURL);
 	    ship_login(driver,username,password,methodName+" loginFuntion "+testcaseNo);
-	    verifyLogin(driver,errorMsg);
-	}
-	
+	    if(!errorMsg.equals("")) {
+	    	verifyLogin(driver,errorMsg);
+	    }
+	    else {
+	    	corlogin(driver,header,methodName+" login Sucess "+testcaseNo);//coordinatorhmpg_Logout_Btn
+	    	driver.findElement(By.xpath(prop.getProperty("coordinatorhmpg_Logout_Btn"))).click();
+	    	logout(driver,logoutmsg,methodName+" logout Sucess "+testcaseNo);
+	    }
+	}	
 	
 	@After
 	  public void tearDown() throws Exception {
