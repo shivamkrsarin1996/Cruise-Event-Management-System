@@ -31,6 +31,7 @@ public class shipproject_funtions {
 	public static WebDriver driver;
 	public static Properties prop;
 	public enum FunctionCoordinator {ListAllAssignedEvent,ViewEventDate,ViewAssignedDate}
+	public enum FunctionPassenger {ViewAllEvents,Viewmyreservations,Viewprofile,ViewEventSummary,SearchEventBasedontypedateandtime}
 	
 	public void takeScreenshot(WebDriver driver, String screenshotname) {
 		  try
@@ -211,6 +212,26 @@ public class shipproject_funtions {
 			break;
 		case ViewAssignedDate:
 			driver.findElement(By.xpath(prop.getProperty("coordinatorhmpg_AssignedeventsummaryLink"))).click();
+		}
+	}
+	//public enum FunctionPassenger {ViewAllEvents,Viewmyreservations,Viewprofile,ViewEventSummary,SearchEventBasedontypedateandtime}
+	
+	public void Passenger_function(WebDriver driver,FunctionPassenger function) {
+		switch (function) {
+		case ViewAllEvents:
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewAllEvent_link"))).click();
+			break;
+		case Viewmyreservations:
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewMyRervation_link"))).click();
+			break;
+		case Viewprofile:
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewProfile_link"))).click();
+			break;
+		case ViewEventSummary:
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewEventSummary_link"))).click();
+			break;
+		case SearchEventBasedontypedateandtime:
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_srchEventonDateTime"))).click();
 		}
 	}
 	
