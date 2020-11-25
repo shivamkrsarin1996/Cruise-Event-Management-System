@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <div class="regHeader">
-    <div class="logo"><h1><a href="<c:url value='/psg_homepage.jsp'  />">Passenger Information</a></h1></div>
+    <div class="logo"><h1><a href="<c:url value='/psg_homepage.jsp'  />">Update Passenger Information</a></h1></div>
     <div class="menu_nav">
     </div>
   </div>					
@@ -88,7 +88,7 @@
     </table>
    
    <input name="action" value="updateProfile" type="hidden">
-    <input type="submit" value="Save" onclick="return confirm('Are you sure to save changes?')">
+    <input type="submit" value="Save" onclick="return window.confirm('Are you sure to save changes?');">
 </form>
    
     <form name="logout" action="<c:url value='/userController?logout'/>" method="post">

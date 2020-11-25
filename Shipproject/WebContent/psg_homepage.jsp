@@ -11,7 +11,7 @@
 			<h1>Welcome aboard Passenger!!</h1>
 		</header>
 		<ul>	
-	          <li><a href="<c:url value='/eventController?action=psg_view_all_events' />"><span>View All Events</span></a></li>
+	<!--        <li><a href="<c:url value='/eventController?action=psg_view_all_events' />"><span>View All Events</span></a></li>-->    
 	          <br><li><a href="<c:url value='/registerEventController?action=psg_viewRegisteredEvent'/>"><span>View my reservations</span></a></li>  
 	          <br><li><a href="<c:url value='/psg_info.jsp' />"><span>View profile</span></a></li>
 	          <br><li><a href="<c:url value='/eventController?action=redirectPagedatetime'/>"><span>View Event Summary</span></a></li> 

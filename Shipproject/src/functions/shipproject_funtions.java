@@ -169,6 +169,13 @@ public class shipproject_funtions {
 		i=fromDB.get(0).getId_user();
 		return i;
 	}
+	public user userinformation(String name) {
+		ArrayList<user> fromDB=returnMatcingusers("SELECT * from user WHERE username='"+name+"'");
+		user seluser=new user();
+		seluser.setUser(fromDB.get(0).getUsername(), fromDB.get(0).getFirst_name(), fromDB.get(0).getLast_name(), fromDB.get(0).getPassword(), fromDB.get(0).getRole(), fromDB.get(0).getPhone(), fromDB.get(0).getEmail(),fromDB.get(0).getMemtype(), fromDB.get(0).getRoom_number(), fromDB.get(0).getDeck_number());
+		seluser.setId_user(fromDB.get(0).getId_user());
+		return seluser;
+	}
 	public WebDriver invokeCorrectBrowser () {
 		System.setProperty("webdriver.chrome.driver", "c:/ChromeDriver/chromedriver.exe");
 		return new ChromeDriver();
@@ -201,6 +208,20 @@ public class shipproject_funtions {
 	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header10OnPage))).getText().equals(expectedHeader10Name));
 	    takeScreenshot(driver,snapShotName);
 		
+	}
+	public void verifystrings8(WebDriver driver,String header1OnPage, String expectedHeader1Name,String header2OnPage, String expectedHeader2Name,
+			String header3OnPage, String expectedHeader3Name,String header4OnPage, String expectedHeader4Name, 
+			String header5OnPage, String expectedHeader5Name, String header6OnPage, String expectedHeader6Name, 
+			String header7OnPage, String expectedHeader7Name,String header8OnPage, String expectedHeader8Name,String snapShotName){
+		assertTrue(driver.findElement(By.xpath(prop.getProperty(header1OnPage))).getText().equals(expectedHeader1Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header2OnPage))).getText().equals(expectedHeader2Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header3OnPage))).getText().equals(expectedHeader3Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header4OnPage))).getText().equals(expectedHeader4Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header5OnPage))).getText().equals(expectedHeader5Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header6OnPage))).getText().equals(expectedHeader6Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header7OnPage))).getText().equals(expectedHeader7Name));
+	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header8OnPage))).getText().equals(expectedHeader8Name));
+	    takeScreenshot(driver,snapShotName);
 	}
 	public void Coordinator_function(WebDriver driver,FunctionCoordinator function) {
 		switch (function) {
@@ -287,6 +308,35 @@ public class shipproject_funtions {
 		Thread.sleep(1_000);
 		takeScreenshot(driver,snapShotName);
 	}
+	public void updateprofileFill(WebDriver driver,String password,String first_name, String last_name,String phone,String email,String room_number,String deck_number,String snapShotName) throws InterruptedException {
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_password"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_password"))).sendKeys(password);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_firstName"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_firstName"))).sendKeys(first_name);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_lastName"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_lastName"))).sendKeys(last_name);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_email"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_email"))).sendKeys(email);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_phone"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_phone"))).sendKeys(phone);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_rnum"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_rnum"))).sendKeys(room_number);
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_dnum"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_dnum"))).sendKeys(deck_number);
+//		driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_saveProfile_btn"))).click();
+		Thread.sleep(1_000);
+		takeScreenshot(driver,snapShotName);
+	}
+	public void verifyupdate(WebDriver driver,String passwordError,String first_nameError, String last_nameError,String phoneError,String emailError,String room_numberError,String deck_numberError) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_passwordError"))).getAttribute("value").equals(passwordError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_firstNameError"))).getAttribute("value").equals(first_nameError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_lastNameError"))).getAttribute("value").equals(last_nameError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_phoneError"))).getAttribute("value").equals(phoneError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_emailError"))).getAttribute("value").equals(emailError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_rnumError"))).getAttribute("value").equals(room_numberError));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgUpdateInfo_dnumError"))).getAttribute("value").equals(deck_numberError));
+		
+	}
 
 	public void verifyRegistration(WebDriver driver,String errorMsg,String usernameError,String first_nameError,String last_nameError,String passwordError,String cpasswordError,String phoneError,String emailError,String room_numberError,String deck_numberError) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("registration_errorMsg"))).getAttribute("value").equals(errorMsg));
@@ -304,6 +354,13 @@ public class shipproject_funtions {
 		Thread.sleep(1_000);
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatorhmpg_Title"))).getText().equals(header));
 		takeScreenshot(driver,snapShotName);
+	}
+	public void verifypassengerHomepage(WebDriver driver,String header1,String header2,String header3,String header4,String header5) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_heading"))).getText().equals(header1));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewMyRervation_link"))).getText().equals(header2));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewProfile_link"))).getText().equals(header3));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewEventSummary_link"))).getText().equals(header4));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_srchEventonDateTime_link"))).getText().equals(header5));
 	}
 	public void logout(WebDriver driver,String logout,String snapShotName) throws InterruptedException {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_regMsg"))).getAttribute("value").equals(logout));
