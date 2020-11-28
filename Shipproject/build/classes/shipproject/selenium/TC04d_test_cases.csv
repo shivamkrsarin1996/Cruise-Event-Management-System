@@ -1,0 +1,4 @@
+1,12/9/2020,0359PM,Show,/html/body/form[1]/table/tbody/tr[2]/td[7]/a,you cant reserve more then 1 Show event per day
+2,12/9/2020,0359PM,Athletic,/html/body/form[1]/table/tbody/tr[2]/td[7]/a,you cant reserve more then 2 Athletic events per day
+3,12/9/2020,0359PM,Athletic,/html/body/form[1]/table/tbody/tr[6]/td[7]/a,This event capasity is full
+4,12/9/2020,0359PM,Athletic,/html/body/form[1]/table/tbody/tr[5]/td[7]/a,you have already registered for this event

@@ -50,36 +50,7 @@ public class SeleniumTC3 extends shipproject_funtions{
 		testDelay=prop.getProperty("testDelay");
 		prop.load(new FileInputStream(sSharedUIMapPath));
 	    }
-	
-//	private Boolean arraysDiff (String [][] array1, String [][] array2) { // this method compares the contents of the two tables
-//		  Boolean diff=false || (array1.length!=array2.length);
-//		  for (int i=0;i<array1.length && !diff;i++) {
-//			 diff  = !array1[i][0].equals(array2[i][0]) || !array1[i][1].equals(array2[i][1]) || 
-//					 !array1[i][2].equals(array2[i][2]) || !array1[i][3].equals(array2[i][3]) ||
-//					 !array1[i][4].equals(array2[i][4]) || !array1[i][5].equals(array2[i][5]);
-//		  }
-//		  return diff;
-//	  }
-//	
-//	private String [][] getTableContentsFromPage(int listSize) {
-//		 String [][] eventArray = new String[listSize-1][5];
-//		 for (int i=0; i<listSize-1; i++) {
-//			 eventArray[i][0]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_EventNameCol"))).getText();
-//			 eventArray[i][1]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_EventDateCol"))).getText();
-//			 eventArray[i][2]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_StartTimeCol"))).getText();
-//			 eventArray[i][3]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_DurationCol"))).getText();
-//			 eventArray[i][4]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_LocationCol"))).getText();
-//			 eventArray[i][5]=driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_EventsTable_Partial")+(i+2)+
-//						prop.getProperty("psgViewAllEvents_AvlSeatsCol"))).getText();
-//		 }
-//		 return eventArray;
-//	 }
-//	
+
 	@Test
 	@FileParameters("test/shipproject/selenium/TC03a_test_cases.csv")
 	public void TC03a(int testcaseNo,String header1,String header2,String header3,String header4,String header5) throws Exception{

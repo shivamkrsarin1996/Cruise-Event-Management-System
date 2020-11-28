@@ -21,29 +21,11 @@ import shipproject.model.user;
 @WebServlet("/registerEventController")
 public class registerEventController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
-	   
-//	private void getEventParam(HttpServletRequest request, Events events) {
-//		events.setEvent(request.getParameter("eventname"),request.getParameter("location"),request.getParameter("capacity"),request.getParameter("duration"), request.getParameter("type"),request.getParameter("date"),request.getParameter("managerid"),request.getParameter("time"),Integer.parseInt(request.getParameter("id_event")),Integer.parseInt(request.getParameter("idcreate")),request.getParameter("estCap"));  
-//	}
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-//		String action = request.getParameter("action"), url="";;
 		session.removeAttribute("errorMsgs");
-		
-		//List all events
-//				if(action.equalsIgnoreCase("psg_view_all_events")) {
-//					System.out.println("found func to view all events");
-//					ArrayList<Events> eventsInDB = new ArrayList<Events>();
-//				//	System.out.println("events in DB="+eventsInDB);
-//					eventsInDB=eventsDAO.listevents();
-//				//	System.out.println("events in DB after query="+eventsInDB);
-//					session.setAttribute("EVENTS", eventsInDB);	
-//					url="/psg_view_specific_event.jsp";	
-//					getServletContext().getRequestDispatcher(url).forward(request, response);
-//				}
-//				else // redirect all other gets to post
 					doPost(request,response);
 	}
 	
@@ -53,6 +35,9 @@ public class registerEventController extends HttpServlet{
 		user loginU=new user();
 		session.removeAttribute("errorMsgs");
 		session.removeAttribute("andy3");
+//		session.removeAttribute("REG_EVENTS");
+//		session.removeAttribute("EVENTS");
+//		session.removeAttribute("cordinator");
 //Register specific Event
 		if (action.equalsIgnoreCase("registerSpecifiedEvent") )  { 
 			reserve reserve=new reserve();
@@ -127,52 +112,4 @@ public class registerEventController extends HttpServlet{
 	
 		getServletContext().getRequestDispatcher(url).forward(request, response);
 	}
-
-
-//	private boolean checkforEventValidation(HttpServletRequest request) {
-//		// TODO Auto-generated method stub
-//		System.out.println("In checkforEventValidation");
-//		boolean status = true;
-//		int createdEventId = Integer.parseInt(request.getParameter("id"));
-//		System.out.println("Event ID ="+ createdEventId);
-//		
-//		String eventType = request.getParameter("event_type");
-//		System.out.println("Event type ="+ eventType);
-//		String eventDate = request.getParameter("event_date");
-//		System.out.println("Event Date ="+ eventDate);
-//		int userId = Integer.parseInt(request.getParameter("userId"));
-//		System.out.println("User ID ="+ userId);
-//		int eventCapacity = Integer.parseInt(request.getParameter("evnt_capacity"));
-//		System.out.println("Event capacity ="+ eventCapacity);
-//		String eventName = request.getParameter("evnt_Name");
-//		System.out.println("Event name ="+ eventName);
-//		
-//		
-//		
-//	//for checking estimated < capacity
-//		ArrayList<Events> attendees_eventsInDB = new ArrayList<Events>();
-//		attendees_eventsInDB = eventsDAO.fetchCapacity(eventDate, eventName);
-//		System.out.println("capacity of events result size="+ attendees_eventsInDB.size());
-//		if (attendees_eventsInDB.size() >= eventCapacity)
-//		{
-//			return false;
-//		}
-//		
-//		
-//	// for checking count of Athletic and show event
-//		ArrayList<Events> val_eventsInDB = new ArrayList<Events>();
-//		val_eventsInDB=eventsDAO.countReservedEventsForUser(eventType, eventDate, userId);
-//		System.out.println("events result size="+ val_eventsInDB.size());
-//		if (eventType.equalsIgnoreCase("Athletic")) {
-//			if(val_eventsInDB.size() > 2)
-//			{ status = false;}
-//		}
-//		else if (eventType.equalsIgnoreCase("Show")) {
-//			if(val_eventsInDB.size() > 1)
-//			{ status = false;}
-//		}
-//		return status;
-//	}
-
-
 }

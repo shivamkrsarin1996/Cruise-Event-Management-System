@@ -22,7 +22,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
+import shipproject.data.reserveDAO;
 import shipproject.model.Events;
+import shipproject.model.reserve;
 import shipproject.model.user;
 import shipproject.util.SQLConnection;
 
@@ -73,6 +75,23 @@ public class shipproject_funtions {
 		} catch (SQLException e) {}
 		return eventListInDB;
 	}//String [][]
+	private static ArrayList<reserve> ReturnMatchingreservelist (String queryString){
+		 ArrayList<reserve> reservelistDB=new  ArrayList<reserve>();
+		 Statement stmt = null;
+		 Connection conn = SQLConnection.getDBConnection();  
+			try {
+				stmt = conn.createStatement();
+				ResultSet reserveList = stmt.executeQuery(queryString);
+				while(reserveList.next()) {
+					reserve reserve=new reserve();
+					reserve.setIdreserve(reserveList.getInt("idreserve"));
+					reserve.setId_user(reserveList.getInt("userid"));
+					reserve.setIdcreate(reserveList.getInt("eventcreateid"));
+					reservelistDB.add(reserve);
+				}
+			} catch (SQLException e) {}
+			return reservelistDB;
+	}
 	public static ArrayList<user> returnMatcingusers(String queryString){
 		ArrayList<user> userListInDB=new ArrayList<user>();
 		Statement stmt = null;
@@ -159,6 +178,90 @@ public class shipproject_funtions {
 			arrayDB[i][2]=p.getDate();
 			arrayDB[i][3]=p.getTime();
 			arrayDB[i][4]=p.getType();
+			i++;
+		}
+		return arrayDB;
+	}
+	public static String [][] listeventdatepas(String date,String time,int listSize) throws SQLException, ParseException{
+		String OLD_FORMAT = "MM/dd/yyyy";
+		String NEW_FORMAT = "yyyy-MM-dd";
+		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+		Date d = sdf.parse(date);
+		sdf.applyPattern(NEW_FORMAT);
+		date = sdf.format(d);
+		SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+	    SimpleDateFormat parseFormat = new SimpleDateFormat("hhmma");
+	    Date t = parseFormat.parse(time);
+	    time=displayFormat.format(t);
+		ArrayList<Events> UfromDB=ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' order by time,eventName");
+		UfromDB.addAll(ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' order by DATE,time,eventName"));
+		String [][] arrayDB = new String [listSize-1][6];
+		for(int j=0;j<UfromDB.size();j++) {
+			ArrayList<reserve> list=new ArrayList<reserve>();
+			list=ReturnMatchingreservelist("SELECT * FROM ship.reserve where eventcreateid="+UfromDB.get(j).getIdcreate());
+			UfromDB.get(j).setEstCap(String.valueOf(Integer.parseInt(UfromDB.get(j).getCapacity())-list.size()));
+			
+		}
+		int i=0;
+		for(Events p:UfromDB) {
+			arrayDB[i][0]=p.getEventname();
+			arrayDB[i][1]=p.getDate();
+			arrayDB[i][2]=p.getTime();
+			arrayDB[i][3]=p.getDuration();
+			arrayDB[i][4]=p.getLocation();
+			arrayDB[i][5]=p.getEstCap();
+			i++;
+		}
+		return arrayDB;
+	}//SELECT * FROM events,ship.create,reserve,ship.user where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and reserve.userid = user.id_used and user.id_used="+userId;
+	public static String [][] listrerve(int id,int listSize) throws SQLException, ParseException{
+		ArrayList<Events> UfromDB=ReturnMatchingCompaniesList("SELECT * FROM events,ship.create,reserve,ship.user where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and reserve.userid = user.id_used and user.id_used="+id);
+		String [][] arrayDB = new String [listSize-1][6];
+		for(int i=0;i<UfromDB.size();i++) {
+			ArrayList<reserve> list=new ArrayList<reserve>();
+			list=reserveDAO.capSearch(UfromDB.get(i).getIdcreate());
+			UfromDB.get(i).setEstCap(String.valueOf(list.size()));
+		}
+		int i=0;
+		for(Events p:UfromDB) {
+			arrayDB[i][0]=p.getEventname();
+			arrayDB[i][1]=p.getDate();
+			arrayDB[i][2]=p.getTime();
+			arrayDB[i][3]=p.getDuration();
+			arrayDB[i][4]=p.getLocation();
+			arrayDB[i][5]=p.getEstCap();
+			i++;
+		}
+		return arrayDB;
+	}
+	public static String [][] listeventdatepastype(String date,String time,String type,int listSize) throws SQLException, ParseException{
+		String OLD_FORMAT = "MM/dd/yyyy";
+		String NEW_FORMAT = "yyyy-MM-dd";
+		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+		Date d = sdf.parse(date);
+		sdf.applyPattern(NEW_FORMAT);
+		date = sdf.format(d);
+		SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm");
+	    SimpleDateFormat parseFormat = new SimpleDateFormat("hhmma");
+	    Date t = parseFormat.parse(time);
+	    time=displayFormat.format(t);
+		ArrayList<Events> UfromDB=ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE='"+date+"' and time>='"+time+"' and Type='"+type+"' order by time,eventName");
+		UfromDB.addAll(ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid where DATE>'"+date+"' and Type='"+type+"' order by DATE,time,eventName"));
+		String [][] arrayDB = new String [listSize-1][6];
+		for(int j=0;j<UfromDB.size();j++) {
+			ArrayList<reserve> list=new ArrayList<reserve>();
+			list=ReturnMatchingreservelist("SELECT * FROM ship.reserve where eventcreateid="+UfromDB.get(j).getIdcreate());
+			UfromDB.get(j).setEstCap(String.valueOf(Integer.parseInt(UfromDB.get(j).getCapacity())-list.size()));
+			
+		}
+		int i=0;
+		for(Events p:UfromDB) {
+			arrayDB[i][0]=p.getEventname();
+			arrayDB[i][1]=p.getDate();
+			arrayDB[i][2]=p.getTime();
+			arrayDB[i][3]=p.getDuration();
+			arrayDB[i][4]=p.getLocation();
+			arrayDB[i][5]=p.getEstCap();
 			i++;
 		}
 		return arrayDB;
@@ -252,7 +355,7 @@ public class shipproject_funtions {
 			driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewEventSummary_link"))).click();
 			break;
 		case SearchEventBasedontypedateandtime:
-			driver.findElement(By.xpath(prop.getProperty("psg_homepg_srchEventonDateTime"))).click();
+			driver.findElement(By.xpath(prop.getProperty("psg_homepg_srchEventonDateTime_link"))).click();
 		}
 	}
 	
@@ -273,11 +376,23 @@ public class shipproject_funtions {
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Btn"))).click();
 		takeScreenshot(driver,snapShotName);
 	}
+	public void filldatetype(WebDriver driver,String date,String time,String type,String snapShotName) throws InterruptedException {
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).sendKeys(date);
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Time_Val"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Time_Val"))).sendKeys(time);
+		new Select(driver.findElement(By.xpath(prop.getProperty("psgTypeDateTime_EventType_value")))).selectByVisibleText(type);
+		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Btn"))).click();
+		takeScreenshot(driver,snapShotName);
+	}
 	public void verifyfilldate(WebDriver driver,String errorMsg) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_error"))).getAttribute("value").equals(errorMsg));
 	}
 	public void verifycorlistpage(WebDriver driver,String header) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatoreventpg_Title"))).getText().equals(header));
+	}
+	public void verifypaslistpage(WebDriver driver,String header) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_psgHomepg_link"))).getText().equals(header));
 	}
 	public void verifyLogin(WebDriver driver,String errorMsg) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_error"))).getAttribute("value").equals(errorMsg));

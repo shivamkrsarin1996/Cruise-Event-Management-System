@@ -30,9 +30,6 @@ import shipproject.data.userDAO;
 public class eventController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
    
-//	private void getEventParam (HttpServletRequest request, Events events) {
-//		events.setEvent(request.getParameter("eventname"),request.getParameter("location"),request.getParameter("capacity"),request.getParameter("duration"), request.getParameter("type"), request.getParameter("date"), request.getParameter("managerid"), request.getParameter("time"), Integer.parseInt(request.getParameter("id_event")),Integer.parseInt(request.getParameter("idcreate")),request.getParameter("estCap"));  
-//	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -52,23 +49,6 @@ public class eventController extends HttpServlet {
 			session.setAttribute("andy0EVENTS", eventInDB);			
 			getServletContext().getRequestDispatcher("/eventmanagereventlist.jsp").forward(request, response);
 		}
-		
-//Passenger - List all events
-		else if(action.equalsIgnoreCase("psg_view_all_events")) {
-			session.removeAttribute("andyEVENTS");
-			System.out.println("found func to view all events");
-			ArrayList<Events> eventsInDB = new ArrayList<Events>();
-		//	System.out.println("events in DB="+eventsInDB);
-			eventsInDB=eventsDAO.listevents();
-		//	System.out.println("events in DB after query="+eventsInDB);
-			for(int i=0;i<eventsInDB.size();i++) {
-				ArrayList<reserve> list=new ArrayList<reserve>();
-				list=reserveDAO.capSearch(eventsInDB.get(i).getIdcreate());
-				eventsInDB.get(i).setEstCap(String.valueOf(Integer.parseInt(eventsInDB.get(i).getCapacity())-list.size()));
-			}
-			session.setAttribute("andyEVENTS", eventsInDB);				
-			getServletContext().getRequestDispatcher("/psg_view_all_events.jsp").forward(request, response);
-		}
 		else 		
 		doPost(request,response);
 	}
@@ -80,7 +60,9 @@ public class eventController extends HttpServlet {
 		String action = request.getParameter("action"), url="";
 		HttpSession session = request.getSession();
 		//session.removeAttribute("cordinator");//Msgs
-		session.removeAttribute("dateevent");
+		session.removeAttribute("dateevent");//dateeventandy
+		session.removeAttribute("dateeventandy");//
+		session.removeAttribute("dateeventandy2");//
 		session.removeAttribute("Msgs");//
 		session.removeAttribute("CordinatorList");
 		session.removeAttribute("simpleEventList");
@@ -88,45 +70,13 @@ public class eventController extends HttpServlet {
 		session.removeAttribute("createMsgs");//ModifyMsgs
 		session.removeAttribute("ModifyMsgs");//success
 		//session.removeAttribute("success");corMsgs
+		//EVENTS
+//		session.removeAttribute("andyEVENTScor");
+		session.removeAttribute("EVENTS");//
 		session.removeAttribute("corMsgs");
+		session.removeAttribute("cordinator");//cordinator
 		int selectedeventIndex;
 		Events events=new Events();
-//		if(action.equalsIgnoreCase("Eventmanagercreateevent")) {
-//			session.removeAttribute("success");
-//		
-//			events.setEvent2(Integer.parseInt(request.getParameter("eventid")),request.getParameter("date"), request.getParameter("coordinatorid"),request.getParameter("time"), request.getParameter("estCap"));
-//			ArrayList<Events> eventDB=new ArrayList<Events>();
-//			eventDB=eventsDAO.simpleEventlistint(events.getId_event());
-////			System.out.println(events.getId_event());
-////			System.out.println(events.getDate());
-////			System.out.println(events.getManagerid());
-////			System.out.println(events.getTime());
-////			System.out.println(events.getEstCap());
-//			events.setEventname(eventDB.get(0).getEventname());
-//			events.setLocation(eventDB.get(0).getLocation());
-//			events.setCapacity(eventDB.get(0).getCapacity());
-//			events.setDuration(eventDB.get(0).getDuration());
-//			events.setType(eventDB.get(0).getType());
-////			EventsErrorMsgs errorMsg=new EventsErrorMsgs();
-////			events.validateEvent(action, events, errorMsg);
-//			session.setAttribute("create",events);
-//			ArrayList<user> CordinatorsinDB=new ArrayList<user>();
-//			CordinatorsinDB=userDAO.searchCoordinator();
-//			ArrayList<Events> eventsInDB = new ArrayList<Events>();
-//			eventsInDB=eventsDAO.simpleEventlist();
-//			session.setAttribute("CordinatorList",CordinatorsinDB);
-//			session.setAttribute("simpleEventList", eventsInDB);
-////			if(!errorMsg.getErrorMsg().equals("")) {
-////				session.setAttribute("createMsgs",errorMsg);
-////				url="/Eventmanagercreateevent.jsp";
-////			}
-////			else {
-//				eventsDAO.createEvent(events);
-//				url="/Eventmanagerhomepage.jsp";
-//				session.removeAttribute("create");
-////			}
-//		}
-//		else if(action.equalsIgnoreCase("Eventmanagermodifyevent")) {
 		if(action.equalsIgnoreCase("Eventmanagermodifyevent")) {
 			session.removeAttribute("success");
 			int ids=Integer.parseInt(request.getParameter("id"));
@@ -191,10 +141,6 @@ public class eventController extends HttpServlet {
 		    	
 		    }
 		}
-		
-			
-			
-//Passenger - List specific Event 
 		else if (action.equalsIgnoreCase("psg_listSpecificEvent") )  { 
 			System.out.println("List specific company");
 			url="/psg_view_specific_event.jsp";	
