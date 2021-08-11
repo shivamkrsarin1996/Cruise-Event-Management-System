@@ -32,7 +32,6 @@ public class reserve implements Serializable{
 //validation 
 	
 	public void validatereservation(String action,reserve reserve,reserveErrorMsgs errormsg) {
-			System.out.println("reach");
 			errormsg.setErrorMsg(validatetypecap(reserve.getId_user(),reserve.getIdcreate()));
 			if(errormsg.getErrorMsg().equals("")) {
 				errormsg.setErrorMsg(validateCap(reserve.getIdcreate()));
@@ -79,8 +78,6 @@ public class reserve implements Serializable{
 		String result="";
 		ArrayList<reserve> reserveinDB=new ArrayList<reserve>();
 		reserveinDB=reserveDAO.regSearch(createid, userid);
-		System.out.println(createid);
-		System.out.println(userid);
 		if(reserveinDB.size()>0) {
 			result="you have already registered for this event";
 		}

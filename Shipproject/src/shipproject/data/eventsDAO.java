@@ -68,7 +68,7 @@ public class eventsDAO {
 			String updateevent="update ship.create set DATE='"+cdate+"',estimated='"+cestCap+"',time='"+ctime+"' where idcreate="+events.getIdcreate();
 			stmt.executeUpdate(updateevent);
 			conn.commit(); 
-		} catch (SQLException e) {System.out.println("FAIL");}
+		} catch (SQLException e) {}
 			
 	}
 	public static void assigncor(Events events,String id) {
@@ -79,7 +79,7 @@ public class eventsDAO {
 			String updateevent="update ship.create set managerid="+id+" where idcreate="+events.getIdcreate();
 			stmt.executeUpdate(updateevent);
 			conn.commit(); 
-		} catch (SQLException e) {System.out.println("FAIL");}
+		} catch (SQLException e) {}
 	}
 
 	public static ArrayList<Events>  listevents() {  
@@ -128,9 +128,7 @@ public class eventsDAO {
 }
 	
 	public static ArrayList<Events> searchEventbyUser(int userId){
-		System.out.println("in DAO func-searchEventbyUser");
 		String query = " SELECT * FROM events,ship.create,reserve,ship.user where ship.events.idevents = ship.create.eventid and reserve.eventcreateid = ship.create.idcreate and reserve.userid = user.id_used and user.id_used="+userId;
-		System.out.println(query);
 		return ReturnMatchingCompaniesList(query);
 	}
 

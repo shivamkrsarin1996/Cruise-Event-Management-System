@@ -34,7 +34,7 @@ public class shipproject_funtions {
 	public static Properties prop;
 	public enum FunctionCoordinator {ListAllAssignedEvent,ViewEventDate,ViewAssignedDate}
 	public enum FunctionPassenger {ViewAllEvents,Viewmyreservations,Viewprofile,ViewEventSummary,SearchEventBasedontypedateandtime}
-	
+	public enum FunctionManager {ViewEventSummary,ViewAllEvents}
 	public void takeScreenshot(WebDriver driver, String screenshotname) {
 		  try
 		  {
@@ -132,6 +132,20 @@ public class shipproject_funtions {
 		}
 		return arrayDB;
 	}//listCoreventdate
+	public static String [][]  listmanevents(int listSize) throws SQLException {  
+		ArrayList<Events> UfromDB= ReturnMatchingCompaniesList(" SELECT * FROM events join ship.create on events.idevents = ship.create.eventid order by DATE,time,eventName");
+		String [][] arrayDB = new String [listSize-1][5];
+		int i=0;
+		for(Events p:UfromDB) {
+			arrayDB[i][0]=p.getEventname();
+			arrayDB[i][1]=p.getLocation();
+			arrayDB[i][2]=p.getDate();
+			arrayDB[i][3]=p.getTime();
+			arrayDB[i][4]=p.getType();
+			i++;
+		}
+		return arrayDB;
+	}
 	public static String [][] listCoreventdate(String date,String time,int listSize,int id) throws SQLException, ParseException{
 		String OLD_FORMAT = "MM/dd/yyyy";
 		String NEW_FORMAT = "yyyy-MM-dd";
@@ -326,6 +340,16 @@ public class shipproject_funtions {
 	    assertTrue(driver.findElement(By.xpath(prop.getProperty(header8OnPage))).getText().equals(expectedHeader8Name));
 	    takeScreenshot(driver,snapShotName);
 	}
+	public void manager_function(WebDriver driver,FunctionManager function) {
+		switch (function) {
+		case ViewEventSummary:
+			driver.findElement(By.xpath(prop.getProperty("mngr_hompg_viewEventSummary_link"))).click();
+			break;
+		case ViewAllEvents:
+			driver.findElement(By.xpath(prop.getProperty("mngr_hompg_viewAllEvent_link"))).click();
+			break;
+		}
+	}
 	public void Coordinator_function(WebDriver driver,FunctionCoordinator function) {
 		switch (function) {
 		case ListAllAssignedEvent:
@@ -376,6 +400,14 @@ public class shipproject_funtions {
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Btn"))).click();
 		takeScreenshot(driver,snapShotName);
 	}
+	public void fillmodifyevent(WebDriver driver,String cdate,String ctime,String cEst) {
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Date_value"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Date_value"))).sendKeys(cdate);
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Time_value"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Time_value"))).sendKeys(ctime);
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_EstAttendees_value"))).clear();
+		driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_EstAttendees_value"))).sendKeys(cEst);
+	}
 	public void filldatetype(WebDriver driver,String date,String time,String type,String snapShotName) throws InterruptedException {
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).clear();
 		driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_Date_Val"))).sendKeys(date);
@@ -388,8 +420,17 @@ public class shipproject_funtions {
 	public void verifyfilldate(WebDriver driver,String errorMsg) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatorviewAsgneventsummary_error"))).getAttribute("value").equals(errorMsg));
 	}
+	public void verifyModifyEvent(WebDriver driver,String error1,String error2,String error3,String error4) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_errorMsg"))).getAttribute("value").equals(error1));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_EstAttendees_errorMsg"))).getAttribute("value").equals(error2));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Date_errorMsg"))).getAttribute("value").equals(error3));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("ManagerModifyEvent_Time_errorMsg"))).getAttribute("value").equals(error4));
+	}
 	public void verifycorlistpage(WebDriver driver,String header) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("coordinatoreventpg_Title"))).getText().equals(header));
+	}
+	public void verifymanagerlistpage(WebDriver driver,String header) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("ManagerEventPage_EventPage_label"))).getText().equals(header));
 	}
 	public void verifypaslistpage(WebDriver driver,String header) {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("psgViewAllEvents_psgHomepg_link"))).getText().equals(header));
@@ -476,6 +517,11 @@ public class shipproject_funtions {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewProfile_link"))).getText().equals(header3));
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_viewEventSummary_link"))).getText().equals(header4));
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("psg_homepg_srchEventonDateTime_link"))).getText().equals(header5));
+	}
+	public void verifymanagerHomepage (WebDriver driver,String header1,String header2,String header3) {
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("mngr_hompg_heading"))).getText().equals(header1));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("mngr_hompg_viewEventSummary_link"))).getText().equals(header2));
+		assertTrue(driver.findElement(By.xpath(prop.getProperty("mngr_hompg_viewAllEvent_link"))).getText().equals(header3));
 	}
 	public void logout(WebDriver driver,String logout,String snapShotName) throws InterruptedException {
 		assertTrue(driver.findElement(By.xpath(prop.getProperty("login_regMsg"))).getAttribute("value").equals(logout));

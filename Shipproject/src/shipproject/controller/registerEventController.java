@@ -60,14 +60,11 @@ public class registerEventController extends HttpServlet{
 // view registerd events		
 		if (action.equalsIgnoreCase("psg_viewRegisteredEvent") )  { 
 			session.removeAttribute("REG_EVENTS");
-			System.out.println("Controller-Viewing regsiterd event of the user");
 			ArrayList<Events> res_eventInDB = new ArrayList<Events>();
 			user luser=new user();
 			luser= (user) session.getAttribute("loginU");
 			int userId = luser.getId_user();
-			System.out.println("User ID ="+ userId);
 			res_eventInDB=eventsDAO.searchEventbyUser(userId);
-			System.out.println(res_eventInDB);
 			for(int i=0;i<res_eventInDB.size();i++) {
 				ArrayList<reserve> list=new ArrayList<reserve>();
 				list=reserveDAO.capSearch(res_eventInDB.get(i).getIdcreate());
@@ -82,14 +79,10 @@ public class registerEventController extends HttpServlet{
 		
 //Passenger - List specific Event 
 				else if (action.equalsIgnoreCase("psg_listSpecificEvent") )  { 
-					System.out.println("List specific company");
 					url="/psg_view_specific_event.jsp";	
 					ArrayList<Events> eventsInDB = new ArrayList<Events>();
 					Events selectedEvent = new Events();
 					eventsInDB=eventsDAO.psg_searchevent(Integer.parseInt(request.getParameter("id")));
-					System.out.println("View button clicked");
-					System.out.println("eventsInDb= "+eventsInDB);
-					System.out.println("eventsInDb= "+	eventsInDB.get(0).getId_event());
 					selectedEvent.setEvent(eventsInDB.get(0).getEventname(), eventsInDB.get(0).getLocation(),
 							eventsInDB.get(0).getCapacity(), eventsInDB.get(0).getDuration(),  eventsInDB.get(0).getType(), 
 							eventsInDB.get(0).getDate(),  eventsInDB.get(0).getManagerid(),eventsInDB.get(0).getTime(),

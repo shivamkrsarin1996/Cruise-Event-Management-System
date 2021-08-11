@@ -17,7 +17,6 @@
  <form action="<c:url value='eventController?action=listspecificevent' />" method="post">         
        <table border="1" class="myTable"> 
 			<tr class="myTableRow"> 
-			    <th class="myTable20">Select Event</th>
 				<th class="myTable20">EventName</th>
 				<th class="myTable20">Location</th>
 				<th class="myTable35">Date</th> 
@@ -28,7 +27,6 @@
 
  			<c:forEach items="${andy0EVENTS}" var="item" varStatus="status">
 			<tr class="myTableRow">
-			<td class="myTableRadio"><input type="radio" id="radioCompany${status.count}" name="radioCompany" value="<c:out value="${status.count}" />"></td> 	
 			<td class="myTable20 "><c:out value="${item.eventname}" /></td>
 			<td class="myTable20 "><c:out value="${item.location}" /></td>
 			<td class="myTable35 "><c:out value="${item.date}" /></td>
@@ -42,7 +40,6 @@
 			</tr>
 		   </c:forEach>
  </table>
-<input name="ListSelectedCompanyButton" type="submit" value="View selected">
  </form>
   <form name="logout" action="<c:url value='/userController?logout'/>" method="post">
  <input name="action" value="logout" type="hidden">
