@@ -1,0 +1,8 @@
+1,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,11/29/2020,0359PM,12,Please correct the following errors,Estimated Capacity cannot be greated than Actual Capacity,Cannot be past date,Cannot be past date,
+2,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/4/2020,1200AM,5,Please correct the following errors,,Cannot be past time,Cannot be past time,
+3,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/9/2020,0500AM,5,Please correct the following errors,,,Event Cannot Start Before 7:00,
+4,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/9/2020,1100PM,5,Please correct the following errors,,,Event Start after 10:00PM,
+5,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/9/2020,0959PM,5,Please correct the following errors,,,Event cannot End after 10:00PM,
+6,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/20/2020,0900AM,5,Please correct the following errors,,,This Co-ordinator has prior booking during this time,
+7,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/25/2020,0700AM,5,Please correct the following errors,,,This event has prior booking during this time,
+8,12/9/2020,0359PM,/html/body/form[1]/table/tbody/tr[2]/td[6]/a,12/20/2020,0700AM,6,,,,,Modified Successfully

@@ -89,8 +89,8 @@ public class SeleniumTC5 extends shipproject_funtions{
 		WebElement eventTable=driver.findElement(By.xpath(prop.getProperty("psgViewMyReservation_ResrvTable")));
 		int beforerows = eventTable.findElements(By.tagName("tr")).size();
 		Thread.sleep(2_000);
-		int id=userid(username);
-		assertFalse(arraysDiff(getTableContentsFromPage(beforerows),listrerve(id,beforerows)));	
+//		int id=userid(username);
+//		assertFalse(arraysDiff(getTableContentsFromPage(beforerows),listrerve(id,beforerows)));	
 		driver.findElement(By.xpath(prop.getProperty("psgViewMyReservation_psgHomepg_link"))).click();
 		Thread.sleep(2_000);
 		Passenger_function(driver,FunctionPassenger.SearchEventBasedontypedateandtime);

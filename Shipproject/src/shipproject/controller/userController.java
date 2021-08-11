@@ -64,14 +64,6 @@ public class userController extends HttpServlet {
 				session.setAttribute("errorMs", UerrorMsgs);
 				session.removeAttribute("user");
 			}
-//			boolean usernameinDB=userDAO.checkusername(user.getUsername());
-//			if(usernameinDB) {
-//				userDAO.insertuser(user);
-//				url="/index.jsp";
-//			}
-//			else {
-//				url="/fail.jsp";
-//			}
 		}
 		else if(action.equalsIgnoreCase("login")) {
 			String uname=request.getParameter("username");
@@ -82,7 +74,6 @@ public class userController extends HttpServlet {
 			if(UerrorMsgs.getUsernameError().equals("")) {
 				session.setAttribute("loginU", user);
 				if(user.getRole().equals("passenger")) {
-					System.out.println("LoginU---"+session.getAttribute("loginU"));
 					url="/psg_homepage.jsp";
 					//	psg_homepage.jsp
 					}
@@ -135,10 +126,11 @@ public class userController extends HttpServlet {
 		//else if(action.equalsIgnoreCase("logout")) {
 		else {
 			session.removeAttribute("loginU");
-//			session.invalidate();
+			session.invalidate();
+			HttpSession session2 = request.getSession();
 			UerrorMsgs.setCpasswordError("Logged Out Successfully");
-			session.setAttribute("errorMs", UerrorMsgs);
-			session.removeAttribute("user");
+			session2.setAttribute("errorMs", UerrorMsgs);
+			session2.removeAttribute("user");
 			url="/index.jsp";
 		}
 		getServletContext().getRequestDispatcher(url).forward(request, response);

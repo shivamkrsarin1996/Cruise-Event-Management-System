@@ -37,7 +37,7 @@ public class reserveDAO {
 			String query="insert into ship.reserve(reserve.eventcreateid,reserve.userid) values("+reserve.getIdcreate()+","+reserve.getId_user()+")";
 			stmt.executeUpdate(query);	
 			conn.commit(); 
-		} catch (SQLException e) {System.out.println("FAIL");}
+		} catch (SQLException e) {}
 	}
 	public static ArrayList<reserve> typeDateSearch(String type,String Date,int userid){
 		String query="SELECT * FROM ((ship.reserve join ship.user on reserve.userid=user.id_used) join ship.create on reserve.eventcreateid=ship.create.idcreate) join ship.events on ship.create.eventid=ship.events.idevents where userid="+userid+

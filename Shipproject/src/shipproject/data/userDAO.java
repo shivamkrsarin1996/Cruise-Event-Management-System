@@ -98,6 +98,6 @@ public class userDAO {
 					"',memtype='"+mem+"',phone='"+phone+"',decknumber="+deck+", room_number="+room+" where id_used="+user.getId_user();
 			stmt.executeUpdate(update);
 			conn.commit();
-		}catch(SQLException e) {System.out.println("FAIL");}
+		}catch(SQLException e) {}
 	}
 }
